@@ -10,44 +10,44 @@ NearMe is an app to allow users to post and discover nearby happenings. Users ca
 The following **required** functionality is completed:
 
 Login screen: none
-- [] no login required
+- [ ] no login required
 
 
 Home screen:
-- [] User can view a list of nearby posts/messages/…
-- [] User can view post details by tapping on a cell. (go to detail view)
-- [] Search results page (not from server, search in ui only)
-- [] Table rows should be dynamic height according to the content height.
-- [] Custom cells should have the proper Auto Layout constraints.
-- [] Search bar should be only be shown when needed
+- [ ] User can view a list of nearby posts/messages/…
+- [ ] User can view post details by tapping on a cell. (go to detail view)
+- [ ] Search results page (not from server, search in ui only)
+- [ ] Table rows should be dynamic height according to the content height.
+- [ ] Custom cells should have the proper Auto Layout constraints.
+- [ ] Search bar should be only be shown when needed
 
 
 Post details screen:
--[] map view
--[] image view
+-[ ] map view
+-[ ] image view
 
 optional:
--[] reply function
+-[ ] reply function
 
 
 Compose screen:
--[] refer to twitter assignment, camera/upload photo to firebase
+-[ ] refer to twitter assignment, camera/upload photo to firebase
 
 Filter screen:
 
-- [x] The filters you should actually have are: sort(distance, most liked), distance
-- [x] The filters table should be organized into sections.
-- [x] You can use the default UISwitch for on/off states.
-- [x] Clicking on the "Search" button should dismiss the filters page and trigger the search w/ the new filter settings.
+- [ ] The filters you should actually have are: sort(distance, most liked), distance
+- [ ] The filters table should be organized into sections.
+- [ ] You can use the default UISwitch for on/off states.
+- [ ] Clicking on the "Search" button should dismiss the filters page and trigger the search w/ the new filter settings.
 
 
 The following **additional** features are implemented:
 
 Compose screen:
--[] pop up instead of new screen
+-[ ] pop up instead of new screen
 
--[]Hashtag messages screen:
- -[] pull messages with hashtag from facebook&twitter
+-[ ]Hashtag messages screen:
+ -[ ] pull messages with hashtag from facebook&twitter
 
 
 
