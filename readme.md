@@ -47,7 +47,7 @@ The following **additional** features are implemented:
 Compose screen:
 - [ ] pop up instead of new screen
 
-- [ ]Hashtag messages screen:
+- [ ] Hashtag messages screen:
  - [ ] pull messages with hashtag from facebook&twitter
 
 
