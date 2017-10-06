@@ -23,15 +23,16 @@ Home screen:
 
 
 Post details screen:
--[ ] map view
--[ ] image view
+- [ ] map view
+- [ ] image view
 
 optional:
--[ ] reply function
+- [ ] reply function
 
 
 Compose screen:
--[ ] refer to twitter assignment, camera/upload photo to firebase
+- [ ] refer to twitter assignment
+- [ ] camera/upload photo to firebase
 
 Filter screen:
 
@@ -44,10 +45,10 @@ Filter screen:
 The following **additional** features are implemented:
 
 Compose screen:
--[ ] pop up instead of new screen
+- [ ] pop up instead of new screen
 
--[ ]Hashtag messages screen:
- -[ ] pull messages with hashtag from facebook&twitter
+- [ ]Hashtag messages screen:
+ - [ ] pull messages with hashtag from facebook&twitter
 
 
 
