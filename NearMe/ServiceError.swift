@@ -12,6 +12,8 @@ enum ServiceError: LocalizedError {
     
     case imageUploadError
     case postDataError
+    case postGeoDataError
+    case geoServiceError
     
     var errorDescription: String? {
         switch  self {
@@ -19,7 +21,14 @@ enum ServiceError: LocalizedError {
             return NSLocalizedString("Image Url Unavailable", comment: "Image Service Error" )
         case .postDataError:
             return NSLocalizedString("Post Data Error", comment: "Post Service Error" )
+        case .postGeoDataError:
+            return NSLocalizedString("Post Geo Data Error", comment: "Geo Service Error" )
+        case .geoServiceError:
+            return NSLocalizedString("Geo Service Error", comment: "Geo Service Error" )
+            
+        
         }
+        
     }
 }
 

@@ -15,7 +15,7 @@ class ImageService {
     let postImageRef = Storage.storage().reference().child("posts")
 
     
-    func create (image: UIImage?, success: ((String?) -> Void)!, failure: ((Error?) -> Void)!) {
+    func create (image: UIImage?, success: ((String) -> Void)!, failure: ((Error) -> Void)!) {
         
         guard let image = image else {
             failure(ServiceError.imageUploadError)
