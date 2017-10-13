@@ -9,6 +9,13 @@ target 'NearMe' do
   pod 'AFNetworking'
   pod 'NSDateMinimalTimeAgo'
   pod 'FLEX', :configurations => ['Debug']
+  pod 'ImagePicker'
+  pod 'UITextView+Placeholder'
+  
+  source 'https://github.com/CocoaPods/Specs.git'
+  pod 'GooglePlaces'
+  pod 'GooglePlacePicker'
+  pod 'GoogleMaps'
 
   target 'NearMeTests' do
     inherit! :search_paths

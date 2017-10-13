@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import GooglePlaces
+import GoogleMaps
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,7 +17,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        GMSPlacesClient.provideAPIKey("AIzaSyBPZgNeZOx1PSni5OalI1zYo56TTWcLTKE")
+        GMSServices.provideAPIKey("AIzaSyBPZgNeZOx1PSni5OalI1zYo56TTWcLTKE")
+        
+        let storybard = UIStoryboard(name: "Compose", bundle: nil)
+        let composeViewController = storybard.instantiateViewController(withIdentifier: "ComposeNavigationController")
+        window?.rootViewController = composeViewController
+        window?.makeKeyAndVisible()
         return true
     }
 

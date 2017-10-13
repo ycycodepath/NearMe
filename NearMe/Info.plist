@@ -45,5 +45,11 @@
     <dict>
         <key>NSAllowsArbitraryLoads</key><true/>
     </dict>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Please enable location service to compose a post.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Please enable camera access if you want to take a picture.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Please enable photo access if you want to upload photos.</string>
 </dict>
 </plist>

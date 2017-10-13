@@ -8,12 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		3291DA477AF7DE020F5FA71D /* Pods_NearMeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BE4AC65EA2C26AE4CC0D6D5 /* Pods_NearMeTests.framework */; };
+		602E13011F8DB33700E1C9EE /* ComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602E13001F8DB33700E1C9EE /* ComposeViewController.swift */; };
 		6059B9831F87FDA900280D4E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6059B9821F87FDA900280D4E /* AppDelegate.swift */; };
 		6059B9881F87FDA900280D4E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6059B9861F87FDA900280D4E /* Main.storyboard */; };
-		6059B98A1F87FDA900280D4E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6059B9891F87FDA900280D4E /* Assets.xcassets */; };
 		6059B98D1F87FDA900280D4E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6059B98B1F87FDA900280D4E /* LaunchScreen.storyboard */; };
 		6059B9981F87FDA900280D4E /* NearMeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6059B9971F87FDA900280D4E /* NearMeTests.swift */; };
 		6059B9A31F87FDA900280D4E /* NearMeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6059B9A21F87FDA900280D4E /* NearMeUITests.swift */; };
+		60BD4B791F8DF1C2005A1FD8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 60D178E51F8DEDEC007826FD /* Assets.xcassets */; };
+		60DEBC4F1F8DB1D7005E15AF /* Compose.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60DEBC4E1F8DB1D7005E15AF /* Compose.storyboard */; };
 		8311EBE9815CD36F298F774A /* Pods_NearMeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C9A578DE613D51C2B721844 /* Pods_NearMeUITests.framework */; };
 		F52D22C5DA7FD76F1439129C /* Pods_NearMe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87A96454065B72D18292B3CE /* Pods_NearMe.framework */; };
 /* End PBXBuildFile section */
@@ -41,10 +43,10 @@
 		268B40A1C9F18623DD508DA0 /* Pods-NearMeUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearMeUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NearMeUITests/Pods-NearMeUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		319BB219EAA2E030C4A7435D /* Pods-NearMeUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearMeUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NearMeUITests/Pods-NearMeUITests.release.xcconfig"; sourceTree = "<group>"; };
 		4BE4AC65EA2C26AE4CC0D6D5 /* Pods_NearMeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NearMeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		602E13001F8DB33700E1C9EE /* ComposeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewController.swift; sourceTree = "<group>"; };
 		6059B97F1F87FDA900280D4E /* NearMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NearMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6059B9821F87FDA900280D4E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6059B9871F87FDA900280D4E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		6059B9891F87FDA900280D4E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6059B98C1F87FDA900280D4E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6059B98E1F87FDA900280D4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6059B9931F87FDA900280D4E /* NearMeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NearMeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -53,6 +55,8 @@
 		6059B99E1F87FDA900280D4E /* NearMeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NearMeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6059B9A21F87FDA900280D4E /* NearMeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearMeUITests.swift; sourceTree = "<group>"; };
 		6059B9A41F87FDA900280D4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		60D178E51F8DEDEC007826FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		60DEBC4E1F8DB1D7005E15AF /* Compose.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Compose.storyboard; sourceTree = "<group>"; };
 		6396F2D10D223E9498404B37 /* Pods-NearMeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearMeTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NearMeTests/Pods-NearMeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		87A96454065B72D18292B3CE /* Pods_NearMe.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NearMe.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D34B42FC7A6050B9C027FBAB /* Pods-NearMe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearMe.release.xcconfig"; path = "Pods/Target Support Files/Pods-NearMe/Pods-NearMe.release.xcconfig"; sourceTree = "<group>"; };
@@ -114,9 +118,11 @@
 			children = (
 				6059B9821F87FDA900280D4E /* AppDelegate.swift */,
 				6059B9861F87FDA900280D4E /* Main.storyboard */,
-				6059B9891F87FDA900280D4E /* Assets.xcassets */,
+				60D178E51F8DEDEC007826FD /* Assets.xcassets */,
 				6059B98B1F87FDA900280D4E /* LaunchScreen.storyboard */,
 				6059B98E1F87FDA900280D4E /* Info.plist */,
+				60DEBC4E1F8DB1D7005E15AF /* Compose.storyboard */,
+				602E13001F8DB33700E1C9EE /* ComposeViewController.swift */,
 			);
 			path = NearMe;
 			sourceTree = "<group>";
@@ -279,8 +285,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				6059B98D1F87FDA900280D4E /* LaunchScreen.storyboard in Resources */,
-				6059B98A1F87FDA900280D4E /* Assets.xcassets in Resources */,
 				6059B9881F87FDA900280D4E /* Main.storyboard in Resources */,
+				60BD4B791F8DF1C2005A1FD8 /* Assets.xcassets in Resources */,
+				60DEBC4F1F8DB1D7005E15AF /* Compose.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -406,9 +413,14 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-NearMe/Pods-NearMe-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/GooglePlacePicker/Frameworks/GooglePlacePicker.framework/Resources/GooglePlacePicker.bundle",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -424,13 +436,17 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-NearMe/Pods-NearMe-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
 				"${BUILT_PRODUCTS_DIR}/FLEX/FLEX.framework",
+				"${BUILT_PRODUCTS_DIR}/ImagePicker/ImagePicker.framework",
 				"${BUILT_PRODUCTS_DIR}/NSDateMinimalTimeAgo/NSDateMinimalTimeAgo.framework",
+				"${BUILT_PRODUCTS_DIR}/UITextView+Placeholder/UITextView_Placeholder.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLEX.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImagePicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NSDateMinimalTimeAgo.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UITextView_Placeholder.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -460,6 +476,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6059B9831F87FDA900280D4E /* AppDelegate.swift in Sources */,
+				602E13011F8DB33700E1C9EE /* ComposeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
