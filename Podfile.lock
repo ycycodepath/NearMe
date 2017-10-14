@@ -14,7 +14,46 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - Firebase/Core (4.1.1):
+    - FirebaseAnalytics (= 4.0.3)
+    - FirebaseCore (= 4.0.6)
+  - Firebase/Database (4.1.1):
+    - Firebase/Core
+    - FirebaseDatabase (= 4.0.2)
+  - Firebase/Storage (4.1.1):
+    - Firebase/Core
+    - FirebaseStorage (= 2.0.1)
+  - FirebaseAnalytics (4.0.3):
+    - FirebaseCore (~> 4.0)
+    - FirebaseInstanceID (~> 2.0)
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - nanopb (~> 0.3)
+  - FirebaseCore (4.0.6):
+    - GoogleToolboxForMac/NSData+zlib (~> 2.1)
+    - nanopb (~> 0.3)
+  - FirebaseDatabase (4.0.2):
+    - FirebaseAnalytics (~> 4.0)
+    - FirebaseCore (~> 4.0)
+    - leveldb-library (~> 1.18)
+  - FirebaseInstanceID (2.0.2):
+    - FirebaseCore (~> 4.0)
+  - FirebaseStorage (2.0.1):
+    - FirebaseAnalytics (~> 4.0)
+    - FirebaseCore (~> 4.0)
+    - GTMSessionFetcher/Core (~> 1.1)
   - FLEX (2.4.0)
+  - GeoFire (2.0.0):
+    - Firebase/Database (~> 4.0)
+  - GoogleToolboxForMac/Defines (2.1.1)
+  - GoogleToolboxForMac/NSData+zlib (2.1.1):
+    - GoogleToolboxForMac/Defines (= 2.1.1)
+  - GTMSessionFetcher/Core (1.1.11)
+  - leveldb-library (1.18.3)
+  - nanopb (0.3.8):
+    - nanopb/decode (= 0.3.8)
+    - nanopb/encode (= 0.3.8)
+  - nanopb/decode (0.3.8)
+  - nanopb/encode (0.3.8)
   - GoogleMaps (2.4.0):
     - GoogleMaps/Maps (= 2.4.0)
   - GoogleMaps/Base (2.4.0)
@@ -27,26 +66,66 @@ PODS:
     - GoogleMaps/Base (= 2.4.0)
   - ImagePicker (2.1.1)
   - NSDateMinimalTimeAgo (0.1.0)
+  - PromiseKit (4.4.0):
+    - PromiseKit/Foundation (= 4.4.0)
+    - PromiseKit/QuartzCore (= 4.4.0)
+    - PromiseKit/UIKit (= 4.4.0)
+  - PromiseKit/CorePromise (4.4.0)
+  - PromiseKit/Foundation (4.4.0):
+    - PromiseKit/CorePromise
+  - PromiseKit/QuartzCore (4.4.0):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (4.4.0):
+    - PromiseKit/CorePromise
+  - SwiftyBeaver (1.4.0)
   - UITextView+Placeholder (1.2.0)
 
 DEPENDENCIES:
   - AFNetworking
+  - Firebase/Core
+  - Firebase/Database
+  - Firebase/Storage
   - FLEX
+  - GeoFire (from `https://github.com/firebase/geofire-objc.git`)
   - GoogleMaps
   - GooglePlacePicker
   - GooglePlaces
   - ImagePicker
   - NSDateMinimalTimeAgo
+  - PromiseKit
+  - SwiftyBeaver
+
+EXTERNAL SOURCES:
+  GeoFire:
+    :git: https://github.com/firebase/geofire-objc.git
   - UITextView+Placeholder
+
+CHECKOUT OPTIONS:
+  GeoFire:
+    :commit: 96d6463f59016785f9c5ae9b669019c44786a23f
+    :git: https://github.com/firebase/geofire-objc.git
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  Firebase: 052c0de688fc87b414996eea13e223dd9fee3fa2
+  FirebaseAnalytics: 76f754d37ca5b04f36856729b6af3ca0152d1069
+  FirebaseCore: 28def3c643989c97ea5a69ea5000f5fa9902b9fd
+  FirebaseDatabase: 4d1a10639a42cae26e094296951b53c689e5e191
+  FirebaseInstanceID: c4c7fca62c7b7330caee5da04f19a37ea37bb1c1
+  FirebaseStorage: 661fc1f8d4131891d256b62e82a45ace8b3f0c3b
   FLEX: bd1a39e55b56bb413b6f1b34b3c10a0dc44ef079
+  GeoFire: 02f02683e09367c2eee073c6b09c794da19833ee
+  GoogleToolboxForMac: 8e329f1b599f2512c6b10676d45736bcc2cbbeb0
+  GTMSessionFetcher: 5ad62e8200fa00ed011fe5e08d27fef72c5b1429
+  leveldb-library: 10fb39c39e243db4af1828441162405bbcec1404
+  nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   GoogleMaps: 8436ab5d1c25e36915b2f7416d0c8e3fa2e76c61
   GooglePlacePicker: 755f10343d71280c7b016823e73fbae9625dfa8a
   GooglePlaces: aafe5990fa7951e98e078761bbdaaf236d7e0c65
   ImagePicker: fe4c699abb56ff03994fa98d8b02e3883ee118be
   NSDateMinimalTimeAgo: 71102cc43bb1aa0b5692c953a1abb8c305691475
+  PromiseKit: ecf5fe92275d57ee77c9ede858af47a162e9b97e
+  SwiftyBeaver: 78d9186ce7595b4400ce01e5fd750d263e72dd7b
   UITextView+Placeholder: 77680995fcdd07c3f52ec92fe1150874a2ac89ff
 
 PODFILE CHECKSUM: 1575290459648d69cce37d2ce6dc93572269c7e8
