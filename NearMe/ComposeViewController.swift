@@ -21,6 +21,7 @@ class ComposeViewController: UIViewController {
     @IBOutlet weak var profileImgView: UIImageView!
     @IBOutlet weak var postImageView: UIImageView!
     @IBOutlet weak var postTextView: UITextView!
+    @IBOutlet weak var postImgScrollView: UIScrollView!
     
     @IBOutlet weak var postButton: UIBarButtonItem!
     @IBOutlet var keyboardToolBar: UIToolbar!
@@ -28,13 +29,17 @@ class ComposeViewController: UIViewController {
     @IBOutlet weak var locationButton: UIButton!
     
     @IBOutlet weak var postImgViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var postImgViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var postImgScrollViewBottomConstraint: NSLayoutConstraint!
     
-    var postImageViewWidth: CGFloat!
     var placesClient: GMSPlacesClient!
     
     //weak var delegate: ComposeViewControllerDelegate!
     
     let postCharLimit = 140
+    
+    // height / width
+    private var postImgAspect: CGFloat = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,11 +60,17 @@ class ComposeViewController: UIViewController {
         postTextView.delegate = self
         postTextView.becomeFirstResponder()
         
-        postImageView.layer.cornerRadius = 10
+        let cornerRadius = CGFloat(10)
+        postImgScrollView.layer.cornerRadius = cornerRadius
+        postImageView.layer.cornerRadius = cornerRadius
     }
     
     override func viewDidLayoutSubviews() {
-        postImageViewWidth = postImageView.frame.width
+        postImgViewWidthConstraint.constant = postImgScrollView.frame.size.width
+        postImgScrollViewBottomConstraint.constant = keyboardToolBar.frame.height
+        postImgViewHeightConstraint.constant = postImgViewWidthConstraint.constant * postImgAspect
+        
+        self.view.layoutIfNeeded()
     }
     
     override func didReceiveMemoryWarning() {
@@ -183,8 +194,7 @@ extension ComposeViewController: ImagePickerDelegate {
     
     func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
         if (images.count > 0) {
-            let aspect = CGFloat(images[0].size.height / images[0].size.width)
-            postImgViewHeightConstraint.constant = self.postImageView.frame.width * aspect
+            postImgAspect = CGFloat(images[0].size.height / images[0].size.width)
             postImageView.image = images[0]
         }
         
@@ -208,8 +218,8 @@ extension ComposeViewController: GMSPlacePickerViewControllerDelegate {
         viewController.dismiss(animated: true, completion: nil)
         
         print("Place name \(place.name)")
-        print("Place address \(place.formattedAddress)")
-        print("Place attributions \(place.attributions)")
+        print("Place address \(String(describing: place.formattedAddress))")
+        print("Place attributions \(String(describing: place.attributions))")
     }
     
     func placePickerDidCancel(_ viewController: GMSPlacePickerViewController) {

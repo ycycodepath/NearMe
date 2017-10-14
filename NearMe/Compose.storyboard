@@ -25,7 +25,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Demo User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="85k-C7-5u1">
-                                <rect key="frame" x="97" y="80" width="86" height="20"/>
+                                <rect key="frame" x="97" y="94.5" width="86" height="20"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -45,12 +45,6 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="i'm the description of the user. I have two lines." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TMK-8g-2ku">
-                                <rect key="frame" x="97" y="108" width="256" height="36"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="dk7-OX-j7D">
                                 <rect key="frame" x="16" y="269" width="109" height="30"/>
                                 <constraints>
@@ -64,33 +58,42 @@
                                     <action selector="pickPlace:" destination="oHc-e2-AuX" eventType="touchUpInside" id="IEl-ML-IvW"/>
                                 </connections>
                             </button>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Llh-By-KFB">
-                                <rect key="frame" x="16" y="315" width="343" height="200"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fK8-gH-HXN">
+                                <rect key="frame" x="16" y="315" width="343" height="332"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Llh-By-KFB">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="200"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="200" id="K8N-Bv-oSw"/>
+                                            <constraint firstAttribute="width" constant="343" id="UQd-BY-Gi1"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="K8N-Bv-oSw"/>
+                                    <constraint firstItem="Llh-By-KFB" firstAttribute="leading" secondItem="fK8-gH-HXN" secondAttribute="leading" id="WPf-lb-GyO"/>
+                                    <constraint firstItem="Llh-By-KFB" firstAttribute="top" secondItem="fK8-gH-HXN" secondAttribute="top" id="eRX-SV-kwu"/>
+                                    <constraint firstAttribute="trailing" secondItem="Llh-By-KFB" secondAttribute="trailing" id="hUa-u9-mfm"/>
+                                    <constraint firstAttribute="bottom" secondItem="Llh-By-KFB" secondAttribute="bottom" id="nKE-2K-wfW"/>
                                 </constraints>
-                            </imageView>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Llh-By-KFB" firstAttribute="top" secondItem="dk7-OX-j7D" secondAttribute="bottom" constant="16" id="37q-fj-dhG"/>
-                            <constraint firstItem="TMK-8g-2ku" firstAttribute="top" secondItem="85k-C7-5u1" secondAttribute="bottom" constant="8" id="3Mh-Zu-n93"/>
                             <constraint firstItem="Eq0-hf-SQM" firstAttribute="trailing" secondItem="T8I-7r-KCT" secondAttribute="trailing" constant="8" id="AaE-mD-zYe"/>
                             <constraint firstItem="Eq0-hf-SQM" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="85k-C7-5u1" secondAttribute="trailing" constant="16" id="HnE-y0-os1"/>
+                            <constraint firstItem="fK8-gH-HXN" firstAttribute="top" secondItem="dk7-OX-j7D" secondAttribute="bottom" constant="16" id="HzA-ZS-dXO"/>
                             <constraint firstItem="mD1-D2-yRh" firstAttribute="leading" secondItem="Eq0-hf-SQM" secondAttribute="leading" constant="16" id="IOn-9Y-FJB"/>
                             <constraint firstItem="Eq0-hf-SQM" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="dk7-OX-j7D" secondAttribute="trailing" constant="16" id="MMN-jc-hPd"/>
                             <constraint firstItem="dk7-OX-j7D" firstAttribute="leading" secondItem="Eq0-hf-SQM" secondAttribute="leading" constant="16" id="P96-cf-Bx6"/>
-                            <constraint firstItem="Llh-By-KFB" firstAttribute="leading" secondItem="Eq0-hf-SQM" secondAttribute="leading" constant="16" id="SEC-Sp-MAo"/>
                             <constraint firstItem="T8I-7r-KCT" firstAttribute="top" secondItem="mD1-D2-yRh" secondAttribute="bottom" constant="16" id="Uta-4A-Dk6"/>
-                            <constraint firstItem="85k-C7-5u1" firstAttribute="top" secondItem="mD1-D2-yRh" secondAttribute="top" id="ZAf-lc-r0t"/>
-                            <constraint firstItem="Eq0-hf-SQM" firstAttribute="trailing" secondItem="Llh-By-KFB" secondAttribute="trailing" constant="16" id="bwb-cV-Bgg"/>
-                            <constraint firstItem="T8I-7r-KCT" firstAttribute="top" relation="greaterThanOrEqual" secondItem="TMK-8g-2ku" secondAttribute="bottom" constant="16" id="iEE-OW-f6u"/>
+                            <constraint firstItem="85k-C7-5u1" firstAttribute="centerY" secondItem="mD1-D2-yRh" secondAttribute="centerY" constant="-8" id="cI6-2S-9s3"/>
+                            <constraint firstItem="Eq0-hf-SQM" firstAttribute="trailing" secondItem="fK8-gH-HXN" secondAttribute="trailing" constant="16" id="gek-06-Nij"/>
                             <constraint firstItem="T8I-7r-KCT" firstAttribute="leading" secondItem="mD1-D2-yRh" secondAttribute="leading" id="iVI-IN-Jua"/>
                             <constraint firstItem="dk7-OX-j7D" firstAttribute="top" secondItem="T8I-7r-KCT" secondAttribute="bottom" constant="8" id="mit-SK-ohy"/>
-                            <constraint firstItem="Eq0-hf-SQM" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="TMK-8g-2ku" secondAttribute="trailing" constant="16" id="nqk-yj-Fso"/>
                             <constraint firstItem="mD1-D2-yRh" firstAttribute="top" secondItem="Eq0-hf-SQM" secondAttribute="top" constant="16" id="oBR-hS-6Kj"/>
+                            <constraint firstItem="fK8-gH-HXN" firstAttribute="leading" secondItem="Eq0-hf-SQM" secondAttribute="leading" constant="16" id="oMf-lu-1tt"/>
                             <constraint firstItem="85k-C7-5u1" firstAttribute="leading" secondItem="mD1-D2-yRh" secondAttribute="trailing" constant="16" id="pPi-4R-XL2"/>
-                            <constraint firstItem="TMK-8g-2ku" firstAttribute="leading" secondItem="85k-C7-5u1" secondAttribute="leading" id="x3n-VB-zlT"/>
+                            <constraint firstItem="Eq0-hf-SQM" firstAttribute="bottom" secondItem="fK8-gH-HXN" secondAttribute="bottom" constant="20" id="vch-dA-Jvv"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Eq0-hf-SQM"/>
                     </view>
@@ -112,7 +115,10 @@
                         <outlet property="locationButton" destination="dk7-OX-j7D" id="183-m9-NbV"/>
                         <outlet property="postButton" destination="VHh-YJ-toD" id="LzO-yV-fwg"/>
                         <outlet property="postImageView" destination="Llh-By-KFB" id="ByV-nw-mK1"/>
+                        <outlet property="postImgScrollView" destination="fK8-gH-HXN" id="j9a-eH-7nB"/>
+                        <outlet property="postImgScrollViewBottomConstraint" destination="vch-dA-Jvv" id="qqw-so-5H5"/>
                         <outlet property="postImgViewHeightConstraint" destination="K8N-Bv-oSw" id="A12-nf-EUV"/>
+                        <outlet property="postImgViewWidthConstraint" destination="UQd-BY-Gi1" id="yUn-ZK-TV5"/>
                         <outlet property="postTextView" destination="T8I-7r-KCT" id="hJf-Qb-bCf"/>
                         <outlet property="profileImgView" destination="mD1-D2-yRh" id="etS-7q-tqv"/>
                         <outlet property="usernameLabel" destination="85k-C7-5u1" id="wMW-IS-YlB"/>
