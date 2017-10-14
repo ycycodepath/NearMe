@@ -25,7 +25,7 @@ class PostService {
     
     func create (post: Post?, image: UIImage?, success: (() -> Void)!, failure: ((Error) -> Void)!) {
         
-        guard var post = post else {
+        guard let post = post else {
             failure(ServiceError.postDataError)
             return
         }
@@ -104,14 +104,14 @@ class PostService {
         }
         
         
-        GeoService.sharedInstance.search(center: center, radius: radius, success: { (resultPostIds) in
+        GeoService.sharedInstance.search(center: center, radius: radius, success: { (results) in
             
             var promises = [Promise<Post>]()
             
-            if resultPostIds.count > 0 {
+            if results.count > 0 {
                 
-                for id in resultPostIds {
-                    promises.append(self.getPostPromise(id: id))
+                for postGeo in results {
+                    promises.append(self.getPostPromise(postGeo: postGeo))
                 }
                 
                 when(fulfilled: promises).then(execute: { (results) in
@@ -127,17 +127,18 @@ class PostService {
         
     }
     
-    fileprivate func getPostPromise(id: String) -> Promise<Post> {
+    fileprivate func getPostPromise(postGeo: PostGeo) -> Promise<Post> {
         
         return Promise { fulfill, reject in
 
-            self.postDatabaseRef.child(id).observeSingleEvent(of:.value, with: { (snapshot) in
+            self.postDatabaseRef.child(postGeo.id!).observeSingleEvent(of:.value, with: { (snapshot) in
                 
                 guard let response = snapshot.value as? NSDictionary else { return }
                 do  {
                     let json = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
                     print(json)
-                    let post = try JSONDecoder().decode(Post.self, from: json)
+                    var post = try JSONDecoder().decode(Post.self, from: json)
+                    post.distance = postGeo.distance
                     
                     fulfill(post)
                     

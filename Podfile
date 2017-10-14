@@ -14,6 +14,7 @@ target 'NearMe' do
   pod 'Firebase/Storage'  
   pod 'GeoFire', :git => 'https://github.com/firebase/geofire-objc.git'  
   pod "PromiseKit"
+  pod 'SwiftyBeaver'
 
   target 'NearMeTests' do
     inherit! :search_paths

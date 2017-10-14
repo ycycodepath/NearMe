@@ -25,8 +25,6 @@ enum ServiceError: LocalizedError {
             return NSLocalizedString("Post Geo Data Error", comment: "Geo Service Error" )
         case .geoServiceError:
             return NSLocalizedString("Geo Service Error", comment: "Geo Service Error" )
-            
-        
         }
         
     }

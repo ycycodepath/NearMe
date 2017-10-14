@@ -23,6 +23,7 @@
 		985004F61F8DE4440016FBB8 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985004F51F8DE4440016FBB8 /* ImageService.swift */; };
 		985004F81F8DE7840016FBB8 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985004F71F8DE7840016FBB8 /* PostService.swift */; };
 		98F434251F8DF6CA005EAAB1 /* ServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F434241F8DF6CA005EAAB1 /* ServiceError.swift */; };
+		98FBAE251F91DCFB00B817B6 /* PostGeo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FBAE241F91DCFB00B817B6 /* PostGeo.swift */; };
 		F52D22C5DA7FD76F1439129C /* Pods_NearMe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87A96454065B72D18292B3CE /* Pods_NearMe.framework */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +72,7 @@
 		985004F51F8DE4440016FBB8 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		985004F71F8DE7840016FBB8 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
 		98F434241F8DF6CA005EAAB1 /* ServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceError.swift; sourceTree = "<group>"; };
+		98FBAE241F91DCFB00B817B6 /* PostGeo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostGeo.swift; sourceTree = "<group>"; };
 		D34B42FC7A6050B9C027FBAB /* Pods-NearMe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearMe.release.xcconfig"; path = "Pods/Target Support Files/Pods-NearMe/Pods-NearMe.release.xcconfig"; sourceTree = "<group>"; };
 		EE37D112EC0725C1AD7A901E /* Pods-NearMe.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearMe.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NearMe/Pods-NearMe.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -188,6 +190,7 @@
 			children = (
 				985004F11F8DDF6D0016FBB8 /* Post.swift */,
 				9827821C1F8F4242008EEBD4 /* Location.swift */,
+				98FBAE241F91DCFB00B817B6 /* PostGeo.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -478,6 +481,7 @@
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/NSDateMinimalTimeAgo/NSDateMinimalTimeAgo.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyBeaver/SwiftyBeaver.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
@@ -490,6 +494,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NSDateMinimalTimeAgo.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyBeaver.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -528,6 +533,7 @@
 				985004F61F8DE4440016FBB8 /* ImageService.swift in Sources */,
 				985004F21F8DDF6D0016FBB8 /* Post.swift in Sources */,
 				6059B9831F87FDA900280D4E /* AppDelegate.swift in Sources */,
+				98FBAE251F91DCFB00B817B6 /* PostGeo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -697,6 +703,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M73SU669F4;
 				INFOPLIST_FILE = NearMe/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ycyteam.NearMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -713,6 +720,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = M73SU669F4;
 				INFOPLIST_FILE = NearMe/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ycyteam.NearMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";

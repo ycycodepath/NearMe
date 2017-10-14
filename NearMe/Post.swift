@@ -10,7 +10,6 @@ import Foundation
 
 struct Post: Codable {
     
-    var id: String?
     var uuid: String?
     var message: String?
     var imageUrl: String?
@@ -20,7 +19,7 @@ struct Post: Codable {
     var screen_name: String?
     var place: String?
     var address: String?
-    var distance: Double?
+    var distance: String?
     
     init(uuid: String?, message: String?, location: Location?, screen_name: String?, place: String?, address: String?) {
         self.uuid = uuid

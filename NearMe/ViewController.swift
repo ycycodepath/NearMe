@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreLocation
+import FLEX
+import SwiftyBeaver
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
 
@@ -17,7 +19,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        //FLEXManager.shared().showExplorer()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        //radius: km
+        getCurrentLocation()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -26,7 +33,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        getCurrentLocation()
+        //getCurrentLocation()
     }
     
     @IBAction func onCreatePostButtonClicked(_ sender: Any) {
@@ -35,17 +42,17 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         let uuid = UIDevice.current.identifierForVendor?.uuidString
         let message = "It's beautiful"
         
-        let location = Location(latitude: userCurrentLocation.coordinate.latitude, longitude: userCurrentLocation.coordinate.longitude)
-        
+        let centerLocation = Location(latitude: userCurrentLocation.coordinate.latitude, longitude: userCurrentLocation.coordinate.longitude)
+//        print("latitude \(centerLocation.latitude) longitude: \(centerLocation.longitude)")
 //        let centerLocation = CLLocation(latitude: 37.7833, longitude: -122.4167)
-//        let location = Location(latitude: centerLocation.coordinate.latitude, longitude: centerLocation.coordinate.longitude)
+//        let centerLocation = Location(latitude: 37.8833, longitude: -122.5167)
 
         
         
-        let post = Post(uuid: uuid, message: message, location: location, screen_name: "Super Mario", place: "Peet's Coffee", address: "1234 ABC Blvd, Menlo Park, CA 94528")
+        let post = Post(uuid: uuid, message: message, location: centerLocation, screen_name: "Super Mario", place: "Peet's Coffee", address: "1234 ABC Blvd, Menlo Park, CA 94528")
         
-        PostService.sharedInstance.create(post: post, image: nil, success: {
-            print("Successfully createda a post")
+        PostService.sharedInstance.create(post: post, image: image, success: {
+            NSLog("Successfully createda a post")
         }, failure: { (error) in
             print(error.localizedDescription)
         })
@@ -89,7 +96,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 //            print("user longitude = \(userCurrentLocation.coordinate.longitude)")
             
               locationManager.stopUpdatingLocation()
-              updateLocation()
+              userCurrentLocation = location
+            
+            PostService.sharedInstance.search(center: userCurrentLocation, radius: 15.0, success: { (posts) in
+                SwiftyBeaver.error(posts.count)
+            }) { (error) in
+                print(error.localizedDescription)
+            }
 
         }
 
@@ -97,11 +110,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBAction func onSearchButtonClicked(_ sender: Any) {
         
-        PostService.sharedInstance.search(center: userCurrentLocation, radius: 1.0, success: { (posts) in
-            print(posts.count)
-        }) { (error) in
-            print(error.localizedDescription)
-        }
+                PostService.sharedInstance.search(center: userCurrentLocation, radius: 15.0, success: { (posts) in
+                    SwiftyBeaver.info(posts.count)
+                }) { (error) in
+                    print(error.localizedDescription)
+                }
+
     
     }
     

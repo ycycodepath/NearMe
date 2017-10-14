@@ -10,6 +10,7 @@ import Foundation
 import Firebase
 import GeoFire
 import PromiseKit
+import SwiftyBeaver
 
 class GeoService {
     
@@ -18,7 +19,8 @@ class GeoService {
     var databaseRef: DatabaseReference
     var postGeoDataRef: DatabaseReference
     var geofire: GeoFire
-    var postIds = [String]()
+    var postGeoResponses = [PostGeo]()
+    let milesPerMeter = 0.000621371
 
     init() {
         databaseRef = Database.database().reference()
@@ -48,7 +50,7 @@ class GeoService {
         }
     }
     
-    func search (center: CLLocation?, radius: Double?, success: (([String]) -> Void)!,
+    func search (center: CLLocation?, radius: Double?, success: (([PostGeo]) -> Void)!,
          failure: ((Error) -> Void)!) {
  
         guard let center = center else {
@@ -66,16 +68,22 @@ class GeoService {
             return
         }
         
-        postIds = [String]()
+         SwiftyBeaver.info("entered search...")
+        
+        postGeoResponses = [PostGeo]()
         //the observer method listens for new data that matches the query
         // if param center changes then circleQuery's location changes and it will trigger observe method to load existing matching records and will get to observeReady after existing all records matching the query criteria are loaded
         // whenever search is invoked and circleQuery is set (again), it will also load all existing records and go to observerReady after existing all records matching the query criteria are loaded.
         //after search function completes, whenver a record is inserted into geo database and matches the circleQuer's search, the new record will be observed/catght by observer below and trigger the with completion block
         
         circleQuery.observe(.keyEntered, with: { (key, location) in
-            if let key = key {
-                print("entered a key: " + key)
-                self.postIds.append(key)
+            if let key = key, let location = location {
+                SwiftyBeaver.debug("entered a key: " + key)
+                let distanceFromUser = center.distance(from: location)
+                let distance = String(format: "%.2f mi", self.milesPerMeter * distanceFromUser)
+                print(distance)
+                let postGeoResponse = PostGeo(id: key, distance: distance)
+                self.postGeoResponses.append(postGeoResponse)
             }
         })
         
@@ -86,8 +94,8 @@ class GeoService {
         }
         
         circleQuery.observeReady({
-            print("initial async loading is done")
-            success(self.postIds)
+            SwiftyBeaver.info("initial async loading is done")
+            success(self.postGeoResponses)
         })
     }
 }
