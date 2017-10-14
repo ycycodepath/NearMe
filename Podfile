@@ -9,6 +9,12 @@ target 'NearMe' do
   pod 'AFNetworking'
   pod 'NSDateMinimalTimeAgo'
   pod 'FLEX', :configurations => ['Debug']
+  pod 'Firebase/Core'
+  pod 'Firebase/Database'
+  pod 'Firebase/Storage'  
+  pod 'GeoFire', :git => 'https://github.com/firebase/geofire-objc.git'  
+  pod "PromiseKit"
+  pod 'SwiftyBeaver'
 
   target 'NearMeTests' do
     inherit! :search_paths
