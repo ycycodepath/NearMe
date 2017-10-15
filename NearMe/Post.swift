@@ -13,7 +13,7 @@ struct Post: Codable {
     var uuid: String?
     var message: String?
     var imageUrl: String?
-    var creationTimestamp: Date?
+    var creationTimestamp: Double?
     var likes: Int?
     var location: Location?
     var screen_name: String?
