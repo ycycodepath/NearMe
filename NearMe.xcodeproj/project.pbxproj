@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		3291DA477AF7DE020F5FA71D /* Pods_NearMeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BE4AC65EA2C26AE4CC0D6D5 /* Pods_NearMeTests.framework */; };
+		38F15E9F1F93310E0058C5E5 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 38F15E9E1F93310E0058C5E5 /* Home.storyboard */; };
+		38F15EA31F93311E0058C5E5 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F15EA11F93311E0058C5E5 /* MapViewController.swift */; };
+		38F15EA41F93311E0058C5E5 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F15EA21F93311E0058C5E5 /* HomeViewController.swift */; };
+		38F15EA71F9331DD0058C5E5 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F15EA61F9331DD0058C5E5 /* FeedCell.swift */; };
 		602E13011F8DB33700E1C9EE /* ComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602E13001F8DB33700E1C9EE /* ComposeViewController.swift */; };
 		6059B9831F87FDA900280D4E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6059B9821F87FDA900280D4E /* AppDelegate.swift */; };
 		6059B9881F87FDA900280D4E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6059B9861F87FDA900280D4E /* Main.storyboard */; };
@@ -50,6 +54,10 @@
 		257F302A1E9F365D4524E292 /* Pods-NearMeTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearMeTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NearMeTests/Pods-NearMeTests.release.xcconfig"; sourceTree = "<group>"; };
 		268B40A1C9F18623DD508DA0 /* Pods-NearMeUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearMeUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NearMeUITests/Pods-NearMeUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		319BB219EAA2E030C4A7435D /* Pods-NearMeUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearMeUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NearMeUITests/Pods-NearMeUITests.release.xcconfig"; sourceTree = "<group>"; };
+		38F15E9E1F93310E0058C5E5 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
+		38F15EA11F93311E0058C5E5 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		38F15EA21F93311E0058C5E5 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		38F15EA61F9331DD0058C5E5 /* FeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedCell.swift; path = ../Model/FeedCell.swift; sourceTree = "<group>"; };
 		4BE4AC65EA2C26AE4CC0D6D5 /* Pods_NearMeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NearMeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		602E13001F8DB33700E1C9EE /* ComposeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewController.swift; sourceTree = "<group>"; };
 		6059B97F1F87FDA900280D4E /* NearMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NearMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,6 +115,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		38F15E9D1F93310E0058C5E5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				38F15EA61F9331DD0058C5E5 /* FeedCell.swift */,
+				38F15E9E1F93310E0058C5E5 /* Home.storyboard */,
+			);
+			name = View;
+			path = ../../NearMe/NearMe/View;
+			sourceTree = "<group>";
+		};
+		38F15EA01F93311E0058C5E5 /* View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				38F15EA11F93311E0058C5E5 /* MapViewController.swift */,
+				38F15EA21F93311E0058C5E5 /* HomeViewController.swift */,
+			);
+			name = "View Controller";
+			path = "../../NearMe/NearMe/View Controller";
+			sourceTree = "<group>";
+		};
 		6059B9761F87FDA900280D4E = {
 			isa = PBXGroup;
 			children = (
@@ -132,6 +160,8 @@
 		6059B9811F87FDA900280D4E /* NearMe */ = {
 			isa = PBXGroup;
 			children = (
+				38F15EA01F93311E0058C5E5 /* View Controller */,
+				38F15E9D1F93310E0058C5E5 /* View */,
 				98F434231F8DF5DD005EAAB1 /* Utils */,
 				985004F41F8DE31B0016FBB8 /* Services */,
 				985004F01F8DDF4E0016FBB8 /* Models */,
@@ -335,6 +365,7 @@
 				6059B98D1F87FDA900280D4E /* LaunchScreen.storyboard in Resources */,
 				9827821E1F8F50A1008EEBD4 /* GoogleService-Info.plist in Resources */,
 				6059B9881F87FDA900280D4E /* Main.storyboard in Resources */,
+				38F15E9F1F93310E0058C5E5 /* Home.storyboard in Resources */,
 				60BD4B791F8DF1C2005A1FD8 /* Assets.xcassets in Resources */,
 				60DEBC4F1F8DB1D7005E15AF /* Compose.storyboard in Resources */,
 			);
@@ -541,9 +572,12 @@
 				98F434251F8DF6CA005EAAB1 /* ServiceError.swift in Sources */,
 				985004F81F8DE7840016FBB8 /* PostService.swift in Sources */,
 				9827821D1F8F4242008EEBD4 /* Location.swift in Sources */,
+				38F15EA31F93311E0058C5E5 /* MapViewController.swift in Sources */,
 				9817E0801F8EFB2900D579A7 /* GeoService.swift in Sources */,
+				38F15EA71F9331DD0058C5E5 /* FeedCell.swift in Sources */,
 				985004F61F8DE4440016FBB8 /* ImageService.swift in Sources */,
 				985004F21F8DDF6D0016FBB8 /* Post.swift in Sources */,
+				38F15EA41F93311E0058C5E5 /* HomeViewController.swift in Sources */,
 				6059B9831F87FDA900280D4E /* AppDelegate.swift in Sources */,
 				98FBAE251F91DCFB00B817B6 /* PostGeo.swift in Sources */,
 				602E13011F8DB33700E1C9EE /* ComposeViewController.swift in Sources */,
