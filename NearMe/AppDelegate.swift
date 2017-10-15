@@ -9,6 +9,8 @@
 import UIKit
 import Firebase
 import SwiftyBeaver
+import GooglePlaces
+import GoogleMaps
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -21,6 +23,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         let console = ConsoleDestination()
         SwiftyBeaver.addDestination(console)
+        
+        GMSPlacesClient.provideAPIKey("AIzaSyBPZgNeZOx1PSni5OalI1zYo56TTWcLTKE")
+        GMSServices.provideAPIKey("AIzaSyBPZgNeZOx1PSni5OalI1zYo56TTWcLTKE")
+        
+        let storybard = UIStoryboard(name: "Compose", bundle: nil)
+        let composeViewController = storybard.instantiateViewController(withIdentifier: "ComposeNavigationController")
+        window?.rootViewController = composeViewController
+        window?.makeKeyAndVisible()
         return true
     }
 

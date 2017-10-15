@@ -15,6 +15,13 @@ target 'NearMe' do
   pod 'GeoFire', :git => 'https://github.com/firebase/geofire-objc.git'  
   pod "PromiseKit"
   pod 'SwiftyBeaver'
+  pod 'ImagePicker'
+  pod 'UITextView+Placeholder'
+  
+  source 'https://github.com/CocoaPods/Specs.git'
+  pod 'GooglePlaces'
+  pod 'GooglePlacePicker'
+  pod 'GoogleMaps'
 
   target 'NearMeTests' do
     inherit! :search_paths
