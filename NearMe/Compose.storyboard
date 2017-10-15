@@ -105,7 +105,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Post" id="VHh-YJ-toD">
                             <connections>
-                                <action selector="onTweetButton:" destination="oHc-e2-AuX" id="6TL-dG-U84"/>
+                                <action selector="onPost:" destination="oHc-e2-AuX" id="w7n-Xa-L9T"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -139,7 +139,6 @@
                         <barButtonItem title="count" style="plain" id="qlM-5t-UEV">
                             <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         </barButtonItem>
-                        <barButtonItem title="Post" id="SPG-wP-hc1"/>
                     </items>
                     <color key="barTintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </toolbar>

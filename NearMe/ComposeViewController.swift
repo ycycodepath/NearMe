@@ -10,9 +10,9 @@ import UIKit
 import ImagePicker
 import GooglePlacePicker
 
-//@objc protocol ComposeViewControllerDelegate {
-//    @objc optional func composeViewController(_ composeViewController: ComposeViewController, didPost status: Post)
-//}
+protocol ComposeViewControllerDelegate {
+    func composeViewController(_ composeViewController: ComposeViewController, didPost status: Post)
+}
 
 class ComposeViewController: UIViewController {
 
@@ -34,12 +34,14 @@ class ComposeViewController: UIViewController {
     
     var placesClient: GMSPlacesClient!
     
-    //weak var delegate: ComposeViewControllerDelegate!
+    var delegate: ComposeViewControllerDelegate!
     
     let postCharLimit = 140
     
     // height / width
     private var postImgAspect: CGFloat = 0
+    
+    private var gmsPlace: GMSPlace?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -128,9 +130,31 @@ class ComposeViewController: UIViewController {
             if let placeLikelihoodList = placeLikelihoodList {
                 let place = placeLikelihoodList.likelihoods.first?.place
                 if let place = place {
+                    self.gmsPlace = place
                     self.locationButton.setTitle("\(place.name) - \(place.formattedAddress ?? "")", for: .normal)
                 }
             }
+        })
+    }
+    
+    @IBAction func onPost(_ sender: Any) {
+        guard let gmsPlace = gmsPlace else {
+            print("Sorry, I cannot get your location. Did you enable the location service?")
+            return
+        }
+        
+        let uuid = UIDevice.current.identifierForVendor?.uuidString
+        let location = Location(latitude: gmsPlace.coordinate.latitude, longitude: gmsPlace.coordinate.longitude)
+        
+        let post = Post(uuid: uuid, message: self.postTextView.text, location: location, screen_name: "Demo User", place: gmsPlace.name, address: gmsPlace.formattedAddress)
+        
+        let image = postImageView.image
+        
+        PostService.sharedInstance.create(post: post, image: image, success: {
+            NSLog("Successfully createda a post")
+            self.dismiss(animated: true, completion: nil)
+        }, failure: { (error) in
+            print(error.localizedDescription)
         })
     }
     
@@ -213,6 +237,7 @@ extension ComposeViewController: ImagePickerDelegate {
 
 extension ComposeViewController: GMSPlacePickerViewControllerDelegate {
     func placePicker(_ viewController: GMSPlacePickerViewController, didPick place: GMSPlace) {
+        self.gmsPlace = place
         self.locationButton.setTitle("\(place.name) - \(place.formattedAddress ?? "")", for: .normal)
         // Dismiss the place picker, as it cannot dismiss itself.
         viewController.dismiss(animated: true, completion: nil)
