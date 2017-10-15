@@ -34,7 +34,7 @@ class ComposeViewController: UIViewController {
     
     var placesClient: GMSPlacesClient!
     
-    var delegate: ComposeViewControllerDelegate!
+    var delegate: ComposeViewControllerDelegate?
     
     let postCharLimit = 140
     
@@ -152,6 +152,7 @@ class ComposeViewController: UIViewController {
         
         PostService.sharedInstance.create(post: post, image: image, success: {
             NSLog("Successfully createda a post")
+            self.delegate?.composeViewController(self, didPost: post)
             self.dismiss(animated: true, completion: nil)
         }, failure: { (error) in
             print(error.localizedDescription)
