@@ -1,6 +1,6 @@
 # Project 4 - *NearMe*
 
-Time spent: **X** hours spent in total
+Time spent: **60** hours spent in total
 
 ## User Stories
 
@@ -9,16 +9,20 @@ NearMe is an app to allow users to post and discover nearby happenings. Users ca
 
 The following **required** functionality is completed:
 
+Back End:
+- [x] Setup and configure Firebase server-side data store
+- [x] Design your database schema and generated model objects with initial fields
+
 Login screen: none
-- [ ] no login required
+- [x] no login required
 
 
 Home screen:
-- [ ] User can view a list of nearby posts/messages/…
+- [x] User can view a list of nearby posts/messages/…
 - [ ] User can view post details by tapping on a cell. (go to detail view)
 - [ ] Search results page (not from server, search in ui only)
-- [ ] Table rows should be dynamic height according to the content height.
-- [ ] Custom cells should have the proper Auto Layout constraints.
+- [x] Table rows should be dynamic height according to the content height.
+- [x] Custom cells should have the proper Auto Layout constraints.
 - [ ] Search bar should be only be shown when needed
 
 
@@ -31,8 +35,8 @@ optional:
 
 
 Compose screen:
-- [ ] refer to twitter assignment
-- [ ] camera/upload photo to firebase
+- [x] refer to twitter assignment
+- [x] camera/upload photo to firebase
 
 Filter screen:
 
@@ -57,7 +61,7 @@ Compose screen:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='week5.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
