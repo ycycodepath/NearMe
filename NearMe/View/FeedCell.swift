@@ -7,11 +7,10 @@
 //
 
 import UIKit
+import AFNetworking
 
 class FeedCell: UITableViewCell {
 
-    @IBOutlet weak var cellView: UIView!
-    @IBOutlet weak var feedContentView: UIView!
     @IBOutlet weak var feedImageView: UIImageView!
     @IBOutlet weak var feedLabel: UILabel!
     @IBOutlet weak var timestamp: UILabel!
@@ -21,15 +20,26 @@ class FeedCell: UITableViewCell {
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var placeLabel: UILabel!
     @IBOutlet weak var likeImage: UIImageView!
+    @IBOutlet weak var imageHeightConstraint: NSLayoutConstraint!
     
     let DEFAULT_SCREEN_NAME = "Ninja"
+    let screenSize: CGRect = UIScreen.main.bounds
+    
     var post: Post! {
         didSet{
-            
-            if let imageUrlStr = post.imageUrl, let imageUrl = URL(string: imageUrlStr), let data = NSData(contentsOf: imageUrl) {
-                    feedImageView.image = UIImage(data: data as Data)
+            if let imageUrlStr = post.imageUrl, let imageUrl = URL(string: imageUrlStr) {
+                feedImageView.setImageWith(imageUrl)
+                feedImageView.isHidden = false
+                
+                imageHeightConstraint.constant = 182
+//                feedImageView.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height * 0.5)
+                self.contentView.layoutIfNeeded()
             } else {
+                print("no feedImageView")
                 feedImageView.isHidden = true
+                imageHeightConstraint.constant = 0
+                feedImageView.image = nil
+                self.contentView.layoutIfNeeded()
             }
             feedLabel.text = post.message
             
@@ -43,7 +53,7 @@ class FeedCell: UITableViewCell {
             avatarView.clipsToBounds = true
             avatarView.layer.cornerRadius = 30
             avatarView.layer.borderWidth = 0.5
-            avatarView.layer.borderColor = cellView.backgroundColor?.cgColor
+
             
             screenNameLabel.text = post.screen_name ?? DEFAULT_SCREEN_NAME
             if let distance = post.distance {
@@ -63,8 +73,6 @@ class FeedCell: UITableViewCell {
     }
     override func awakeFromNib() {
         super.awakeFromNib()
-        cellView.clipsToBounds = true
-        cellView.layer.cornerRadius = 5
     
     }
 
@@ -113,3 +121,4 @@ extension Date {
     }
     
 }
+

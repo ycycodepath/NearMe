@@ -18,6 +18,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var locationManager = CLLocationManager()
     var currentLocation: CLLocation?
     var currentRadius = 5.00
+    let defaultLocation = CLLocation(latitude:37.3743507,longitude:-121.8825989)
+    let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +29,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.rowHeight = UITableViewAutomaticDimension
         
         initLocation()
-//        initSearchBar()
+        initRefreshControl()
     }
 
     override func didReceiveMemoryWarning() {
@@ -44,10 +46,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
         let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedCell
-        let post = posts[indexPath.row]
-        cell.post = post
+        cell.post = posts[indexPath.row]
+
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
     }
 
     func initSearchBar() {
@@ -85,17 +92,44 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     func getPost(location: CLLocation, radius: Double) -> Void {
         print("getting posts")
-        print("\(location), \(radius)")
+        print("location: \(location), radius: \(radius)")
         PostService.sharedInstance.search(center: location, radius: radius, success: { (posts: [Post]) in
-            self.posts = posts
-            print("posts.count: \(posts.count)")
+            print("self.posts.count: \(self.posts.count)")
+            print("posts.count before assigning value: \(posts.count)")
+            self.posts = posts.reversed()
             self.tableView.reloadData()
+        }, failure: { (error: Error) in
+            self.showError(error: error)
+        })
+    }
+
+    func refreshPost(location: CLLocation, radius: Double) -> Void {
+        print("refreshing posts")
+        print("location: \(location), radius: \(radius)")
+        PostService.sharedInstance.search(center: location, radius: radius, success: { (posts: [Post]) in
+            self.posts = posts.reversed()
+            self.tableView.reloadData()
+            self.refreshControl.endRefreshing()
+            print("posts.count: \(posts.count)")
         }, failure: { (error: Error) in
             self.showError(error: error)
             print("posts.count: error")
         })
     }
-
+    
+    
+    // MARK: - Pull and Refresh
+    func initRefreshControl() {
+        
+        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
+        tableView.insertSubview(refreshControl, at: 0)
+    }
+    
+    
+    @objc func refreshControlAction(_ refreshControl: UIRefreshControl) {
+         refreshPost(location: self.currentLocation!, radius: currentRadius)
+    }
+    
     func showError(error: Error) {
         let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
@@ -103,7 +137,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.present(alert, animated: true, completion: nil)
     }
 
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+
+        
+    }
 }
 
 extension HomeViewController: CLLocationManagerDelegate {
@@ -112,7 +151,7 @@ extension HomeViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             locationManager.stopUpdatingLocation()
-            let fakeLocation = CLLocation(latitude:37.3743507,longitude:-121.8825989)
+            let fakeLocation = defaultLocation
             self.currentLocation = fakeLocation
             print("currentLocation: \(self.currentLocation)")
             getPost(location: self.currentLocation!, radius: currentRadius)

@@ -16,8 +16,10 @@ class MapViewController: UIViewController {
     var mapView: GMSMapView!
     var placesClient: GMSPlacesClient!
     var zoomLevel: Float = 15.0
-    let defaultLocation = CLLocation(latitude:  37.484532, longitude: -122.147448)
-
+    let defaultLocation = CLLocation(latitude:37.3743507,longitude:-121.8825989)
+    var postPlaces: [GMSPlace] = []
+    var posts = [Post]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -40,21 +42,23 @@ class MapViewController: UIViewController {
         // Add the map to the view, hide it until we've got a location update.
         view.addSubview(mapView)
         mapView.isHidden = true
+        
+        getPosts()
     }
 
+    func getPosts() {
+        // Clean up from previous sessions.
+        postPlaces.removeAll()
+        for post in posts {
+//            self.postPlaces.append( post.place )
+        }
+    }
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
 
@@ -62,9 +66,9 @@ extension MapViewController: CLLocationManagerDelegate {
     
     // Handle incoming location events.
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let location: CLLocation = locations.last!
-        print("Location: \(location)")
-        
+        var location: CLLocation = locations.first!
+        //TODO: REMOVE THIS HARDCODE AFTER GETTING DATA PROPERLY!!!
+        location = defaultLocation
         let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,
                                               longitude: location.coordinate.longitude,
                                               zoom: zoomLevel)
