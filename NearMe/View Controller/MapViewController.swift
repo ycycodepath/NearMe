@@ -10,7 +10,7 @@ import UIKit
 import GoogleMaps
 import GooglePlaces
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, GMSMapViewDelegate {
     var locationManager = CLLocationManager()
     var currentLocation: CLLocation?
     var mapView: GMSMapView!
@@ -37,6 +37,7 @@ class MapViewController: UIViewController {
                                               longitude: DEFAULT_LONGITUDE,
                                               zoom: zoomLevel)
         mapView = GMSMapView.map(withFrame: view.bounds, camera: camera)
+        mapView.delegate = self
         mapView.settings.myLocationButton = true
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapView.isMyLocationEnabled = true
@@ -92,20 +93,38 @@ class MapViewController: UIViewController {
         return  finalPos
     }
     
-    func getUniqueCoordinates() {
-        
-    }
-    
     func randomDouble(min: Double, max:Double) -> Double {
         return (Double(arc4random()) / 0xFFFFFFFF) * (max - min) + min
     }
+    
+    func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
+        print("setting markerInfoWindow")
+        let infoWindow = MapInfoWindow(frame: CGRect(x:0,y:0,width:200,height:65))
+        infoWindow.screenName = marker.title
+        infoWindow.message = marker.snippet
+        
+        return infoWindow
+    }
 }
+
+//extension MapViewController: GMSMapViewDelegate {
+//    func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
+//        print("setting markerInfoWindow")
+//        let infoWindow :MapInfoWindow = Bundle.main.loadNibNamed("MapInfoWindow", owner: self, options: nil)![0] as! MapInfoWindow
+//
+//        infoWindow.screenNameLabel.text = marker.title
+//        infoWindow.messageLabel.text = marker.snippet
+//
+//        return infoWindow
+//    }
+//
+//}
 
 extension MapViewController: CLLocationManagerDelegate {
     
     // Handle incoming location events.
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        var location: CLLocation = locations.last!
+        let location: CLLocation = locations.last!
         let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,
                                               longitude: location.coordinate.longitude,
                                               zoom: zoomLevel)
