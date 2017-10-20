@@ -84,7 +84,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             if ((UIDevice.current.systemVersion as NSString).floatValue >= 8) {
                 locationManager.requestWhenInUseAuthorization()
             }
-            locationManager.startUpdatingLocation()
+            locationManager.requestLocation()
         } else {
             print("Location services are not enabled");
         }
@@ -140,7 +140,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-
+        switch segue.identifier! {
+            case "homeListToMap":
+                let mapViewNavigationController = segue.destination as! UINavigationController
+                let mapVC = mapViewNavigationController.topViewController as! MapViewController
+                mapVC.posts = posts
+            default:
+                ()
+        }
         
     }
 }
@@ -149,10 +156,8 @@ extension HomeViewController: CLLocationManagerDelegate {
     
     // Handle incoming location events.
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.first {
-            locationManager.stopUpdatingLocation()
-            let fakeLocation = defaultLocation
-            self.currentLocation = fakeLocation
+        if let location = locations.last {
+            self.currentLocation = location
             print("currentLocation: \(self.currentLocation)")
             getPost(location: self.currentLocation!, radius: currentRadius)
         }

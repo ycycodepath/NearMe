@@ -16,8 +16,9 @@ class MapViewController: UIViewController {
     var mapView: GMSMapView!
     var placesClient: GMSPlacesClient!
     var zoomLevel: Float = 15.0
-    let defaultLocation = CLLocation(latitude:37.3743507,longitude:-121.8825989)
-    var postPlaces: [GMSPlace] = []
+    let DEFAULT_LATITUDE = 37.3743507
+    let DEFAULT_LONGITUDE = -121.8825989
+    var postLocations: [CLLocationCoordinate2D] = []
     var posts = [Post]()
     
     override func viewDidLoad() {
@@ -32,8 +33,8 @@ class MapViewController: UIViewController {
         
         placesClient = GMSPlacesClient.shared()
         
-        let camera = GMSCameraPosition.camera(withLatitude: defaultLocation.coordinate.latitude,
-                                              longitude: defaultLocation.coordinate.longitude,
+        let camera = GMSCameraPosition.camera(withLatitude: DEFAULT_LATITUDE,
+                                              longitude: DEFAULT_LONGITUDE,
                                               zoom: zoomLevel)
         mapView = GMSMapView.map(withFrame: view.bounds, camera: camera)
         mapView.settings.myLocationButton = true
@@ -46,41 +47,74 @@ class MapViewController: UIViewController {
         getPosts()
     }
 
-    func getPosts() {
-        // Clean up from previous sessions.
-        postPlaces.removeAll()
-        for post in posts {
-//            self.postPlaces.append( post.place )
-        }
-    }
-    
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    func getPosts() {
+        postLocations.removeAll()
+        for post in posts {
+            let state_marker = GMSMarker()
+            let post_latitude = post.location?.latitude ?? DEFAULT_LATITUDE
+            let post_longitude = post.location?.longitude ?? DEFAULT_LONGITUDE
+            let post_location = checkIfMutlipleCoordinates(latitude: post_latitude, longitude: post_longitude)
+            postLocations.append(post_location)
+            
+            state_marker.position = CLLocationCoordinate2D(latitude: post_location.latitude, longitude: post_location.longitude)
+            state_marker.title = post.screen_name
+            state_marker.snippet = post.message
+            state_marker.map = mapView
+        }
+    }
+    
+    func checkIfMutlipleCoordinates(latitude : Double , longitude : Double) -> CLLocationCoordinate2D{
+        
+        var lat = latitude
+        var lng = longitude
+        var finalPos = CLLocationCoordinate2D()
+        
+        let arrTemp = self.postLocations.filter {
+            
+            return (((latitude == $0.latitude) && (longitude == $0.longitude)))
+        }
+        
+        if arrTemp.count > 0 {
+            // Core Logic giving minor variation to similar lat long
+            
+            let variation = (randomDouble(min: 0.0, max: 2.0) - 0.5) / 1500
+            lat = lat + variation
+            lng = lng + variation
+            finalPos = checkIfMutlipleCoordinates(latitude: lat, longitude: lng)
+        } else {
+            finalPos = CLLocationCoordinate2D(latitude: CLLocationDegrees(latitude), longitude: CLLocationDegrees(longitude))
+        }
+        return  finalPos
+    }
+    
+    func getUniqueCoordinates() {
+        
+    }
+    
+    func randomDouble(min: Double, max:Double) -> Double {
+        return (Double(arc4random()) / 0xFFFFFFFF) * (max - min) + min
+    }
 }
 
 extension MapViewController: CLLocationManagerDelegate {
     
     // Handle incoming location events.
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        var location: CLLocation = locations.first!
-        //TODO: REMOVE THIS HARDCODE AFTER GETTING DATA PROPERLY!!!
-        location = defaultLocation
+        var location: CLLocation = locations.last!
         let camera = GMSCameraPosition.camera(withLatitude: location.coordinate.latitude,
                                               longitude: location.coordinate.longitude,
                                               zoom: zoomLevel)
-        
         if mapView.isHidden {
             mapView.isHidden = false
             mapView.camera = camera
         } else {
             mapView.animate(to: camera)
         }
-        
-        
     }
     
     // Handle authorization for the location manager.
