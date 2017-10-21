@@ -57,9 +57,6 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="like" translatesAutoresizingMaskIntoConstraints="NO" id="67X-hq-jna">
-                                                    <rect key="frame" x="308" y="314.5" width="29" height="29"/>
-                                                </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Peet's Coffe" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FlI-cI-Plz">
                                                     <rect key="frame" x="16" y="316.5" width="94" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -109,11 +106,22 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="102" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z6I-Uv-XCS">
-                                                    <rect key="frame" x="339" y="320.5" width="28" height="17"/>
+                                                    <rect key="frame" x="339" y="316.5" width="28" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.4756349325" green="0.47564673419999998" blue="0.47564041610000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="idY-8h-XNB">
+                                                    <rect key="frame" x="297" y="311.5" width="32" height="32"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="32" id="Cuu-3m-1k7"/>
+                                                        <constraint firstAttribute="width" constant="32" id="iaL-Sl-YeP"/>
+                                                    </constraints>
+                                                    <state key="normal" image="like"/>
+                                                    <connections>
+                                                        <action selector="onLikeButtonClicked:" destination="WcI-TT-Yxr" eventType="touchUpInside" id="du1-RU-6h0"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="fRf-L8-chZ" firstAttribute="leading" secondItem="1dx-B4-ehM" secondAttribute="leadingMargin" constant="8" id="1tC-fW-Drr"/>
@@ -124,15 +132,15 @@
                                                 <constraint firstItem="FlI-cI-Plz" firstAttribute="leading" secondItem="1dx-B4-ehM" secondAttribute="leading" constant="16" id="Lzd-EI-kQl"/>
                                                 <constraint firstItem="fRf-L8-chZ" firstAttribute="trailing" secondItem="1dx-B4-ehM" secondAttribute="trailingMargin" id="OQl-ZA-hLu"/>
                                                 <constraint firstItem="Vgf-8X-edt" firstAttribute="top" secondItem="BfJ-t1-V5Y" secondAttribute="bottom" id="RDi-wo-IWl"/>
-                                                <constraint firstItem="Z6I-Uv-XCS" firstAttribute="leading" secondItem="67X-hq-jna" secondAttribute="trailing" constant="2" id="Suq-7l-TgP"/>
-                                                <constraint firstItem="Z6I-Uv-XCS" firstAttribute="centerY" secondItem="67X-hq-jna" secondAttribute="centerY" id="UqA-fj-WIa"/>
                                                 <constraint firstAttribute="bottom" secondItem="Z6I-Uv-XCS" secondAttribute="bottom" constant="16" id="Vk5-PO-pAA"/>
+                                                <constraint firstItem="idY-8h-XNB" firstAttribute="centerY" secondItem="FlI-cI-Plz" secondAttribute="centerY" id="beS-3q-Sq1"/>
                                                 <constraint firstAttribute="trailing" secondItem="BfJ-t1-V5Y" secondAttribute="trailing" id="du1-Pr-yQY"/>
+                                                <constraint firstItem="Z6I-Uv-XCS" firstAttribute="centerY" secondItem="FlI-cI-Plz" secondAttribute="centerY" id="fIe-Xh-5KV"/>
                                                 <constraint firstItem="Vgf-8X-edt" firstAttribute="leading" secondItem="1dx-B4-ehM" secondAttribute="leading" id="oMx-j3-c3y"/>
+                                                <constraint firstItem="Z6I-Uv-XCS" firstAttribute="leading" secondItem="idY-8h-XNB" secondAttribute="trailing" constant="10" id="qcS-AS-NDi"/>
                                                 <constraint firstAttribute="trailing" secondItem="Z6I-Uv-XCS" secondAttribute="trailing" constant="8" id="sqh-0I-3eA"/>
                                                 <constraint firstItem="BfJ-t1-V5Y" firstAttribute="top" secondItem="1dx-B4-ehM" secondAttribute="top" id="tSs-yu-WUF"/>
                                                 <constraint firstAttribute="trailing" secondItem="Vgf-8X-edt" secondAttribute="trailing" id="vPc-Wp-6OK"/>
-                                                <constraint firstItem="Z6I-Uv-XCS" firstAttribute="top" secondItem="fRf-L8-chZ" secondAttribute="bottom" constant="16" id="wbh-zb-vNa"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -141,8 +149,8 @@
                                             <outlet property="feedImageView" destination="Vgf-8X-edt" id="yHL-79-vGD"/>
                                             <outlet property="feedLabel" destination="fRf-L8-chZ" id="zcN-jP-kFT"/>
                                             <outlet property="imageHeightConstraint" destination="fxM-wj-4D5" id="FzJ-Ik-dUs"/>
+                                            <outlet property="likeButton" destination="idY-8h-XNB" id="LkQ-Ge-1ln"/>
                                             <outlet property="likeCountLabel" destination="Z6I-Uv-XCS" id="iSq-3Q-T4d"/>
-                                            <outlet property="likeImage" destination="67X-hq-jna" id="Yj3-Gx-enV"/>
                                             <outlet property="placeLabel" destination="FlI-cI-Plz" id="Ra1-cj-ope"/>
                                             <outlet property="screenNameLabel" destination="SGz-JQ-2WD" id="Ml0-AU-86Q"/>
                                             <outlet property="timestamp" destination="Ttu-LA-XQW" id="hJC-u3-HOK"/>
@@ -178,7 +186,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ss7-Mo-EYv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="544.80000000000007" y="98.50074962518741"/>
+            <point key="canvasLocation" x="544.79999999999995" y="98.50074962518741"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="7ls-qZ-MsB">

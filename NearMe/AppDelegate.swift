@@ -12,6 +12,7 @@ import SwiftyBeaver
 import GooglePlaces
 import GoogleMaps
 import CoreData
+import MagicalRecord
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -24,6 +25,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         let console = ConsoleDestination()
         SwiftyBeaver.addDestination(console)
+
+        //core data: magical record set up
+        MagicalRecord.setupCoreDataStack(withAutoMigratingSqliteStoreNamed: "NearMe.sql")
+
         
         GMSPlacesClient.provideAPIKey("AIzaSyBPZgNeZOx1PSni5OalI1zYo56TTWcLTKE")
         GMSServices.provideAPIKey("AIzaSyBPZgNeZOx1PSni5OalI1zYo56TTWcLTKE")

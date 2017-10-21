@@ -20,13 +20,14 @@ class FeedCell: UITableViewCell {
     @IBOutlet weak var screenNameLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var placeLabel: UILabel!
-    @IBOutlet weak var likeImage: UIImageView!
     @IBOutlet weak var imageHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var likeButton: UIButton!
     
     let DEFAULT_SCREEN_NAME = "Ninja"
     let screenSize: CGRect = UIScreen.main.bounds
     
     var handleFeedImageTapped: (UIImageView, Post) -> Void = { (imageView, post) -> Void in }
+    var handleLikeButtonClicked: (Post) -> Void = { (post) -> Void in }
     
     var post: Post! {
         didSet{
@@ -50,6 +51,11 @@ class FeedCell: UITableViewCell {
                  timestamp.text = FeedCell.convertEpochTimeStamp(timestamp: createTime)
             }
 
+            
+            if LikeService.sharedInstance.isPostLiked(postId: post.id!) {
+                likeButton.isSelected = true
+            }
+            
             likeCountLabel.text = "\(post.likes ?? 0)"
             
             avatarView.image = UIImage(named: "user1")
@@ -78,6 +84,18 @@ class FeedCell: UITableViewCell {
         feedImageView.isUserInteractionEnabled = true
         feedImageView.addGestureRecognizer(feedImgTapGestureRecognizer)
 
+        
+        likeButton.setImage(UIImage(named: "liked"), for: .selected)
+        likeButton.setImage(UIImage(named: "like"), for: .normal)
+
+    }
+    
+    @IBAction func onLikeButtonClicked(_ sender: Any) {
+        
+        //toggle
+        self.likeButton.isSelected = !self.likeButton.isSelected
+        handleLikeButtonClicked(post)
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -88,7 +106,7 @@ class FeedCell: UITableViewCell {
     
     @objc func feedImageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         let tappedImageView = tapGestureRecognizer.view as! UIImageView
-        let image = tappedImageView.image!
+//        let image = tappedImageView.image!
         handleFeedImageTapped(tappedImageView, post)
     }
     

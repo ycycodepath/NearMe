@@ -79,6 +79,22 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.present(browser, animated: true, completion: nil)
             
         }
+        
+        cell.handleLikeButtonClicked = { (post) in
+            
+            LikeService.sharedInstance.syncCoreData(postId: post.id, success: { (liked) in
+                
+                PostService.sharedInstance.updateLikeCount(postId: post.id, liked: liked, success: {
+                    print ("Success")
+                }, failure: { (error) in
+                    print(error.localizedDescription)
+                })
+                
+            }, failure: { (error) in
+                print(error.localizedDescription)
+            })
+            
+        }
 
         return cell
     }
