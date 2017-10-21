@@ -34,6 +34,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f28-tC-E3y" userLabel="Map View">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Q6a-Fs-2b2">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -153,17 +157,21 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="PHd-m6-Ttx" firstAttribute="trailing" secondItem="f28-tC-E3y" secondAttribute="trailing" id="EPy-vx-Kn2"/>
                             <constraint firstItem="Q6a-Fs-2b2" firstAttribute="top" secondItem="PHd-m6-Ttx" secondAttribute="top" id="Izt-UG-eK9"/>
+                            <constraint firstItem="f28-tC-E3y" firstAttribute="top" secondItem="PHd-m6-Ttx" secondAttribute="top" id="PP6-UU-xzH"/>
+                            <constraint firstItem="f28-tC-E3y" firstAttribute="leading" secondItem="PHd-m6-Ttx" secondAttribute="leading" id="dDZ-UU-JFY"/>
                             <constraint firstItem="Q6a-Fs-2b2" firstAttribute="bottom" secondItem="PHd-m6-Ttx" secondAttribute="bottom" id="hSr-Yx-vfb"/>
                             <constraint firstItem="Q6a-Fs-2b2" firstAttribute="leading" secondItem="PHd-m6-Ttx" secondAttribute="leading" id="ukH-Op-7HL"/>
                             <constraint firstItem="Q6a-Fs-2b2" firstAttribute="trailing" secondItem="PHd-m6-Ttx" secondAttribute="trailing" id="yMB-yo-2vO"/>
+                            <constraint firstItem="PHd-m6-Ttx" firstAttribute="bottom" secondItem="f28-tC-E3y" secondAttribute="bottom" id="zZG-vW-mNa"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="PHd-m6-Ttx"/>
                     </view>
                     <navigationItem key="navigationItem" title="Home" id="zgW-dD-NS8">
                         <barButtonItem key="leftBarButtonItem" title="Map" id="d7W-F5-6ku">
                             <connections>
-                                <segue destination="1G7-N0-ilE" kind="presentation" identifier="homeListToMap" id="IgE-3t-lN9"/>
+                                <action selector="onSwitchView:" destination="fsd-n0-3e7" id="eoc-af-gXD"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="New" id="h1v-35-Xfy">
@@ -173,6 +181,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="leftBarButton" destination="d7W-F5-6ku" id="muF-5B-Rqh"/>
+                        <outlet property="mapView" destination="f28-tC-E3y" id="MUk-3E-9Qe"/>
+                        <outlet property="rightBarButton" destination="h1v-35-Xfy" id="YAg-gU-J4d"/>
                         <outlet property="tableView" destination="Q6a-Fs-2b2" id="vdX-P7-K1J"/>
                     </connections>
                 </viewController>
