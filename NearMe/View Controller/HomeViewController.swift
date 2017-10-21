@@ -29,8 +29,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var posts = [Post]()
     var locationManager = CLLocationManager()
     var currentLocation: CLLocation?
+    var searchLocation: CLLocation!
+    var searchPlace: GMSPlace?
     var currentRadius = 5.00
     let defaultLocation = CLLocation(latitude:37.3743507,longitude:-121.8825989)
+    let CURRENT_LOCATION_PLACEHOLDER = "Current Location"
     
     var mapContentView: GMSMapView!
     var placesClient: GMSPlacesClient!
@@ -41,7 +44,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var resultsViewController: GMSAutocompleteResultsViewController?
     var searchController: UISearchController?
-    var resultView: UITextView?
     let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
@@ -57,7 +59,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
 
@@ -83,6 +84,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.posts = posts.reversed()
             self.tableView.reloadData()
             self.showPostsInMapView()
+            self.getSearchBarPlaceholder()
         }, failure: { (error: Error) in
             self.showError(error: error)
         })
@@ -100,8 +102,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.view.bringSubview(toFront: tableView)
                 currentViewType = ViewType.List
                 break
-            default:
-                ()
         }
     }
     
@@ -123,7 +123,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedCell
         cell.post = posts[indexPath.row]
         
@@ -148,13 +147,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         mapContentView.settings.myLocationButton = true
         mapContentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapContentView.isMyLocationEnabled = true
-        // Add the map to the view, hide it until we've got a location update.
         mapView.addSubview(mapContentView)
     }
     
     
     func showPostsInMapView() {
         postLocations.removeAll()
+        mapContentView.clear()
+        updateMapCamera()
         for post in posts {
             let state_marker = GMSMarker()
             let post_latitude = post.location?.latitude ?? DEFAULT_LATITUDE
@@ -169,20 +169,27 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    func updateMapCamera() {
+        let camera = GMSCameraPosition.camera(withLatitude:searchLocation.coordinate.latitude, longitude: searchLocation.coordinate.longitude, zoom: zoomLevel)
+        if mapView.isHidden {
+            mapContentView.camera = camera
+        } else {
+            mapContentView.animate(to: camera)
+        }
+    }
+    
+    
     func checkIfMutlipleCoordinates(latitude : Double , longitude : Double) -> CLLocationCoordinate2D{
-        
         var lat = latitude
         var lng = longitude
         var finalPos = CLLocationCoordinate2D()
         
         let arrTemp = self.postLocations.filter {
-            
             return (((latitude == $0.latitude) && (longitude == $0.longitude)))
         }
         
         if arrTemp.count > 0 {
             // Core Logic giving minor variation to similar lat long
-            
             let variation = (randomDouble(min: 0.0, max: 2.0) - 0.5) / 1500
             lat = lat + variation
             lng = lng + variation
@@ -200,22 +207,51 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     /** MARK: - Search Bar **/
     func initSearchBar() {
+        let filter = GMSAutocompleteFilter()
+        filter.country = Locale.current.regionCode
+        
         resultsViewController = GMSAutocompleteResultsViewController()
         resultsViewController?.delegate = self
-        
+        resultsViewController?.autocompleteFilter = filter
+
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
         
         searchController?.searchBar.sizeToFit()
         navigationItem.titleView = searchController?.searchBar
         searchController?.searchBar.delegate = self
+        searchController?.searchBar.placeholder = CURRENT_LOCATION_PLACEHOLDER
         
         definesPresentationContext = true
         
         searchController?.hidesNavigationBarDuringPresentation = false
     }
     
+    func navigationBarInSearch() {
+        let currentLocationButton = UIBarButtonItem(image: UIImage(named: "currentLocation"), style: .plain, target: self, action: #selector(chooseCurrentLocation))
+        self.navigationItem.setLeftBarButton(currentLocationButton, animated: true)
+
+        self.navigationItem.setRightBarButton(nil, animated: true)
+    }
     
+    func navigationBarInNormal() {
+        self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
+        self.navigationItem.setRightBarButton(rightBarButton, animated: true)
+    }
+    
+    func getSearchBarPlaceholder() {
+        if ( currentLocation == searchLocation ) {
+            searchController?.searchBar.placeholder = CURRENT_LOCATION_PLACEHOLDER
+        } else {
+            searchController?.searchBar.placeholder = searchPlace?.name
+        }
+    }
+    
+    @objc func chooseCurrentLocation() {
+        searchController?.isActive = false
+        searchLocation = currentLocation
+        getPost(location: searchLocation!, radius: currentRadius)
+    }
     
     /** MARK: - Pull and Refresh **/
     func initRefreshControl() {
@@ -267,15 +303,11 @@ extension HomeViewController: CLLocationManagerDelegate {
     // Handle incoming location events.
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
-            self.currentLocation = location
-            getPost(location: self.currentLocation!, radius: currentRadius)
-            
-            let camera = GMSCameraPosition.camera(withLatitude:location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: zoomLevel)
-            if mapView.isHidden {
-                mapContentView.camera = camera
-            } else {
-                mapContentView.animate(to: camera)
+            currentLocation = location
+            if searchLocation == nil {
+                searchLocation = currentLocation
             }
+            getPost(location: searchLocation!, radius: currentRadius)
         }
         
     }
@@ -299,43 +331,37 @@ extension HomeViewController: CLLocationManagerDelegate {
     // Handle location manager errors.
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         locationManager.stopUpdatingLocation()
-        if ((error) != nil) {
-            print(error)
-        }
+        print(error)
     }
 }
 
 extension HomeViewController: UISearchBarDelegate {
+    
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        self.navigationItem.setLeftBarButton(nil, animated: true)
-        self.navigationItem.setRightBarButton(nil, animated: true)
+        navigationBarInSearch()
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
-        self.navigationItem.setRightBarButton(rightBarButton, animated: true)
+        navigationBarInNormal()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
-        self.navigationItem.setRightBarButton(rightBarButton, animated: true)
+        navigationBarInNormal()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        self.navigationItem.setLeftBarButton(nil, animated: true)
-        self.navigationItem.setRightBarButton(nil, animated: true)
+        navigationBarInSearch()
     }
 }
 
-// Handle the user's selection.
+
 extension HomeViewController: GMSAutocompleteResultsViewControllerDelegate {
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
                            didAutocompleteWith place: GMSPlace) {
         searchController?.isActive = false
-        // Do something with the selected place.
-        
-        let locationSearched = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
-        getPost(location: locationSearched, radius: currentRadius)
+        searchPlace = place
+        searchLocation = CLLocation(latitude: searchPlace!.coordinate.latitude, longitude: searchPlace!.coordinate.longitude)
+        getPost(location: searchLocation!, radius: currentRadius)
     }
     
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
@@ -344,7 +370,6 @@ extension HomeViewController: GMSAutocompleteResultsViewControllerDelegate {
         print("Error: ", error.localizedDescription)
     }
     
-    // Turn the network activity indicator on and off again.
     func didRequestAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
         UIApplication.shared.isNetworkActivityIndicatorVisible = true
     }
