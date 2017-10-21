@@ -8,6 +8,7 @@
 
 import UIKit
 import AFNetworking
+import IDMPhotoBrowser
 
 class FeedCell: UITableViewCell {
 
@@ -24,6 +25,8 @@ class FeedCell: UITableViewCell {
     
     let DEFAULT_SCREEN_NAME = "Ninja"
     let screenSize: CGRect = UIScreen.main.bounds
+    
+    var handleFeedImageTapped: (UIImageView, Post) -> Void = { (imageView, post) -> Void in }
     
     var post: Post! {
         didSet{
@@ -65,15 +68,16 @@ class FeedCell: UITableViewCell {
             if let place = post.place {
                 placeLabel.text = place
             }
-            
-            let likeTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
-            likeImage.isUserInteractionEnabled = true
-            likeImage.addGestureRecognizer(likeTapGestureRecognizer)
         }
     }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-    
+
+        let feedImgTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(feedImageTapped(tapGestureRecognizer:)))
+        feedImageView.isUserInteractionEnabled = true
+        feedImageView.addGestureRecognizer(feedImgTapGestureRecognizer)
+
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -82,16 +86,10 @@ class FeedCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-        let tappedImage = tapGestureRecognizer.view as! UIImageView
-        print("tapped")
-        //TODO: send api call for like/unlike
-        if tappedImage.image == UIImage(named: "like") {
-            print("is like")
-        } else if tappedImage.image == UIImage(named: "liked") {
-            print("is liked")
-        }
-        
+    @objc func feedImageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        let tappedImageView = tapGestureRecognizer.view as! UIImageView
+        let image = tappedImageView.image!
+        handleFeedImageTapped(tappedImageView, post)
     }
     
     

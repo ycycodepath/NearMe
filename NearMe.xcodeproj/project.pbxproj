@@ -27,6 +27,8 @@
 		985004F21F8DDF6D0016FBB8 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985004F11F8DDF6D0016FBB8 /* Post.swift */; };
 		985004F61F8DE4440016FBB8 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985004F51F8DE4440016FBB8 /* ImageService.swift */; };
 		985004F81F8DE7840016FBB8 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985004F71F8DE7840016FBB8 /* PostService.swift */; };
+		98A1A0AF1F99E3C1009B9971 /* NearMe.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 98A1A0AD1F99E3C1009B9971 /* NearMe.xcdatamodeld */; };
+		98A1A0D21F99E642009B9971 /* LikeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A1A0D11F99E642009B9971 /* LikeService.swift */; };
 		98F434251F8DF6CA005EAAB1 /* ServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F434241F8DF6CA005EAAB1 /* ServiceError.swift */; };
 		98FBAE251F91DCFB00B817B6 /* PostGeo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FBAE241F91DCFB00B817B6 /* PostGeo.swift */; };
 		F52D22C5DA7FD76F1439129C /* Pods_NearMe.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87A96454065B72D18292B3CE /* Pods_NearMe.framework */; };
@@ -81,6 +83,8 @@
 		985004F11F8DDF6D0016FBB8 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		985004F51F8DE4440016FBB8 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		985004F71F8DE7840016FBB8 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
+		98A1A0AE1F99E3C1009B9971 /* NearMe.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NearMe.xcdatamodel; sourceTree = "<group>"; };
+		98A1A0D11F99E642009B9971 /* LikeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeService.swift; sourceTree = "<group>"; };
 		98F434241F8DF6CA005EAAB1 /* ServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceError.swift; sourceTree = "<group>"; };
 		98FBAE241F91DCFB00B817B6 /* PostGeo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostGeo.swift; sourceTree = "<group>"; };
 		D34B42FC7A6050B9C027FBAB /* Pods-NearMe.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearMe.release.xcconfig"; path = "Pods/Target Support Files/Pods-NearMe/Pods-NearMe.release.xcconfig"; sourceTree = "<group>"; };
@@ -222,6 +226,7 @@
 				985004F11F8DDF6D0016FBB8 /* Post.swift */,
 				9827821C1F8F4242008EEBD4 /* Location.swift */,
 				98FBAE241F91DCFB00B817B6 /* PostGeo.swift */,
+				98A1A0AD1F99E3C1009B9971 /* NearMe.xcdatamodeld */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -232,6 +237,7 @@
 				985004F51F8DE4440016FBB8 /* ImageService.swift */,
 				985004F71F8DE7840016FBB8 /* PostService.swift */,
 				9817E07F1F8EFB2900D579A7 /* GeoService.swift */,
+				98A1A0D11F99E642009B9971 /* LikeService.swift */,
 			);
 			name = Services;
 			sourceTree = "<group>";
@@ -513,32 +519,40 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-NearMe/Pods-NearMe-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
+				"${BUILT_PRODUCTS_DIR}/DACircularProgress/DACircularProgress.framework",
 				"${BUILT_PRODUCTS_DIR}/FLEX/FLEX.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GeoFire/GeoFire.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/IDMPhotoBrowser/IDMPhotoBrowser.framework",
 				"${BUILT_PRODUCTS_DIR}/ImagePicker/ImagePicker.framework",
 				"${BUILT_PRODUCTS_DIR}/NSDateMinimalTimeAgo/NSDateMinimalTimeAgo.framework",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyBeaver/SwiftyBeaver.framework",
 				"${BUILT_PRODUCTS_DIR}/UITextView+Placeholder/UITextView_Placeholder.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+				"${BUILT_PRODUCTS_DIR}/pop/pop.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DACircularProgress.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FLEX.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GeoFire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IDMPhotoBrowser.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImagePicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NSDateMinimalTimeAgo.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyBeaver.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UITextView_Placeholder.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/pop.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -569,6 +583,7 @@
 			files = (
 				98F434251F8DF6CA005EAAB1 /* ServiceError.swift in Sources */,
 				985004F81F8DE7840016FBB8 /* PostService.swift in Sources */,
+				98A1A0D21F99E642009B9971 /* LikeService.swift in Sources */,
 				9827821D1F8F4242008EEBD4 /* Location.swift in Sources */,
 				38F15ED11F9411050058C5E5 /* MapViewController.swift in Sources */,
 				9817E0801F8EFB2900D579A7 /* GeoService.swift in Sources */,
@@ -576,6 +591,7 @@
 				985004F61F8DE4440016FBB8 /* ImageService.swift in Sources */,
 				985004F21F8DDF6D0016FBB8 /* Post.swift in Sources */,
 				38F15ED21F9411050058C5E5 /* HomeViewController.swift in Sources */,
+				98A1A0AF1F99E3C1009B9971 /* NearMe.xcdatamodeld in Sources */,
 				6059B9831F87FDA900280D4E /* AppDelegate.swift in Sources */,
 				98FBAE251F91DCFB00B817B6 /* PostGeo.swift in Sources */,
 				602E13011F8DB33700E1C9EE /* ComposeViewController.swift in Sources */,
@@ -745,13 +761,15 @@
 			baseConfigurationReference = EE37D112EC0725C1AD7A901E /* Pods-NearMe.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4RVD69XYQ3;
+				DEVELOPMENT_TEAM = M73SU669F4;
 				INFOPLIST_FILE = NearMe/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ycyteam.NearMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -762,13 +780,15 @@
 			baseConfigurationReference = D34B42FC7A6050B9C027FBAB /* Pods-NearMe.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 4RVD69XYQ3;
+				DEVELOPMENT_TEAM = M73SU669F4;
 				INFOPLIST_FILE = NearMe/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ycyteam.NearMe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -880,6 +900,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		98A1A0AD1F99E3C1009B9971 /* NearMe.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				98A1A0AE1F99E3C1009B9971 /* NearMe.xcdatamodel */,
+			);
+			currentVersion = 98A1A0AE1F99E3C1009B9971 /* NearMe.xcdatamodel */;
+			path = NearMe.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 6059B9771F87FDA900280D4E /* Project object */;
 }

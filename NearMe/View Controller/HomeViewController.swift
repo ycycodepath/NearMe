@@ -9,8 +9,9 @@
 import UIKit
 import GoogleMaps
 import GooglePlaces
+import IDMPhotoBrowser
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating {
+class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, IDMPhotoBrowserDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     var searchController: UISearchController!
@@ -49,6 +50,35 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedCell
         cell.post = posts[indexPath.row]
+        cell.handleFeedImageTapped = { (imageView, post) in
+            
+            let image = imageView.image!
+
+            // Create an array to store IDMPhoto objects
+            var photos: [IDMPhoto] = []
+    
+            var photo: IDMPhoto
+    
+
+            photo = IDMPhoto.init(image: image)
+            photo.caption = post.message
+            photos.append(photo)
+    
+            // Create and setup browser
+//            let browser: IDMPhotoBrowser = IDMPhotoBrowser.init(photos: photos, animatedFrom: imageView)
+            let browser: IDMPhotoBrowser = IDMPhotoBrowser.init(photos: photos)
+            browser.delegate = self
+            browser.displayActionButton = false
+            browser.displayArrowButton = false
+            browser.displayCounterLabel = true
+            browser.usePopAnimation = true
+            browser.dismissOnTouch = true
+//            browser.scaleImage = image
+    
+            // Show
+            self.present(browser, animated: true, completion: nil)
+            
+        }
 
         return cell
     }
