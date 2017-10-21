@@ -364,8 +364,8 @@
 		972E4C5AD62BFF7DAEAF05CAFFF71240 /* FLEXArgumentInputColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 365AF2A940014593A47C19CF2D153280 /* FLEXArgumentInputColorView.m */; };
 		9774125DE0B0459C52C3E5788A25503E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30DCED9746D44A4F723AEAAAF21C96FB /* UIKit.framework */; };
 		97EFD7FC37B25E244FF5529DD7213C0B /* POPAnimation.mm in Sources */ = {isa = PBXBuildFile; fileRef = AB9C6923A047326F10CFAABDDCD7185F /* POPAnimation.mm */; };
-		981AD1F91F9B2ADE00E74338 /* FirebaseDatabase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF492CE25EAF799D778BBE0E0B6ED725 /* FirebaseDatabase.framework */; };
 		984C2161C4AFEB85B719808D24D0D6EA /* FLEXTableLeftCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 412F5118F188012AF367642E9BE9285F /* FLEXTableLeftCell.m */; };
+		98805BE41F9BF48B00AF8340 /* FirebaseDatabase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF492CE25EAF799D778BBE0E0B6ED725 /* FirebaseDatabase.framework */; };
 		98FDF17155E73F4AF2A31F62CE6897F7 /* MagicalRecordDeprecationMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = E0EB25C2D6140596FAA6C377B5F0EA29 /* MagicalRecordDeprecationMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		99762194FDE835E1B93B7A7B50622C64 /* FLEXResources.h in Headers */ = {isa = PBXBuildFile; fileRef = 2640DABF899E1D906C6516092A4CAA04 /* FLEXResources.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		99F991C96E36F5BF066D7A2BD58C5460 /* FLEXGlobalsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 39FE6A936663E93CD6E4CE4F61E9E93A /* FLEXGlobalsTableViewController.m */; };
@@ -1541,7 +1541,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				981AD1F91F9B2ADE00E74338 /* FirebaseDatabase.framework in Frameworks */,
+				98805BE41F9BF48B00AF8340 /* FirebaseDatabase.framework in Frameworks */,
 				72FB0A0B7CC16F19E94D1790A4C4FBCC /* CoreLocation.framework in Frameworks */,
 				25879CDBE7CF862BA00EEB95CD33F310 /* Foundation.framework in Frameworks */,
 				36897F1A564529FA0F6EDC6E56978E5A /* GoogleToolboxForMac.framework in Frameworks */,
