@@ -15,10 +15,14 @@ enum ViewType {
     case Map
 }
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating {
+class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var mapView: UIView!
+    
+    @IBOutlet var leftBarButton: UIBarButtonItem!
+    @IBOutlet var rightBarButton: UIBarButtonItem!
+    
     
     var currentViewType = ViewType.List
     
@@ -35,7 +39,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     let DEFAULT_LONGITUDE = -121.8825989
     var postLocations: [CLLocationCoordinate2D] = []
     
-    var searchController: UISearchController!
+    var resultsViewController: GMSAutocompleteResultsViewController?
+    var searchController: UISearchController?
+    var resultView: UITextView?
     let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
@@ -46,67 +52,23 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         initMapView()
         
         initRefreshControl()
+        initSearchBar()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
-    /** MARK: - Table View **/
-    func initTableView(){
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.estimatedRowHeight = 100
-        tableView.rowHeight = UITableViewAutomaticDimension
-    }
-    
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts.count
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedCell
-        cell.post = posts[indexPath.row]
-
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: false)
-    }
-
-    func initSearchBar() {
-        searchController = UISearchController(searchResultsController: nil)
-        searchController.searchResultsUpdater = self
-        
-        searchController.dimsBackgroundDuringPresentation = false
-        searchController.hidesNavigationBarDuringPresentation = false
-        
-        searchController.searchBar.sizeToFit()
-        view.addSubview(searchController.searchBar)
-        
-    }
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        if let keywords = searchController.searchBar.text {
-           
-            tableView.reloadData()
-        }
-    }
-    
+    /** MARK: - Get Permission and Data **/
     func initLocation() {
         locationManager = CLLocationManager()
         if (CLLocationManager.locationServicesEnabled()) {
-            locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.distanceFilter = 50
+            locationManager.delegate = self
+
             if ((UIDevice.current.systemVersion as NSString).floatValue >= 8) {
                 locationManager.requestWhenInUseAuthorization()
             }
@@ -127,6 +89,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
 
+    /** MARK: - Switch UI View **/
     @IBAction func onSwitchView(_ sender: Any) {
         switch currentViewType {
             case ViewType.List:
@@ -142,15 +105,39 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    /** MARK: - Table View **/
+    func initTableView(){
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.estimatedRowHeight = 100
+        tableView.rowHeight = UITableViewAutomaticDimension
+    }
+    
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return posts.count
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedCell
+        cell.post = posts[indexPath.row]
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+    }
+    
+    
+    
     /** MARK: - Map View **/
     func initMapView(){
-        locationManager = CLLocationManager()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestAlwaysAuthorization()
-        locationManager.distanceFilter = 50
-        locationManager.startUpdatingLocation()
-        locationManager.delegate = self
-        
         placesClient = GMSPlacesClient.shared()
         
         let camera = GMSCameraPosition.camera(withLatitude: DEFAULT_LATITUDE,
@@ -210,6 +197,26 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         return (Double(arc4random()) / 0xFFFFFFFF) * (max - min) + min
     }
     
+    
+    /** MARK: - Search Bar **/
+    func initSearchBar() {
+        resultsViewController = GMSAutocompleteResultsViewController()
+        resultsViewController?.delegate = self
+        
+        searchController = UISearchController(searchResultsController: resultsViewController)
+        searchController?.searchResultsUpdater = resultsViewController
+        
+        searchController?.searchBar.sizeToFit()
+        navigationItem.titleView = searchController?.searchBar
+        searchController?.searchBar.delegate = self
+        
+        definesPresentationContext = true
+        
+        searchController?.hidesNavigationBarDuringPresentation = false
+    }
+    
+    
+    
     /** MARK: - Pull and Refresh **/
     func initRefreshControl() {
         refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
@@ -226,6 +233,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         PostService.sharedInstance.search(center: location, radius: radius, success: { (posts: [Post]) in
             self.posts = posts.reversed()
             self.tableView.reloadData()
+            self.showPostsInMapView()
             self.refreshControl.endRefreshing()
         }, failure: { (error: Error) in
             self.showError(error: error)
@@ -242,6 +250,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 }
 
+
 extension HomeViewController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
         let infoWindow = MapInfoWindow(frame: CGRect(x:0,y:0,width:200,height:65))
@@ -252,7 +261,6 @@ extension HomeViewController: GMSMapViewDelegate {
     }
     
 }
-
 
 extension HomeViewController: CLLocationManagerDelegate {
     
@@ -294,6 +302,55 @@ extension HomeViewController: CLLocationManagerDelegate {
         if ((error) != nil) {
             print(error)
         }
+    }
+}
+
+extension HomeViewController: UISearchBarDelegate {
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        self.navigationItem.setLeftBarButton(nil, animated: true)
+        self.navigationItem.setRightBarButton(nil, animated: true)
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
+        self.navigationItem.setRightBarButton(rightBarButton, animated: true)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
+        self.navigationItem.setRightBarButton(rightBarButton, animated: true)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.navigationItem.setLeftBarButton(nil, animated: true)
+        self.navigationItem.setRightBarButton(nil, animated: true)
+    }
+}
+
+// Handle the user's selection.
+extension HomeViewController: GMSAutocompleteResultsViewControllerDelegate {
+    func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
+                           didAutocompleteWith place: GMSPlace) {
+        searchController?.isActive = false
+        // Do something with the selected place.
+        
+        let locationSearched = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
+        getPost(location: locationSearched, radius: currentRadius)
+    }
+    
+    func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
+                           didFailAutocompleteWithError error: Error){
+        // TODO: handle the error.
+        print("Error: ", error.localizedDescription)
+    }
+    
+    // Turn the network activity indicator on and off again.
+    func didRequestAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = true
+    }
+    
+    func didUpdateAutocompletePredictions(_ viewController: GMSAutocompleteViewController) {
+        UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
 }
 

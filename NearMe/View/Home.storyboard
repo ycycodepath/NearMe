@@ -181,7 +181,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="leftBarButton" destination="d7W-F5-6ku" id="muF-5B-Rqh"/>
                         <outlet property="mapView" destination="f28-tC-E3y" id="MUk-3E-9Qe"/>
+                        <outlet property="rightBarButton" destination="h1v-35-Xfy" id="YAg-gU-J4d"/>
                         <outlet property="tableView" destination="Q6a-Fs-2b2" id="vdX-P7-K1J"/>
                     </connections>
                 </viewController>
