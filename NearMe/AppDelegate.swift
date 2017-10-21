@@ -32,10 +32,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = homeNavigationController
         window?.makeKeyAndVisible()
         
-//        let storybard = UIStoryboard(name: "Settings", bundle: nil)
-//        let settingsNavigationController = storybard.instantiateViewController(withIdentifier: "SettingsNavigationController")
-//        window?.rootViewController = settingsNavigationController
-//        window?.makeKeyAndVisible()
         return true
     }
 

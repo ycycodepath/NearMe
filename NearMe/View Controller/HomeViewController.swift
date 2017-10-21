@@ -137,6 +137,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.present(alert, animated: true, completion: nil)
     }
 
+    @IBAction func onSettings(_ sender: Any) {
+        let storybard = UIStoryboard(name: "Settings", bundle: nil)
+        let settingsNavigationController = storybard.instantiateViewController(withIdentifier: "SettingsNavigationController")
+        self.present(settingsNavigationController, animated: true, completion: nil)
+
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.

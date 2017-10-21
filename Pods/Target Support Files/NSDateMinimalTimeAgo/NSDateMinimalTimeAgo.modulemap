@@ -1,6 +1,0 @@
-framework module NSDateMinimalTimeAgo {
-  umbrella header "NSDateMinimalTimeAgo-umbrella.h"
-
-  export *
-  module * { export * }
-}

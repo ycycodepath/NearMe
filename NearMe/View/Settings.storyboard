@@ -80,7 +80,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="fHV-SV-Mvj">
                         <barButtonItem key="leftBarButtonItem" title="Cancel" id="0W0-Ru-L70"/>
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="nkQ-cN-xR7"/>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="nkQ-cN-xR7">
+                            <connections>
+                                <action selector="onDismiss:" destination="LkY-DA-QOn" id="F3e-wY-Ixy"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="U7O-l6-bBL" id="6n9-h7-ELr"/>

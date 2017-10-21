@@ -20,18 +20,36 @@ typealias SettingsTable = [(sectionId: SettingsSectionIdentifier, settings: [[St
 struct Settings {
     static let milesPerKiloMeter = 0.621371
     
-    static let distanceChoices = [["name":"Auto", "code":"0"],
+    static let distanceChoices = [["name":"0.1 miles", "code":"\(0.1/milesPerKiloMeter)"],
                                   ["name":"0.5 miles", "code":"\(0.5/milesPerKiloMeter)"],
                                   ["name":"1 miles", "code":"\(1/milesPerKiloMeter)"],
                                   ["name":"5 miles", "code":"\(5/milesPerKiloMeter)"],
-                                  ["name":"10 miles", "code":"\(10/milesPerKiloMeter)"],
-                                  ["name":"25 miles", "code":"\(25/milesPerKiloMeter)"]]
+                                  ["name":"10 miles", "code":"\(10/milesPerKiloMeter)"]]
     
     static let sortByChoices = [["name":"Most Recent", "code":"0"],
                                 ["name":"Distance", "code":"1"],
                                 ["name":"Most Liked", "code":"2"]]
-
     
-    var sortBy: SortMode?
-    var distance: Double?
+    static var globalSettings = Settings(sortByIndex: 0, distanceIndex: 0)
+    
+    var sortByIndex: Int
+    var distanceIndex: Int
+    
+    var sortBy: SortMode {
+        var ret:SortMode?
+        if let strSort = Settings.sortByChoices[sortByIndex]["code"], let intSort = Int(strSort) {
+            ret = SortMode(rawValue: intSort)
+        }
+        
+        return ret ?? SortMode.mostRecent
+    }
+    
+    var distance: Double {
+        var ret:Double?
+        if let strDistance = Settings.distanceChoices[distanceIndex]["code"] {
+            ret = Double(strDistance)
+        }
+        
+        return ret ?? 0.1/Settings.milesPerKiloMeter
+    }
 }

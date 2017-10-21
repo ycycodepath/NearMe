@@ -20,19 +20,17 @@ class SettingsViewController: UIViewController {
     
     var tableData = SettingsTable()
     //index is section id, content is selected row indices
-    var selections: [Set<Int>] = []
     
     let HeaderViewIdentifier = "TableViewHeaderView"
     
     private func initData() {
         tableData.removeAll()
-        selections.removeAll()
         
-        tableData.append((.Distance, [Settings.distanceChoices[0]]))
-        selections.append([0])
+        let distanceIndex = Settings.globalSettings.distanceIndex
+        let sortByChoicesIndex = Settings.globalSettings.sortByIndex
         
-        tableData.append((.SortBy, [Settings.sortByChoices[0]]))
-        selections.append([0])
+        tableData.append((.Distance, [Settings.distanceChoices[distanceIndex]]))
+        tableData.append((.SortBy, [Settings.sortByChoices[sortByChoicesIndex]]))
     }
 
     override func viewDidLoad() {
@@ -51,6 +49,10 @@ class SettingsViewController: UIViewController {
         tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: HeaderViewIdentifier)
     }
 
+    @IBAction func onDismiss(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -125,8 +127,6 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
                 
                 cell?.accessoryType = UITableViewCellAccessoryType.none
             }
-
-            selections[indexPath.section].removeAll()
             
             tableView.cellForRow(at: indexPath)?.accessoryType = UITableViewCellAccessoryType.checkmark
             
@@ -134,7 +134,11 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             tableData[indexPath.section].settings.removeAll()
             tableData[indexPath.section].settings.append(selectedCellData)
             
-            selections[indexPath.section].insert(indexPath.row)
+            if tableData[indexPath.section].0 == .Distance {
+                Settings.globalSettings.distanceIndex = indexPath.row
+            } else if tableData[indexPath.section].0 == .SortBy {
+                Settings.globalSettings.sortByIndex = indexPath.row
+            }
         }
         
         tableView.reloadData()
@@ -150,7 +154,14 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             if tableData[indexPath.section].settings.count == 1 {
                 cell.accessoryType = UITableViewCellAccessoryType.detailButton
             } else if tableData[indexPath.section].settings.count > 1 {
-                cell.accessoryType = selections[indexPath.section].contains(indexPath.row) ?UITableViewCellAccessoryType.checkmark : UITableViewCellAccessoryType.none
+                var selected = false;
+                if tableData[indexPath.section].0 == .Distance {
+                    selected = Settings.globalSettings.distanceIndex == indexPath.row
+                } else if tableData[indexPath.section].0 == .SortBy {
+                    selected = Settings.globalSettings.sortByIndex == indexPath.row
+                }
+                
+                cell.accessoryType = selected ? UITableViewCellAccessoryType.checkmark : UITableViewCellAccessoryType.none
             }
             
             return cell
