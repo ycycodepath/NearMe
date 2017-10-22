@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		3291DA477AF7DE020F5FA71D /* Pods_NearMeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BE4AC65EA2C26AE4CC0D6D5 /* Pods_NearMeTests.framework */; };
 		38F15ECD1F9410E70058C5E5 /* Home.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 38F15ECC1F9410E70058C5E5 /* Home.storyboard */; };
-		38F15ED11F9411050058C5E5 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F15ECF1F9411050058C5E5 /* MapViewController.swift */; };
 		38F15ED21F9411050058C5E5 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F15ED01F9411050058C5E5 /* HomeViewController.swift */; };
 		38F15ED41F9411460058C5E5 /* FeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38F15ED31F9411460058C5E5 /* FeedCell.swift */; };
 		602E13011F8DB33700E1C9EE /* ComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602E13001F8DB33700E1C9EE /* ComposeViewController.swift */; };
@@ -24,6 +23,7 @@
 		9817E0801F8EFB2900D579A7 /* GeoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9817E07F1F8EFB2900D579A7 /* GeoService.swift */; };
 		9827821D1F8F4242008EEBD4 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9827821C1F8F4242008EEBD4 /* Location.swift */; };
 		9827821E1F8F50A1008EEBD4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 98399A9B1F8C989800F8E67C /* GoogleService-Info.plist */; };
+		983ADD7E1F9C079900ED0580 /* MapInfoWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983ADD7D1F9C079900ED0580 /* MapInfoWindow.swift */; };
 		985004F21F8DDF6D0016FBB8 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985004F11F8DDF6D0016FBB8 /* Post.swift */; };
 		985004F61F8DE4440016FBB8 /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985004F51F8DE4440016FBB8 /* ImageService.swift */; };
 		985004F81F8DE7840016FBB8 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 985004F71F8DE7840016FBB8 /* PostService.swift */; };
@@ -57,7 +57,6 @@
 		268B40A1C9F18623DD508DA0 /* Pods-NearMeUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearMeUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NearMeUITests/Pods-NearMeUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		319BB219EAA2E030C4A7435D /* Pods-NearMeUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearMeUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-NearMeUITests/Pods-NearMeUITests.release.xcconfig"; sourceTree = "<group>"; };
 		38F15ECC1F9410E70058C5E5 /* Home.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Home.storyboard; sourceTree = "<group>"; };
-		38F15ECF1F9411050058C5E5 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		38F15ED01F9411050058C5E5 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		38F15ED31F9411460058C5E5 /* FeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedCell.swift; sourceTree = "<group>"; };
 		4BE4AC65EA2C26AE4CC0D6D5 /* Pods_NearMeTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NearMeTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -80,6 +79,8 @@
 		9817E07F1F8EFB2900D579A7 /* GeoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoService.swift; sourceTree = "<group>"; };
 		9827821C1F8F4242008EEBD4 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		98399A9B1F8C989800F8E67C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		983ADD7C1F9C079900ED0580 /* MapInfoWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = MapInfoWindow.xib; path = /Users/ye/XcodeProjects/NearMe/NearMe/View/MapInfoWindow.xib; sourceTree = "<absolute>"; };
+		983ADD7D1F9C079900ED0580 /* MapInfoWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapInfoWindow.swift; path = /Users/ye/XcodeProjects/NearMe/NearMe/View/MapInfoWindow.swift; sourceTree = "<absolute>"; };
 		985004F11F8DDF6D0016FBB8 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		985004F51F8DE4440016FBB8 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		985004F71F8DE7840016FBB8 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
@@ -124,6 +125,8 @@
 			children = (
 				38F15ED31F9411460058C5E5 /* FeedCell.swift */,
 				38F15ECC1F9410E70058C5E5 /* Home.storyboard */,
+				983ADD7D1F9C079900ED0580 /* MapInfoWindow.swift */,
+				983ADD7C1F9C079900ED0580 /* MapInfoWindow.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -131,7 +134,6 @@
 		38F15ECE1F9411050058C5E5 /* View Controller */ = {
 			isa = PBXGroup;
 			children = (
-				38F15ECF1F9411050058C5E5 /* MapViewController.swift */,
 				38F15ED01F9411050058C5E5 /* HomeViewController.swift */,
 			);
 			path = "View Controller";
@@ -587,9 +589,9 @@
 				985004F81F8DE7840016FBB8 /* PostService.swift in Sources */,
 				98A1A0D21F99E642009B9971 /* LikeService.swift in Sources */,
 				9827821D1F8F4242008EEBD4 /* Location.swift in Sources */,
-				38F15ED11F9411050058C5E5 /* MapViewController.swift in Sources */,
 				9817E0801F8EFB2900D579A7 /* GeoService.swift in Sources */,
 				38F15ED41F9411460058C5E5 /* FeedCell.swift in Sources */,
+				983ADD7E1F9C079900ED0580 /* MapInfoWindow.swift in Sources */,
 				985004F61F8DE4440016FBB8 /* ImageService.swift in Sources */,
 				985004F21F8DDF6D0016FBB8 /* Post.swift in Sources */,
 				38F15ED21F9411050058C5E5 /* HomeViewController.swift in Sources */,

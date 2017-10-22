@@ -185,29 +185,22 @@ class PostService {
                 post["likes"] = likeCount as AnyObject
                 currentData.value = post
 
-//                do  {
-//                    let json = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
-//                    print(json)
-//                    var post = try JSONDecoder().decode(Post.self, from: json)
-//                    post.distance = postGeo.distance
-//
-//                    fulfill(post)
-//
-//                } catch let jsonError {
-//                    reject(jsonError)
-//                }
                 return TransactionResult.success(withValue: currentData)
             }
             return TransactionResult.success(withValue: currentData)
 
         }) { (error, committed, snapshot) in
-            if let error = error {
-                failure(error)
+            if error != nil || !committed {
+                failure(error!)
+                return
+            }
+            
+            if committed {
+                success()
                 return
             }
         }
         
-        success()
         
     }
     

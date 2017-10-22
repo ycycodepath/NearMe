@@ -32,12 +32,13 @@ class FeedCell: UITableViewCell {
     var post: Post! {
         didSet{
             if let imageUrlStr = post.imageUrl, let imageUrl = URL(string: imageUrlStr) {
+                
                 feedImageView.setImageWith(imageUrl)
                 feedImageView.isHidden = false
                 
-                imageHeightConstraint.constant = 182
-//                feedImageView.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height * 0.5)
+                imageHeightConstraint.constant = self.frame.size.width
                 self.contentView.layoutIfNeeded()
+                
             } else {
                 print("no feedImageView")
                 feedImageView.isHidden = true
@@ -59,10 +60,6 @@ class FeedCell: UITableViewCell {
             likeCountLabel.text = "\(post.likes ?? 0)"
             
             avatarView.image = UIImage(named: "user1")
-            avatarView.clipsToBounds = true
-            avatarView.layer.cornerRadius = 30
-            avatarView.layer.borderWidth = 0.5
-
             
             screenNameLabel.text = post.screen_name ?? DEFAULT_SCREEN_NAME
             if let distance = post.distance {
@@ -80,6 +77,12 @@ class FeedCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
+        avatarView.clipsToBounds = true
+        avatarView.layer.cornerRadius = avatarView.frame.height / 2
+        avatarView.layer.borderColor = UIColor(white: 0.7, alpha: 0.8).cgColor
+        avatarView.layer.borderWidth = 1
+
+        
         let feedImgTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(feedImageTapped(tapGestureRecognizer:)))
         feedImageView.isUserInteractionEnabled = true
         feedImageView.addGestureRecognizer(feedImgTapGestureRecognizer)
@@ -106,7 +109,6 @@ class FeedCell: UITableViewCell {
     
     @objc func feedImageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         let tappedImageView = tapGestureRecognizer.view as! UIImageView
-//        let image = tappedImageView.image!
         handleFeedImageTapped(tappedImageView, post)
     }
     

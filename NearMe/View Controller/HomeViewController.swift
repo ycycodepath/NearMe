@@ -48,12 +48,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
        
+        
         initLocation()
         initTableView()
         initMapView()
         
         initRefreshControl()
         initSearchBar()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -146,11 +148,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             let browser: IDMPhotoBrowser = IDMPhotoBrowser.init(photos: photos)
             browser.delegate = self
             browser.displayActionButton = false
+            browser.displayDoneButton = false
             browser.displayArrowButton = false
             browser.displayCounterLabel = true
             browser.usePopAnimation = true
             browser.dismissOnTouch = true
-//            browser.scaleImage = image
     
             // Show
             self.present(browser, animated: true, completion: nil)
@@ -161,8 +163,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             LikeService.sharedInstance.syncCoreData(postId: post.id, success: { (liked) in
                 
+                //update like count label
+                if liked {
+                    cell.post.likes? += 1
+                } else {
+                    cell.post.likes? -= 1
+                }
+                
+                cell.likeCountLabel.text = "\(cell.post.likes ?? 0)"
+                
+                //update firebase db
                 PostService.sharedInstance.updateLikeCount(postId: post.id, liked: liked, success: {
-                    print ("Success")
+                    
                 }, failure: { (error) in
                     print(error.localizedDescription)
                 })
@@ -245,6 +257,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     /** MARK: - Search Bar **/
     func initSearchBar() {
+
         resultsViewController = GMSAutocompleteResultsViewController()
         resultsViewController?.delegate = self
         
@@ -311,9 +324,10 @@ extension HomeViewController: CLLocationManagerDelegate {
     
     // Handle incoming location events.
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+
         if let location = locations.last {
             self.currentLocation = location
-            getPost(location: self.currentLocation!, radius: currentRadius)
+            getPost(location: location, radius: currentRadius)
             
             let camera = GMSCameraPosition.camera(withLatitude:location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: zoomLevel)
             if mapView.isHidden {
