@@ -31,7 +31,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var currentLocation: CLLocation?
     var searchLocation: CLLocation!
     var searchPlace: GMSPlace?
-    var currentRadius = 5.00
+
     let defaultLocation = CLLocation(latitude:37.3743507,longitude:-121.8825989)
     let CURRENT_LOCATION_PLACEHOLDER = "Current Location"
     
@@ -81,7 +81,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     func getPost(location: CLLocation, radius: Double) -> Void {
         PostService.sharedInstance.search(center: location, radius: radius, success: { (posts: [Post]) in
-            self.posts = posts.reversed()
+            self.posts = posts.sorted(by: self.sortFunc)
             self.tableView.reloadData()
             self.showPostsInMapView()
             self.getSearchBarPlaceholder()
@@ -262,13 +262,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     @objc func refreshControlAction(_ refreshControl: UIRefreshControl) {
-         refreshPost(location: self.currentLocation!, radius: currentRadius)
+         refreshPost(location: self.currentLocation!, radius: Settings.globalSettings.distance)
     }
     
     
     func refreshPost(location: CLLocation, radius: Double) -> Void {
         PostService.sharedInstance.search(center: location, radius: radius, success: { (posts: [Post]) in
-            self.posts = posts.reversed()
+            self.posts = posts.sorted(by: self.sortFunc)
             self.tableView.reloadData()
             self.showPostsInMapView()
             self.refreshControl.endRefreshing()
@@ -277,6 +277,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         })
     }
     
+    private func sortFunc(left: Post, right: Post) -> Bool {
+        switch Settings.globalSettings.sortBy {
+        case .mostRecent:
+            return (left.creationTimestamp ?? -1) > (right.creationTimestamp ?? -1)
+        case .distance:
+            return (Double(left.distance ?? "") ?? -1) < (Double(right.distance ?? "") ?? -1)
+        case .mostLiked:
+            return (left.likes ?? -1) > (right.likes ?? -1)
+        }
+    }
     
     /** MARK: - Error window **/
     func showError(error: Error) {
@@ -325,7 +335,7 @@ extension HomeViewController: CLLocationManagerDelegate {
             if searchLocation == nil {
                 searchLocation = currentLocation
             }
-            getPost(location: searchLocation!, radius: currentRadius)
+            getPost(location: searchLocation!, radius: Settings.globalSettings.distance)
         }
         
     }
@@ -379,7 +389,7 @@ extension HomeViewController: GMSAutocompleteResultsViewControllerDelegate {
         searchController?.isActive = false
         searchPlace = place
         searchLocation = CLLocation(latitude: searchPlace!.coordinate.latitude, longitude: searchPlace!.coordinate.longitude)
-        getPost(location: searchLocation!, radius: currentRadius)
+        getPost(location: searchLocation!, radius: Settings.globalSettings.distance)
     }
     
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController,

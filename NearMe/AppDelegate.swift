@@ -25,12 +25,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         SwiftyBeaver.addDestination(console)
         
         GMSPlacesClient.provideAPIKey("AIzaSyBPZgNeZOx1PSni5OalI1zYo56TTWcLTKE")
-        GMSServices.provideAPIKey("AIzaSyBPZgNeZOx1PSni5OalI1zYo56TTWcLTKE")
+        GMSServices.provideAPIKey("AIzaSyDLpnvclx1PpHuluGw8GBZ2eCYd3cAWMII")
         
         let storybard = UIStoryboard(name: "Home", bundle: nil)
         let homeNavigationController = storybard.instantiateViewController(withIdentifier: "HomeNavigationController")
         window?.rootViewController = homeNavigationController
         window?.makeKeyAndVisible()
+        
         return true
     }
 
