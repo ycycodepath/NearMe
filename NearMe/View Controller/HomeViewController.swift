@@ -251,7 +251,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @objc func chooseCurrentLocation() {
         searchController?.isActive = false
         searchLocation = currentLocation
-        getPost(location: searchLocation!, radius: currentRadius)
+        getPost(location: searchLocation!, radius: Settings.globalSettings.distance)
     }
     
     /** MARK: - Pull and Refresh **/
@@ -319,8 +319,8 @@ extension HomeViewController: GMSMapViewDelegate {
         } else {
             infoWindow.postImageHeightConstraint.constant = 0
         }
-
         infoWindow.frame.size.height =  infoWindow.totalHeightConstraint + infoWindow.postImageHeightConstraint.constant + infoWindow.messageLabel.frame.height
+        infoWindow.contentView.layoutIfNeeded()
         return infoWindow
     }
     

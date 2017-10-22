@@ -21,7 +21,7 @@ class MapInfoWindow: UIView {
     @IBOutlet weak var avatarHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var postImageTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var postImageHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var messageLabelHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var messageLabelTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var messageLabelBottomConstraint: NSLayoutConstraint!
     
     private var postImgAspect: CGFloat = 0
@@ -44,12 +44,15 @@ class MapInfoWindow: UIView {
         avatarImageView.layer.cornerRadius = 20
         avatarImageView.layer.borderWidth = 0.5
     
+        postImageView.clipsToBounds = true
+        postImageView.layer.cornerRadius = 8
+        
         contentView.clipsToBounds = true
         contentView.layer.cornerRadius = 10
         contentView.frame = bounds
         addSubview(contentView)
         
-        totalHeightConstraint = avatarTopConstraint.constant + avatarHeightConstraint.constant + postImageTopConstraint.constant + postImageHeightConstraint.constant + messageLabelHeightConstraint.constant + messageLabelBottomConstraint.constant
+        totalHeightConstraint = avatarTopConstraint.constant + avatarHeightConstraint.constant + postImageTopConstraint.constant + messageLabelTopConstraint.constant + messageLabelBottomConstraint.constant
     }
     
     var screenName: String? {
@@ -62,7 +65,6 @@ class MapInfoWindow: UIView {
         set {
             messageLabel.text = newValue
             messageLabel.sizeToFit()
-            contentView.layoutIfNeeded()
         }
     }
     

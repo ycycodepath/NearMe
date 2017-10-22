@@ -18,7 +18,7 @@
                 <outlet property="likeCountLabel" destination="gX8-nQ-Qr2" id="1TF-Pp-TU5"/>
                 <outlet property="messageLabel" destination="YwS-OC-FWJ" id="cmu-SO-e65"/>
                 <outlet property="messageLabelBottomConstraint" destination="7Uj-Am-bgg" id="u0Q-qw-sqz"/>
-                <outlet property="messageLabelHeightConstraint" destination="lIq-ag-125" id="mWn-ba-rWP"/>
+                <outlet property="messageLabelTopConstraint" destination="lIq-ag-125" id="SO0-9g-20n"/>
                 <outlet property="postImageHeightConstraint" destination="06P-kq-Vke" id="SIQ-AY-zy8"/>
                 <outlet property="postImageTopConstraint" destination="i0T-il-N4e" id="EvU-zj-FCe"/>
                 <outlet property="postImageView" destination="0Mq-HB-KCW" id="owL-al-r2q"/>
@@ -31,13 +31,13 @@
             <rect key="frame" x="0.0" y="0.0" width="250" height="240"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" ambiguous="YES" text="DemoUser" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hKY-h3-5gB" userLabel="ScreenName">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" text="DemoUser" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hKY-h3-5gB" userLabel="ScreenName">
                     <rect key="frame" x="56" y="8" width="80" height="19.5"/>
                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="16"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" insetsLayoutMarginsFromSafeArea="NO" image="liked" translatesAutoresizingMaskIntoConstraints="NO" id="Tou-JT-s3A">
+                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="liked" translatesAutoresizingMaskIntoConstraints="NO" id="Tou-JT-s3A">
                     <rect key="frame" x="188" y="3" width="29" height="29"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="121" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gX8-nQ-Qr2">
@@ -46,7 +46,7 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="15h 47m ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iwa-JS-Myh">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="15h 47m ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iwa-JS-Myh">
                     <rect key="frame" x="56" y="30" width="89" height="18"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <color key="textColor" red="0.4756349325" green="0.47564673419999998" blue="0.47564041610000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -59,13 +59,13 @@
                         <constraint firstAttribute="width" constant="40" id="dDU-M8-Og3"/>
                     </constraints>
                 </imageView>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Mq-HB-KCW">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0Mq-HB-KCW">
                     <rect key="frame" x="8" y="52" width="234" height="0.0"/>
                     <constraints>
                         <constraint firstAttribute="height" id="06P-kq-Vke"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YwS-OC-FWJ" userLabel="Message">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="252" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YwS-OC-FWJ" userLabel="Message">
                     <rect key="frame" x="16" y="56" width="218" height="179"/>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <nil key="textColor"/>
@@ -84,7 +84,7 @@
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="gX8-nQ-Qr2" secondAttribute="trailing" constant="8" id="cF2-TZ-Wvc"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="0Mq-HB-KCW" secondAttribute="trailing" constant="8" id="cpr-Cz-6FK"/>
                 <constraint firstItem="Iwa-JS-Myh" firstAttribute="top" secondItem="hKY-h3-5gB" secondAttribute="bottom" constant="2" id="feW-RD-pwp"/>
-                <constraint firstItem="0Mq-HB-KCW" firstAttribute="top" secondItem="Iwa-JS-Myh" secondAttribute="bottom" constant="4" id="i0T-il-N4e"/>
+                <constraint firstItem="0Mq-HB-KCW" firstAttribute="top" secondItem="ddz-YJ-Ewn" secondAttribute="bottom" constant="4" id="i0T-il-N4e"/>
                 <constraint firstItem="hKY-h3-5gB" firstAttribute="leading" secondItem="ddz-YJ-Ewn" secondAttribute="trailing" constant="8" id="iil-vf-Nnb"/>
                 <constraint firstItem="0Mq-HB-KCW" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="8" id="l0L-Zw-5ZC"/>
                 <constraint firstItem="YwS-OC-FWJ" firstAttribute="top" secondItem="0Mq-HB-KCW" secondAttribute="bottom" constant="4" id="lIq-ag-125"/>
