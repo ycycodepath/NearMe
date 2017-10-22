@@ -165,6 +165,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             state_marker.position = CLLocationCoordinate2D(latitude: post_location.latitude, longitude: post_location.longitude)
             state_marker.title = post.screen_name
             state_marker.snippet = post.message
+            state_marker.userData = post
             state_marker.map = mapContentView
         }
     }
@@ -289,10 +290,27 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
 extension HomeViewController: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
-        let infoWindow = MapInfoWindow(frame: CGRect(x:0,y:0,width:200,height:65))
+        let infoWindow = MapInfoWindow(frame: CGRect(x:0,y:0,width:view.frame.width*2/3,height:400))
         infoWindow.screenName = marker.title
         infoWindow.message = marker.snippet
         
+        let map_post = marker.userData as! Post
+        infoWindow.likeCount = "\(map_post.likes ?? 0)"
+        
+        if let createTime = map_post.creationTimestamp {
+            infoWindow.timeStamp = FeedCell.convertEpochTimeStamp(timestamp: createTime)
+        }
+        
+        // TODO: let user picks up avatar image
+        infoWindow.avatar = UIImage(named: "user1")
+        
+        if let imageUrlStr = map_post.imageUrl, let imageUrl = URL(string: imageUrlStr), let data = try? Data(contentsOf: imageUrl) {
+            infoWindow.postImage =  UIImage(data: data)
+        } else {
+            infoWindow.postImageHeightConstraint.constant = 0
+        }
+
+        infoWindow.frame.size.height =  infoWindow.totalHeightConstraint + infoWindow.postImageHeightConstraint.constant + infoWindow.messageLabel.frame.height
         return infoWindow
     }
     
