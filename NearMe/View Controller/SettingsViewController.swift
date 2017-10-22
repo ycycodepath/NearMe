@@ -44,7 +44,7 @@ class SettingsViewController: UIViewController {
         tableView.estimatedRowHeight = 40
         tableView.rowHeight = UITableViewAutomaticDimension
         
-        tableView.backgroundColor = UIColor.white
+        //tableView.backgroundColor = UIColor.white
         
         tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: HeaderViewIdentifier)
     }

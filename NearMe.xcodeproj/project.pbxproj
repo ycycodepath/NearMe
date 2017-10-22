@@ -15,6 +15,8 @@
 		6017343E1F970355009B757E /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6017343D1F970355009B757E /* SettingsViewController.swift */; };
 		601734401F970958009B757E /* SwitchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6017343F1F970958009B757E /* SwitchCell.swift */; };
 		601734421F970CF6009B757E /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601734411F970CF6009B757E /* Settings.swift */; };
+		601734601F9B31CE009B757E /* MapInfoWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6017345F1F9B31CE009B757E /* MapInfoWindow.swift */; };
+		601734621F9B31D6009B757E /* MapInfoWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 601734611F9B31D6009B757E /* MapInfoWindow.xib */; };
 		602E13011F8DB33700E1C9EE /* ComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602E13001F8DB33700E1C9EE /* ComposeViewController.swift */; };
 		6059B9831F87FDA900280D4E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6059B9821F87FDA900280D4E /* AppDelegate.swift */; };
 		6059B9881F87FDA900280D4E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6059B9861F87FDA900280D4E /* Main.storyboard */; };
@@ -77,6 +79,8 @@
 		601734571F992447009B757E /* libicucore.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libicucore.tbd; path = usr/lib/libicucore.tbd; sourceTree = SDKROOT; };
 		601734591F992451009B757E /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6017345B1F99245B009B757E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		6017345F1F9B31CE009B757E /* MapInfoWindow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapInfoWindow.swift; sourceTree = "<group>"; };
+		601734611F9B31D6009B757E /* MapInfoWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapInfoWindow.xib; sourceTree = "<group>"; };
 		602E13001F8DB33700E1C9EE /* ComposeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposeViewController.swift; sourceTree = "<group>"; };
 		6059B97F1F87FDA900280D4E /* NearMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NearMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6059B9821F87FDA900280D4E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -136,6 +140,8 @@
 		38F15ECB1F9410E70058C5E5 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				601734611F9B31D6009B757E /* MapInfoWindow.xib */,
+				6017345F1F9B31CE009B757E /* MapInfoWindow.swift */,
 				38F15ED31F9411460058C5E5 /* FeedCell.swift */,
 				38F15ECC1F9410E70058C5E5 /* Home.storyboard */,
 				6017343B1F970310009B757E /* Settings.storyboard */,
@@ -397,6 +403,7 @@
 				9827821E1F8F50A1008EEBD4 /* GoogleService-Info.plist in Resources */,
 				6059B9881F87FDA900280D4E /* Main.storyboard in Resources */,
 				38F15ECD1F9410E70058C5E5 /* Home.storyboard in Resources */,
+				601734621F9B31D6009B757E /* MapInfoWindow.xib in Resources */,
 				60BD4B791F8DF1C2005A1FD8 /* Assets.xcassets in Resources */,
 				60DEBC4F1F8DB1D7005E15AF /* Compose.storyboard in Resources */,
 				6017343C1F970310009B757E /* Settings.storyboard in Resources */,
@@ -602,6 +609,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				98F434251F8DF6CA005EAAB1 /* ServiceError.swift in Sources */,
+				601734601F9B31CE009B757E /* MapInfoWindow.swift in Sources */,
 				985004F81F8DE7840016FBB8 /* PostService.swift in Sources */,
 				9827821D1F8F4242008EEBD4 /* Location.swift in Sources */,
 				601734401F970958009B757E /* SwitchCell.swift in Sources */,

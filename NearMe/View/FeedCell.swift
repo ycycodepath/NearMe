@@ -56,7 +56,9 @@ class FeedCell: UITableViewCell {
 
             
             screenNameLabel.text = post.screen_name ?? DEFAULT_SCREEN_NAME
-            if let distance = post.distance {
+            if let distancestr = post.distance, let distance = Double(distancestr) {
+                let distance = String(format: "%.2f mi", Settings.milesPerKM * distance)
+                
                 distanceLabel.text = distance
             } else {
                 distanceLabel.isHidden = true

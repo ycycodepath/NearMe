@@ -80,7 +80,7 @@ class GeoService {
             if let key = key, let location = location {
                 SwiftyBeaver.debug("entered a key: " + key)
                 let distanceFromUser = center.distance(from: location)
-                let distance = String(format: "%.2f mi", self.milesPerMeter * distanceFromUser)
+                let distance = "\(distanceFromUser/1000)"
                 print(distance)
                 let postGeoResponse = PostGeo(id: key, distance: distance)
                 self.postGeoResponses.append(postGeoResponse)

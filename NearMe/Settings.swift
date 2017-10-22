@@ -18,13 +18,13 @@ enum SettingsSectionIdentifier : String {
 typealias SettingsTable = [(sectionId: SettingsSectionIdentifier, settings: [[String:String]])]
 
 struct Settings {
-    static let milesPerKiloMeter = 0.621371
+    static let milesPerKM = 0.621371
     
-    static let distanceChoices = [["name":"0.1 miles", "code":"\(0.1/milesPerKiloMeter)"],
-                                  ["name":"0.5 miles", "code":"\(0.5/milesPerKiloMeter)"],
-                                  ["name":"1 miles", "code":"\(1/milesPerKiloMeter)"],
-                                  ["name":"5 miles", "code":"\(5/milesPerKiloMeter)"],
-                                  ["name":"10 miles", "code":"\(10/milesPerKiloMeter)"]]
+    static let distanceChoices = [["name":"0.1 miles", "code":"\(0.1/milesPerKM)"],
+                                  ["name":"0.5 miles", "code":"\(0.5/milesPerKM)"],
+                                  ["name":"1 miles", "code":"\(1/milesPerKM)"],
+                                  ["name":"5 miles", "code":"\(5/milesPerKM)"],
+                                  ["name":"10 miles", "code":"\(10/milesPerKM)"]]
     
     static let sortByChoices = [["name":"Most Recent", "code":"0"],
                                 ["name":"Distance", "code":"1"],
@@ -50,6 +50,6 @@ struct Settings {
             ret = Double(strDistance)
         }
         
-        return ret ?? 0.1/Settings.milesPerKiloMeter
+        return ret ?? 0.1/Settings.milesPerKM
     }
 }
