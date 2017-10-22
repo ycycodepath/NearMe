@@ -29,7 +29,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var posts = [Post]()
     var locationManager = CLLocationManager()
     var currentLocation: CLLocation?
-    var currentRadius = 5.00
     let defaultLocation = CLLocation(latitude:37.3743507,longitude:-121.8825989)
     
     var mapContentView: GMSMapView!
@@ -80,7 +79,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     func getPost(location: CLLocation, radius: Double) -> Void {
         PostService.sharedInstance.search(center: location, radius: radius, success: { (posts: [Post]) in
-            self.posts = posts.reversed()
+            self.posts = posts.sorted(by: self.sortFunc)
             self.tableView.reloadData()
             self.showPostsInMapView()
         }, failure: { (error: Error) in
@@ -225,13 +224,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     @objc func refreshControlAction(_ refreshControl: UIRefreshControl) {
-         refreshPost(location: self.currentLocation!, radius: currentRadius)
+         refreshPost(location: self.currentLocation!, radius: Settings.globalSettings.distance)
     }
     
     
     func refreshPost(location: CLLocation, radius: Double) -> Void {
         PostService.sharedInstance.search(center: location, radius: radius, success: { (posts: [Post]) in
-            self.posts = posts.reversed()
+            self.posts = posts.sorted(by: self.sortFunc)
             self.tableView.reloadData()
             self.showPostsInMapView()
             self.refreshControl.endRefreshing()
@@ -240,6 +239,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         })
     }
     
+    private func sortFunc(left: Post, right: Post) -> Bool {
+        switch Settings.globalSettings.sortBy {
+        case .mostRecent:
+            return (left.creationTimestamp ?? -1) > (right.creationTimestamp ?? -1)
+        case .distance:
+            return (Double(left.distance ?? "") ?? -1) < (Double(right.distance ?? "") ?? -1)
+        case .mostLiked:
+            return (left.likes ?? -1) > (right.likes ?? -1)
+        }
+    }
     
     /** MARK: - Error window **/
     func showError(error: Error) {
@@ -267,8 +276,8 @@ extension HomeViewController: CLLocationManagerDelegate {
     // Handle incoming location events.
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
-            self.currentLocation = location
-            getPost(location: self.currentLocation!, radius: currentRadius)
+            self.currentLocation = defaultLocation
+            getPost(location: self.currentLocation!, radius: Settings.globalSettings.distance)
             
             let camera = GMSCameraPosition.camera(withLatitude:location.coordinate.latitude, longitude: location.coordinate.longitude, zoom: zoomLevel)
             if mapView.isHidden {
@@ -335,7 +344,7 @@ extension HomeViewController: GMSAutocompleteResultsViewControllerDelegate {
         // Do something with the selected place.
         
         let locationSearched = CLLocation(latitude: place.coordinate.latitude, longitude: place.coordinate.longitude)
-        getPost(location: locationSearched, radius: currentRadius)
+        getPost(location: locationSearched, radius: Settings.globalSettings.distance)
     }
     
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
