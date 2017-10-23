@@ -8,6 +8,7 @@
 
 import UIKit
 import AFNetworking
+import IDMPhotoBrowser
 
 class FeedCell: UITableViewCell {
 
@@ -19,21 +20,25 @@ class FeedCell: UITableViewCell {
     @IBOutlet weak var screenNameLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
     @IBOutlet weak var placeLabel: UILabel!
-    @IBOutlet weak var likeImage: UIImageView!
     @IBOutlet weak var imageHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var likeButton: UIButton!
     
     let DEFAULT_SCREEN_NAME = "Ninja"
     let screenSize: CGRect = UIScreen.main.bounds
     
+    var handleFeedImageTapped: (UIImageView, Post) -> Void = { (imageView, post) -> Void in }
+    var handleLikeButtonClicked: (Post) -> Void = { (post) -> Void in }
+    
     var post: Post! {
         didSet{
             if let imageUrlStr = post.imageUrl, let imageUrl = URL(string: imageUrlStr) {
+                
                 feedImageView.setImageWith(imageUrl)
                 feedImageView.isHidden = false
                 
-                imageHeightConstraint.constant = 182
-//                feedImageView.frame = CGRect(x: 0, y: 0, width: screenSize.width, height: screenSize.height * 0.5)
+                imageHeightConstraint.constant = self.frame.size.width
                 self.contentView.layoutIfNeeded()
+                
             } else {
                 print("no feedImageView")
                 feedImageView.isHidden = true
@@ -47,13 +52,15 @@ class FeedCell: UITableViewCell {
                  timestamp.text = FeedCell.convertEpochTimeStamp(timestamp: createTime)
             }
 
+            if LikeService.sharedInstance.isPostLiked(postId: post.id!) {
+                likeButton.isSelected = true
+            } else {
+                likeButton.isSelected = false
+            }
+            
             likeCountLabel.text = "\(post.likes ?? 0)"
             
             avatarView.image = UIImage(named: "user1")
-            avatarView.clipsToBounds = true
-            avatarView.layer.cornerRadius = 30
-            avatarView.layer.borderWidth = 0.5
-
             
             screenNameLabel.text = post.screen_name ?? DEFAULT_SCREEN_NAME
             if let distancestr = post.distance, let distance = Double(distancestr) {
@@ -67,15 +74,34 @@ class FeedCell: UITableViewCell {
             if let place = post.place {
                 placeLabel.text = place
             }
-            
-            let likeTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
-            likeImage.isUserInteractionEnabled = true
-            likeImage.addGestureRecognizer(likeTapGestureRecognizer)
         }
     }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+
+        avatarView.clipsToBounds = true
+        avatarView.layer.cornerRadius = avatarView.frame.height / 2
+        avatarView.layer.borderColor = UIColor(white: 0.7, alpha: 0.8).cgColor
+        avatarView.layer.borderWidth = 1
+
+        
+        let feedImgTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(feedImageTapped(tapGestureRecognizer:)))
+        feedImageView.isUserInteractionEnabled = true
+        feedImageView.addGestureRecognizer(feedImgTapGestureRecognizer)
+
+        
+        likeButton.setImage(UIImage(named: "liked"), for: .selected)
+        likeButton.setImage(UIImage(named: "like"), for: .normal)
+
+    }
     
+    @IBAction func onLikeButtonClicked(_ sender: Any) {
+        
+        //toggle
+        self.likeButton.isSelected = !self.likeButton.isSelected
+        handleLikeButtonClicked(post)
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -84,16 +110,9 @@ class FeedCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-        let tappedImage = tapGestureRecognizer.view as! UIImageView
-        print("tapped")
-        //TODO: send api call for like/unlike
-        if tappedImage.image == UIImage(named: "like") {
-            print("is like")
-        } else if tappedImage.image == UIImage(named: "liked") {
-            print("is liked")
-        }
-        
+    @objc func feedImageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        let tappedImageView = tapGestureRecognizer.view as! UIImageView
+        handleFeedImageTapped(tappedImageView, post)
     }
     
     

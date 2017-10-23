@@ -9,13 +9,14 @@
 import UIKit
 import GoogleMaps
 import GooglePlaces
+import IDMPhotoBrowser
 
 enum ViewType {
     case List
     case Map
 }
 
-class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, IDMPhotoBrowserDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var mapView: UIView!
@@ -49,12 +50,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
        
+        
         initLocation()
         initTableView()
         initMapView()
         
         initRefreshControl()
         initSearchBar()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -97,10 +100,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             case ViewType.List:
                 self.view.bringSubview(toFront: mapView)
                 currentViewType = ViewType.Map
+                self.leftBarButton.title = "List"
                 break
             case ViewType.Map:
                 self.view.bringSubview(toFront: tableView)
                 currentViewType = ViewType.List
+                self.leftBarButton.title = "Map"
                 break
         }
     }
@@ -125,7 +130,63 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FeedCell", for: indexPath) as! FeedCell
         cell.post = posts[indexPath.row]
+        cell.handleFeedImageTapped = { (imageView, post) in
+            
+            let image = imageView.image!
+
+            // Create an array to store IDMPhoto objects
+            var photos: [IDMPhoto] = []
+    
+            var photo: IDMPhoto
+    
+
+            photo = IDMPhoto.init(image: image)
+            photo.caption = post.message
+            photos.append(photo)
+    
+            // Create and setup browser
+//            let browser: IDMPhotoBrowser = IDMPhotoBrowser.init(photos: photos, animatedFrom: imageView)
+            let browser: IDMPhotoBrowser = IDMPhotoBrowser.init(photos: photos)
+            browser.delegate = self
+            browser.displayActionButton = false
+            browser.displayDoneButton = false
+            browser.displayArrowButton = false
+            browser.displayCounterLabel = true
+            browser.usePopAnimation = true
+            browser.dismissOnTouch = true
+    
+            // Show
+            self.present(browser, animated: true, completion: nil)
+            
+        }
         
+        cell.handleLikeButtonClicked = { (post) in
+            
+            LikeService.sharedInstance.syncCoreData(postId: post.id, success: { (liked) in
+                
+                //update like count label
+                if liked {
+                    cell.post.likes? += 1
+                    self.posts[indexPath.row].likes? += 1
+                } else {
+                    cell.post.likes? -= 1
+                    self.posts[indexPath.row].likes? -= 1
+                }
+                
+                cell.likeCountLabel.text = "\(cell.post.likes ?? 0)"
+                
+                //update firebase db
+                PostService.sharedInstance.updateLikeCount(postId: post.id, liked: liked, success: {
+                    
+                }, failure: { (error) in
+                    print(error.localizedDescription)
+                })
+                
+            }, failure: { (error) in
+                print(error.localizedDescription)
+            })
+            
+        }
         return cell
     }
     
@@ -262,7 +323,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     @objc func refreshControlAction(_ refreshControl: UIRefreshControl) {
-         refreshPost(location: self.currentLocation!, radius: Settings.globalSettings.distance)
+         refreshPost(location: self.searchLocation!, radius: Settings.globalSettings.distance)
     }
     
     
@@ -330,6 +391,7 @@ extension HomeViewController: CLLocationManagerDelegate {
     
     // Handle incoming location events.
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+
         if let location = locations.last {
             currentLocation = location
             if searchLocation == nil {

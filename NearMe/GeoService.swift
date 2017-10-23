@@ -19,7 +19,7 @@ class GeoService {
     var databaseRef: DatabaseReference
     var postGeoDataRef: DatabaseReference
     var geofire: GeoFire
-    var postGeoResponses = [PostGeo]()
+//    var postGeoResponses = [PostGeo]()
     let milesPerMeter = 0.000621371
 
     init() {
@@ -70,7 +70,7 @@ class GeoService {
         
          SwiftyBeaver.info("entered search...")
         
-        postGeoResponses = [PostGeo]()
+        var postGeoResponses = [PostGeo]()
         //the observer method listens for new data that matches the query
         // if param center changes then circleQuery's location changes and it will trigger observe method to load existing matching records and will get to observeReady after existing all records matching the query criteria are loaded
         // whenever search is invoked and circleQuery is set (again), it will also load all existing records and go to observerReady after existing all records matching the query criteria are loaded.
@@ -83,7 +83,7 @@ class GeoService {
                 let distance = "\(distanceFromUser/1000)"
                 print(distance)
                 let postGeoResponse = PostGeo(id: key, distance: distance)
-                self.postGeoResponses.append(postGeoResponse)
+                postGeoResponses.append(postGeoResponse)
             }
         })
         
@@ -95,7 +95,7 @@ class GeoService {
         
         circleQuery.observeReady({
             SwiftyBeaver.info("initial async loading is done")
-            success(self.postGeoResponses)
+            success(postGeoResponses)
         })
     }
 }

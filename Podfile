@@ -22,6 +22,9 @@ target 'NearMe' do
   pod 'GooglePlaces'
   pod 'GooglePlacePicker'
   pod 'GoogleMaps'
+  pod 'IDMPhotoBrowser'
+  pod "MagicalRecord" 
+  pod 'RAMAnimatedTabBarController'
 
   target 'NearMeTests' do
     inherit! :search_paths

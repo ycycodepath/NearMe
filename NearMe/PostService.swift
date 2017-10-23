@@ -139,6 +139,7 @@ class PostService {
                     print(json)
                     var post = try JSONDecoder().decode(Post.self, from: json)
                     post.distance = postGeo.distance
+                    post.id = snapshot.key
                     
                     fulfill(post)
                     
@@ -151,6 +152,55 @@ class PostService {
             })
             
         }
+        
+    }
+    
+    func updateLikeCount (postId: String?, liked: Bool?, success: (() -> Void)!, failure: ((Error) -> Void)!) {
+        
+        guard let postId = postId else {
+            failure(ServiceError.postDataError)
+            return
+        }
+        
+        guard let liked = liked else {
+            failure(ServiceError.postDataError)
+            return
+        }
+     
+        let postRef = postDatabaseRef.child(postId)
+
+        postRef.runTransactionBlock({ (currentData: MutableData) -> TransactionResult in
+            
+            if var post = currentData.value as? [String : AnyObject] {
+
+                
+                var likeCount = post["likes"] as? Int ?? 0
+                
+                if liked {
+                    likeCount += 1
+                } else {
+                    likeCount -= 1
+                }
+                
+                post["likes"] = likeCount as AnyObject
+                currentData.value = post
+
+                return TransactionResult.success(withValue: currentData)
+            }
+            return TransactionResult.success(withValue: currentData)
+
+        }) { (error, committed, snapshot) in
+            if error != nil || !committed {
+                failure(error!)
+                return
+            }
+            
+            if committed {
+                success()
+                return
+            }
+        }
+        
         
     }
     

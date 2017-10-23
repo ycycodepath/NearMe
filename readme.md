@@ -1,6 +1,6 @@
-# Project 4 - *NearMe*
+# Group Project - *NearMe*
 
-Time spent: **60** hours spent in total
+Time spent: **120** hours spent in total
 
 ## User Stories
 
@@ -12,6 +12,8 @@ The following **required** functionality is completed:
 Back End:
 - [x] Setup and configure Firebase server-side data store
 - [x] Design your database schema and generated model objects with initial fields
+- [x] Like button: support like\unlike functionality
+
 
 Login screen: none
 - [x] no login required
@@ -24,11 +26,13 @@ Home screen:
 - [x] Table rows should be dynamic height according to the content height.
 - [x] Custom cells should have the proper Auto Layout constraints.
 - [ ] Search bar should be only be shown when needed
+- [x] browse and zoom in post image
+- [x] Map view of posts
+- [x] search bar: allow user to search posts by location
+- [x] Like button: allow user to like\unlike a post
 
-
-Post details screen:
-- [ ] map view
-- [ ] image view
+Navigation:
+- [x] tab bar controller to navigate
 
 optional:
 - [ ] reply function
@@ -40,10 +44,9 @@ Compose screen:
 
 Filter screen:
 
-- [ ] The filters you should actually have are: sort(distance, most liked), distance
-- [ ] The filters table should be organized into sections.
-- [ ] You can use the default UISwitch for on/off states.
-- [ ] Clicking on the "Search" button should dismiss the filters page and trigger the search w/ the new filter settings.
+- [x] The filters you should actually have are: sort(distance, most liked, most recent), distance
+- [x] The filters table should be organized into sections.
+- [x] You can use the default UISwitch for on/off states.
 
 
 The following **additional** features are implemented:
@@ -61,7 +64,7 @@ Compose screen:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='week5.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='week6.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 

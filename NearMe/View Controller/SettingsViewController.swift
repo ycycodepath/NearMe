@@ -48,10 +48,6 @@ class SettingsViewController: UIViewController {
         
         tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: HeaderViewIdentifier)
     }
-
-    @IBAction func onDismiss(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

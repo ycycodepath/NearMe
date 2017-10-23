@@ -10,6 +10,7 @@ import Foundation
 
 struct Post: Codable {
     
+    var id: String?
     var uuid: String?
     var message: String?
     var imageUrl: String?

@@ -14,6 +14,8 @@ enum ServiceError: LocalizedError {
     case postDataError
     case postGeoDataError
     case geoServiceError
+    case likeServiceDataError
+    case likeServiceError
     
     var errorDescription: String? {
         switch  self {
@@ -25,6 +27,10 @@ enum ServiceError: LocalizedError {
             return NSLocalizedString("Post Geo Data Error", comment: "Geo Service Error" )
         case .geoServiceError:
             return NSLocalizedString("Geo Service Error", comment: "Geo Service Error" )
+        case .likeServiceDataError:
+            return NSLocalizedString("Like Service Data Error", comment: "Like Service Error")
+        case .likeServiceError:
+            return NSLocalizedString("Like Service Error", comment: "Like Service Error")
         }
         
     }
