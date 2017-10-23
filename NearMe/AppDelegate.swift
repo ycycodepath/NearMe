@@ -33,10 +33,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         GMSPlacesClient.provideAPIKey("AIzaSyBPZgNeZOx1PSni5OalI1zYo56TTWcLTKE")
         GMSServices.provideAPIKey("AIzaSyBPZgNeZOx1PSni5OalI1zYo56TTWcLTKE")
         
-        let storybard = UIStoryboard(name: "Home", bundle: nil)
-        let homeNavigationController = storybard.instantiateViewController(withIdentifier: "HomeNavigationController")
-        window?.rootViewController = homeNavigationController
-        window?.makeKeyAndVisible()
+//        let storybard = UIStoryboard(name: "Home", bundle: nil)
+//        let homeNavigationController = storybard.instantiateViewController(withIdentifier: "HomeNavigationController")
+//        window?.rootViewController = homeNavigationController
+//        window?.makeKeyAndVisible()
         return true
     }
 
