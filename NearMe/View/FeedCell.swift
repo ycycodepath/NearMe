@@ -52,9 +52,10 @@ class FeedCell: UITableViewCell {
                  timestamp.text = FeedCell.convertEpochTimeStamp(timestamp: createTime)
             }
 
-            
             if LikeService.sharedInstance.isPostLiked(postId: post.id!) {
                 likeButton.isSelected = true
+            } else {
+                likeButton.isSelected = false
             }
             
             likeCountLabel.text = "\(post.likes ?? 0)"

@@ -364,7 +364,7 @@
 		95C69447F517DB81437EDE0003486963 /* GTMSessionFetcherService.m in Sources */ = {isa = PBXBuildFile; fileRef = 52EB27E140B8AD89AD5483F79DBE3377 /* GTMSessionFetcherService.m */; };
 		972E4C5AD62BFF7DAEAF05CAFFF71240 /* FLEXArgumentInputColorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EF986EBAA862C4350350C695BB4EE6 /* FLEXArgumentInputColorView.m */; };
 		97EFD7FC37B25E244FF5529DD7213C0B /* POPAnimation.mm in Sources */ = {isa = PBXBuildFile; fileRef = C5B2E08000FB5BD1B25E77699DFB735D /* POPAnimation.mm */; };
-		980D26E31F9D557E00A8156F /* FirebaseDatabase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70B7D049641440CA936F4672122000FC /* FirebaseDatabase.framework */; };
+		9849D3F31F9D96CA001CCE86 /* FirebaseDatabase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70B7D049641440CA936F4672122000FC /* FirebaseDatabase.framework */; };
 		984C2161C4AFEB85B719808D24D0D6EA /* FLEXTableLeftCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6263C0268A3BC07EF6E6EEA8864D2630 /* FLEXTableLeftCell.m */; };
 		98FDF17155E73F4AF2A31F62CE6897F7 /* MagicalRecordDeprecationMacros.h in Headers */ = {isa = PBXBuildFile; fileRef = 1323BE853FBEAFBDFD18D1294470B98A /* MagicalRecordDeprecationMacros.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		99762194FDE835E1B93B7A7B50622C64 /* FLEXResources.h in Headers */ = {isa = PBXBuildFile; fileRef = E7CCDBF9D632326D805A131D7A1F0FA7 /* FLEXResources.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -1584,7 +1584,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				980D26E31F9D557E00A8156F /* FirebaseDatabase.framework in Frameworks */,
+				9849D3F31F9D96CA001CCE86 /* FirebaseDatabase.framework in Frameworks */,
 				72FB0A0B7CC16F19E94D1790A4C4FBCC /* CoreLocation.framework in Frameworks */,
 				25879CDBE7CF862BA00EEB95CD33F310 /* Foundation.framework in Frameworks */,
 				36897F1A564529FA0F6EDC6E56978E5A /* GoogleToolboxForMac.framework in Frameworks */,

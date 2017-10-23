@@ -100,10 +100,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             case ViewType.List:
                 self.view.bringSubview(toFront: mapView)
                 currentViewType = ViewType.Map
+                self.leftBarButton.title = "List"
                 break
             case ViewType.Map:
                 self.view.bringSubview(toFront: tableView)
                 currentViewType = ViewType.List
+                self.leftBarButton.title = "Map"
                 break
         }
     }
@@ -165,8 +167,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 //update like count label
                 if liked {
                     cell.post.likes? += 1
+                    self.posts[indexPath.row].likes? += 1
                 } else {
                     cell.post.likes? -= 1
+                    self.posts[indexPath.row].likes? -= 1
                 }
                 
                 cell.likeCountLabel.text = "\(cell.post.likes ?? 0)"
@@ -319,7 +323,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     @objc func refreshControlAction(_ refreshControl: UIRefreshControl) {
-         refreshPost(location: self.currentLocation!, radius: Settings.globalSettings.distance)
+         refreshPost(location: self.searchLocation!, radius: Settings.globalSettings.distance)
     }
     
     

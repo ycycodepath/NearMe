@@ -30,7 +30,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eYf-tl-4cU" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <customObject id="z9y-oX-yRH" customClass="RAMBounceAnimation" customModule="RAMAnimatedTabBarController"/>
             </objects>
-            <point key="canvasLocation" x="849" y="-401"/>
+            <point key="canvasLocation" x="1660" y="-277"/>
         </scene>
         <!--Home-->
         <scene sceneID="fmq-n7-pB1">
@@ -207,7 +207,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="PHd-m6-Ttx"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="Zqe-C2-wgN"/>
+                    <tabBarItem key="tabBarItem" title="Home" image="home" id="Zqe-C2-wgN"/>
                     <navigationItem key="navigationItem" title="Home" id="zgW-dD-NS8">
                         <barButtonItem key="leftBarButtonItem" title="Map" id="d7W-F5-6ku">
                             <connections>
@@ -236,7 +236,7 @@
             <objects>
                 <viewController id="tc1-Qe-JKR" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3rN-CE-652">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rQF-R0-hxE">
@@ -253,37 +253,11 @@
             </objects>
             <point key="canvasLocation" x="576.79999999999995" y="790.25487256371821"/>
         </scene>
-        <!--Map View Controller-->
-        <scene sceneID="7ls-qZ-MsB">
-            <objects>
-                <viewController id="h4S-4e-im4" customClass="MapViewController" customModule="NearMe" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="FjP-kS-epC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="U6j-ma-QyW"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="fJc-2q-juj">
-                        <barButtonItem key="leftBarButtonItem" title="list" id="ddP-FW-3oq">
-                            <connections>
-                                <segue destination="Lds-b8-mha" kind="presentation" id="1wK-y1-dYr"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="9Xi-YZ-W6X" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2365.217391304348" y="98.641304347826093"/>
-        </scene>
         <!--Home-->
         <scene sceneID="eSo-B5-7Bp">
             <objects>
                 <navigationController storyboardIdentifier="HomeNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="Lds-b8-mha" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Home" image="home" id="V5Y-IW-uDU" customClass="RAMAnimatedTabBarItem" customModule="RAMAnimatedTabBarController">
-                        <connections>
-                            <outlet property="animation" destination="mPp-xD-0LM" id="vgz-n2-hks"/>
-                        </connections>
-                    </tabBarItem>
+                    <tabBarItem key="tabBarItem" title="Home" image="home" id="V5Y-IW-uDU"/>
                     <toolbarItems/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="xIn-C2-5bu">
@@ -296,27 +270,8 @@
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="duD-ec-J94" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <customObject id="mPp-xD-0LM" customClass="RAMBounceAnimation" customModule="RAMAnimatedTabBarController"/>
             </objects>
-            <point key="canvasLocation" x="-343" y="-245"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="e4p-EA-56K">
-            <objects>
-                <navigationController storyboardIdentifier="MapNavigationController" automaticallyAdjustsScrollViewInsets="NO" id="1G7-N0-ilE" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="4IB-Uo-zv8">
-                        <rect key="frame" x="0.0" y="20" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="h4S-4e-im4" kind="relationship" relationship="rootViewController" id="gek-YI-5YB"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="y3y-vP-fuW" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1642.0289855072465" y="102.71739130434783"/>
+            <point key="canvasLocation" x="-319" y="98"/>
         </scene>
     </scenes>
     <resources>
