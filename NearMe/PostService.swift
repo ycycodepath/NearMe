@@ -55,7 +55,8 @@ class PostService {
                       "location": ["latitude": postLatitude, "longitude": postLongitude],
                       "screen_name": post.screen_name ?? "Anonymous Author",
                       "place": post.place ?? "",
-                      "address": post.address ?? ""]
+                      "address": post.address ?? "",
+                      "avatarUrl": post.avatarUrl ?? ""]
             as [String: Any]
         
         if let image = image {
