@@ -60,7 +60,7 @@ class FeedCell: UITableViewCell {
             
             likeCountLabel.text = "\(post.likes ?? 0)"
             
-            avatarView.image = UIImage(named: "user1")
+            avatarView.image = UIImage(named: post.avatarUrl ?? "user1")
             
             screenNameLabel.text = post.screen_name ?? DEFAULT_SCREEN_NAME
             if let distancestr = post.distance, let distance = Double(distancestr) {

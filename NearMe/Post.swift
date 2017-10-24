@@ -21,13 +21,15 @@ struct Post: Codable {
     var place: String?
     var address: String?
     var distance: String?
+    var avatarUrl: String?
     
-    init(uuid: String?, message: String?, location: Location?, screen_name: String?, place: String?, address: String?) {
+    init(uuid: String?, message: String?, location: Location?, screen_name: String?, place: String?, address: String?, avatarUrl: String?) {
         self.uuid = uuid
         self.message = message
         self.location = location
         self.screen_name = screen_name
         self.place = place
         self.address = address
+        self.avatarUrl = avatarUrl
     }
 }

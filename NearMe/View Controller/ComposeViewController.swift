@@ -146,7 +146,7 @@ class ComposeViewController: UIViewController {
         let uuid = UIDevice.current.identifierForVendor?.uuidString
         let location = Location(latitude: gmsPlace.coordinate.latitude, longitude: gmsPlace.coordinate.longitude)
         
-        let post = Post(uuid: uuid, message: self.postTextView.text, location: location, screen_name: "Demo User", place: gmsPlace.name, address: gmsPlace.formattedAddress)
+        let post = Post(uuid: uuid, message: self.postTextView.text, location: location, screen_name: "Demo User", place: gmsPlace.name, address: gmsPlace.formattedAddress, avatarUrl: "user1")
         
         let image = postImageView.image
         
