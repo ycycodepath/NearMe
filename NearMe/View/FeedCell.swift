@@ -22,6 +22,7 @@ class FeedCell: UITableViewCell {
     @IBOutlet weak var placeLabel: UILabel!
     @IBOutlet weak var imageHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var likeButton: UIButton!
+    @IBOutlet weak var fireImageView: UIImageView!
     
     let DEFAULT_SCREEN_NAME = "Ninja"
     let screenSize: CGRect = UIScreen.main.bounds
@@ -59,6 +60,11 @@ class FeedCell: UITableViewCell {
             }
             
             likeCountLabel.text = "\(post.likes ?? 0)"
+            if post.likes != nil && post.likes! >= 500 {
+                fireImageView.isHidden = false
+            } else {
+                fireImageView.isHidden = true
+            }
             
             avatarView.image = UIImage(named: post.avatarUrl ?? "user1")
             
@@ -94,6 +100,10 @@ class FeedCell: UITableViewCell {
         likeButton.setImage(UIImage(named: "liked"), for: .selected)
         likeButton.setImage(UIImage(named: "like"), for: .normal)
 
+        let doubleTapToLike = UITapGestureRecognizer(target: self, action:  #selector(handleDoubleTapToLike))
+        doubleTapToLike.numberOfTapsRequired = 2;
+        self.contentView.addGestureRecognizer(doubleTapToLike)
+        
     }
     
     @IBAction func onLikeButtonClicked(_ sender: Any) {
@@ -104,6 +114,10 @@ class FeedCell: UITableViewCell {
         
     }
 
+    @objc func handleDoubleTapToLike() {
+        handleLikeButtonClicked(post)
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
@@ -142,4 +156,3 @@ extension Date {
     }
     
 }
-

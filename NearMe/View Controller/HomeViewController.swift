@@ -174,6 +174,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 }
                 
                 cell.likeCountLabel.text = "\(cell.post.likes ?? 0)"
+                if cell.post.likes != nil && cell.post.likes! >= 500 {
+                    cell.fireImageView.isHidden = false
+                } else {
+                    cell.fireImageView.isHidden = true
+                }
                 
                 //update firebase db
                 PostService.sharedInstance.updateLikeCount(postId: post.id, liked: liked, success: {
@@ -468,4 +473,3 @@ extension HomeViewController: GMSAutocompleteResultsViewControllerDelegate {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
 }
-
