@@ -29,7 +29,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     var posts = [Post]()
     var locationManager = CLLocationManager()
-    var currentLocation: CLLocation?
+    var currentLocation: CLLocation!
     var searchLocation: CLLocation!
     var searchPlace: GMSPlace?
 
@@ -41,6 +41,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var zoomLevel: Float = 15.0
     let DEFAULT_LATITUDE = 37.3743507
     let DEFAULT_LONGITUDE = -121.8825989
+    let GEO_EPSILON = 0.000001
     var postLocations: [CLLocationCoordinate2D] = []
     
     var resultsViewController: GMSAutocompleteResultsViewController?
@@ -232,7 +233,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func updateMapCamera() {
-        let camera = GMSCameraPosition.camera(withLatitude:searchLocation.coordinate.latitude, longitude: searchLocation.coordinate.longitude, zoom: zoomLevel)
+        let camera = GMSCameraPosition.camera(withLatitude:(searchLocation?.coordinate.latitude)!, longitude: (searchLocation?.coordinate.longitude)!, zoom: zoomLevel)
         if mapView.isHidden {
             mapContentView.camera = camera
         } else {
@@ -302,10 +303,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func getSearchBarPlaceholder() {
-        if ( currentLocation == searchLocation ) {
+        if ( fabs( currentLocation.coordinate.latitude - searchLocation.coordinate.latitude ) <= GEO_EPSILON && fabs( currentLocation.coordinate.longitude - searchLocation.coordinate.longitude ) <= GEO_EPSILON ) {
             searchController?.searchBar.placeholder = CURRENT_LOCATION_PLACEHOLDER
-        } else {
-            searchController?.searchBar.placeholder = searchPlace?.name
+        } else if let searchPlaceName = searchPlace?.name {
+            searchController?.searchBar.placeholder = searchPlaceName
         }
     }
     
@@ -398,6 +399,8 @@ extension HomeViewController: CLLocationManagerDelegate {
                 searchLocation = currentLocation
             }
             getPost(location: searchLocation!, radius: Settings.globalSettings.distance)
+        } else {
+            currentLocation = defaultLocation
         }
         
     }
