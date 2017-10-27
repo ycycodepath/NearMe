@@ -64,6 +64,7 @@ PODS:
     - SDWebImage (= 4.0.0)
   - ImagePicker (3.0.0)
   - leveldb-library (1.18.3)
+  - lottie-ios (2.1.3)
   - MagicalRecord (2.3.2):
     - MagicalRecord/Core (= 2.3.2)
   - MagicalRecord/Core (2.3.2)
@@ -104,6 +105,7 @@ DEPENDENCIES:
   - GooglePlaces
   - IDMPhotoBrowser
   - ImagePicker
+  - lottie-ios
   - MagicalRecord
   - NSDateMinimalTimeAgo
   - PromiseKit
@@ -139,6 +141,7 @@ SPEC CHECKSUMS:
   IDMPhotoBrowser: b96159fe4adb991a844068eb17dab9c0b7d7e51a
   ImagePicker: 973953c25960fe04729a7082a56194321c6762d2
   leveldb-library: 10fb39c39e243db4af1828441162405bbcec1404
+  lottie-ios: 8c150606598931621e927377f1426d2d3e99282d
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   NSDateMinimalTimeAgo: 71102cc43bb1aa0b5692c953a1abb8c305691475
@@ -149,6 +152,6 @@ SPEC CHECKSUMS:
   SwiftyBeaver: 91057725648ee4980308f1650af077d04b3654a0
   UITextView+Placeholder: 77680995fcdd07c3f52ec92fe1150874a2ac89ff
 
-PODFILE CHECKSUM: 926ceb3c5e0cab705523bb3aaf18343a74286142
+PODFILE CHECKSUM: 519eb04d8501dc5ab89e2fdeb318bed4be8fe496
 
 COCOAPODS: 1.3.1

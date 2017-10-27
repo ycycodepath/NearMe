@@ -9,6 +9,7 @@
 import UIKit
 import AFNetworking
 import IDMPhotoBrowser
+import Lottie
 
 class FeedCell: UITableViewCell {
 
@@ -97,8 +98,8 @@ class FeedCell: UITableViewCell {
         feedImageView.addGestureRecognizer(feedImgTapGestureRecognizer)
 
         
-        likeButton.setImage(UIImage(named: "liked"), for: .selected)
-        likeButton.setImage(UIImage(named: "like"), for: .normal)
+        likeButton.setImage(UIImage(named: "homeliked"), for: .selected)
+        likeButton.setImage(UIImage(named: "homelike"), for: .normal)
 
         let doubleTapToLike = UITapGestureRecognizer(target: self, action:  #selector(handleDoubleTapToLike))
         doubleTapToLike.numberOfTapsRequired = 2;
@@ -110,12 +111,30 @@ class FeedCell: UITableViewCell {
         
         //toggle
         self.likeButton.isSelected = !self.likeButton.isSelected
+        animateLiked()
         handleLikeButtonClicked(post)
         
     }
 
     @objc func handleDoubleTapToLike() {
+        self.likeButton.isSelected = !self.likeButton.isSelected
+        animateLiked()
         handleLikeButtonClicked(post)
+    }
+    
+    func animateLiked() {
+        if self.likeButton.isSelected {
+            let animationView = LOTAnimationView(name: "like")
+            animationView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+            animationView.center = CGPoint(x: self.likeButton.frame.size.width/2, y: self.likeButton.frame.size.height/2)
+            animationView.contentMode = .scaleAspectFill
+            animationView.loopAnimation = false
+            self.likeButton.addSubview(animationView)
+            
+            animationView.play(completion: { (completed) in
+                animationView.removeFromSuperview()
+            })
+        }
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
