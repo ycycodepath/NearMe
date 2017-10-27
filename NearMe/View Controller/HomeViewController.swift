@@ -48,6 +48,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var searchController: UISearchController?
     let refreshControl = UIRefreshControl()
     
+    let errorTitle = "Error"
+    let noPostErrorTitle = "No Post"
+    let noPostErrorMessage =  "No post returned from this location. Be the first one to post here!"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
        
@@ -89,8 +93,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.tableView.reloadData()
             self.showPostsInMapView()
             self.getSearchBarPlaceholder()
+            if ( posts.count == 0 ) {
+                self.showError(title: self.noPostErrorTitle, message:self.noPostErrorMessage )
+            }
         }, failure: { (error: Error) in
-            self.showError(error: error)
+            self.showError(title: self.errorTitle, message: error.localizedDescription)
         })
     }
 
@@ -335,7 +342,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             self.showPostsInMapView()
             self.refreshControl.endRefreshing()
         }, failure: { (error: Error) in
-            self.showError(error: error)
+            self.refreshControl.endRefreshing()
+            self.showError(title: self.errorTitle, message: error.localizedDescription)
         })
     }
     
@@ -351,8 +359,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     /** MARK: - Error window **/
-    func showError(error: Error) {
-        let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+    func showError(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(okAction)
         self.present(alert, animated: true, completion: nil)
