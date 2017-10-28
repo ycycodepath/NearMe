@@ -56,27 +56,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabBarController.tabBar.shadowImage = UIImage(named: "transparent")
         tabBarController.tabBar.backgroundImage = UIImage(named: "background_dark")
         
-        tabBarController.shouldHijackHandler = {
-            tabbarController, viewController, index in
-            if index == 1 {
-                return true
-            }
-            return false
-        }
-        tabBarController.didHijackHandler = {
-            tabbarController, viewController, index in
-            
-            let composeStortboard = UIStoryboard(name: "Compose", bundle: nil)
-            let composeNavController = composeStortboard.instantiateViewController(withIdentifier: "ComposeNavigationController") as! UINavigationController
-            tabbarController
-                .present(composeNavController, animated: true, completion: nil)
-
-        }
-        
         let homeStortboard = UIStoryboard(name: "Home", bundle: nil)
         let homeNavController = homeStortboard.instantiateViewController(withIdentifier: "HomeNavigationController") as! UINavigationController
 
-        // present it modally in hijackhandler
         let composeStortboard = UIStoryboard(name: "Compose", bundle: nil)
         let composeNavController = composeStortboard.instantiateViewController(withIdentifier: "ComposeNavigationController") as! UINavigationController
 
@@ -93,14 +75,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         v3.tabBarItem = ESTabBarItem.init(ExampleIrregularityBasicContentView(), title: nil, image: UIImage(named: "me"), selectedImage: UIImage(named: "me_1"))
         
         tabBarController.viewControllers = [v1, v2, v3]
-        
-        guard let homeViewController = homeNavController.viewControllers.first as? HomeViewController else {
-            return tabBarController}
 
-        guard let composeViewController = composeNavController.viewControllers.first as? ComposeViewController else {
-            return tabBarController}
-
-        composeViewController.delegate = homeViewController
+        tabBarController.shouldHijackHandler = {
+            tabbarController, viewController, index in
+            if index == 1 {
+                return true
+            }
+            return false
+        }
+        tabBarController.didHijackHandler = {
+            tabbarController, viewController, index in
+            
+            let composeStortboard = UIStoryboard(name: "Compose", bundle: nil)
+            let composeNavController = composeStortboard.instantiateViewController(withIdentifier: "ComposeNavigationController") as! UINavigationController
+            
+            if let composeViewController = composeNavController.viewControllers.first as? ComposeViewController, let homeViewController = homeNavController.viewControllers.first as? HomeViewController {
+                composeViewController.delegate = homeViewController
+            }
+            
+            tabbarController
+                .present(composeNavController, animated: true, completion: nil)
+            
+        }
         
         return tabBarController
     }
