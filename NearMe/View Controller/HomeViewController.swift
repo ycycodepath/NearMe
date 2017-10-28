@@ -459,9 +459,9 @@ extension HomeViewController: UISearchBarDelegate {
         navigationBarInNormal()
     }
     
-//    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-//        navigationBarInNormal()
-//    }
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        navigationBarInNormal()
+    }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         navigationBarInSearch()
