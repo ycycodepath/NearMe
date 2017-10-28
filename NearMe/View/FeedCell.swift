@@ -158,7 +158,7 @@ class FeedCell: UITableViewCell {
         let creationTime = timestamp / 1000
         let creationDate = Date(timeIntervalSince1970: creationTime)
         let interval = Date().offsetFrom(date: creationDate)
-        return interval
+        return interval.isEmpty ? "Just Now" : interval
     }
 }
 

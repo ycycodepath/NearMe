@@ -83,7 +83,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let settingsStortboard = UIStoryboard(name: "Settings", bundle: nil)
         let settingsNavController = settingsStortboard.instantiateViewController(withIdentifier: "SettingsNavigationController") as! UINavigationController
 
-
         
         let v1 = homeNavController
         let v2 = composeNavController
@@ -94,6 +93,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         v3.tabBarItem = ESTabBarItem.init(ExampleIrregularityBasicContentView(), title: nil, image: UIImage(named: "me"), selectedImage: UIImage(named: "me_1"))
         
         tabBarController.viewControllers = [v1, v2, v3]
+        
+        guard let homeViewController = homeNavController.viewControllers.first as? HomeViewController else {
+            return tabBarController}
+
+        guard let composeViewController = composeNavController.viewControllers.first as? ComposeViewController else {
+            return tabBarController}
+
+        composeViewController.delegate = homeViewController
         
         return tabBarController
     }
