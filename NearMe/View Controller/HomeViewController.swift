@@ -504,8 +504,20 @@ extension HomeViewController: GMSAutocompleteResultsViewControllerDelegate {
 }
 extension HomeViewController: ComposeViewControllerDelegate {
     func composeViewController(_ composeViewController: ComposeViewController, didPost status: Post) {
-        self.posts.insert(status, at: 0)
-        self.tableView.reloadData()
+        
+        guard let postLocation = status.location, let postLatitude = postLocation.latitude, let postLongitude = postLocation.longitude else {
+            return
+        }
+        let postCLLocation: CLLocation = CLLocation(latitude: postLatitude, longitude: postLongitude)
+        let distanceFromUser = searchLocation.distance(from: postCLLocation)
+        let distance = distanceFromUser/1000
+        
+        if distance <= Settings.globalSettings.distance {
+            var newPost = status
+            newPost.distance = "\(distance)"
+            self.posts.insert(newPost, at: 0)
+            self.tableView.reloadData()
+        }
     }
 }
 

@@ -136,7 +136,7 @@ class ComposeViewController: UIViewController {
         
         let image = postImageView.image
         
-        PostService.sharedInstance.create(post: post, image: image, success: {
+        PostService.sharedInstance.create(post: post, image: image, success: { (post) in
             NSLog("Successfully createda a post")
             self.delegate?.composeViewController(self, didPost: post)
             guard let rootTabBar = self.appDelegate.rootTabBarController else { return }
