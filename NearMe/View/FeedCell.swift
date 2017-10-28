@@ -9,6 +9,7 @@
 import UIKit
 import AFNetworking
 import IDMPhotoBrowser
+import Lottie
 
 class FeedCell: UITableViewCell {
 
@@ -22,6 +23,7 @@ class FeedCell: UITableViewCell {
     @IBOutlet weak var placeLabel: UILabel!
     @IBOutlet weak var imageHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var likeButton: UIButton!
+    @IBOutlet weak var fireImageView: UIImageView!
     
     let DEFAULT_SCREEN_NAME = "Ninja"
     let screenSize: CGRect = UIScreen.main.bounds
@@ -52,15 +54,25 @@ class FeedCell: UITableViewCell {
                  timestamp.text = FeedCell.convertEpochTimeStamp(timestamp: createTime)
             }
 
-            if LikeService.sharedInstance.isPostLiked(postId: post.id!) {
+            if LikeService.sharedInstance.isPostLiked(postId: post.id ?? "") {
                 likeButton.isSelected = true
             } else {
                 likeButton.isSelected = false
             }
             
             likeCountLabel.text = "\(post.likes ?? 0)"
+            if post.likes != nil && post.likes! >= 500 {
+                fireImageView.isHidden = false
+            } else {
+                fireImageView.isHidden = true
+            }
             
-            avatarView.image = UIImage(named: post.avatarUrl ?? "user1")
+            if let avatarPath = post.avatarUrl {
+                let imagePath = Bundle.main.resourcePath! + avatarPath
+                avatarView.image = UIImage(contentsOfFile: imagePath) ?? UIImage(named: "user1")
+            } else {
+                avatarView.image = UIImage(named: "user1")
+            }
             
             screenNameLabel.text = post.screen_name ?? DEFAULT_SCREEN_NAME
             if let distancestr = post.distance, let distance = Double(distancestr) {
@@ -68,7 +80,7 @@ class FeedCell: UITableViewCell {
                 
                 distanceLabel.text = distance
             } else {
-                distanceLabel.isHidden = true
+                distanceLabel.text = ""
             }
             
             if let place = post.place {
@@ -91,19 +103,45 @@ class FeedCell: UITableViewCell {
         feedImageView.addGestureRecognizer(feedImgTapGestureRecognizer)
 
         
-        likeButton.setImage(UIImage(named: "liked"), for: .selected)
-        likeButton.setImage(UIImage(named: "like"), for: .normal)
+        likeButton.setImage(UIImage(named: "homeliked"), for: .selected)
+        likeButton.setImage(UIImage(named: "homelike"), for: .normal)
 
+        let doubleTapToLike = UITapGestureRecognizer(target: self, action:  #selector(handleDoubleTapToLike))
+        doubleTapToLike.numberOfTapsRequired = 2;
+        self.contentView.addGestureRecognizer(doubleTapToLike)
+        
     }
     
     @IBAction func onLikeButtonClicked(_ sender: Any) {
         
         //toggle
         self.likeButton.isSelected = !self.likeButton.isSelected
+        animateLiked()
         handleLikeButtonClicked(post)
         
     }
 
+    @objc func handleDoubleTapToLike() {
+        self.likeButton.isSelected = !self.likeButton.isSelected
+        animateLiked()
+        handleLikeButtonClicked(post)
+    }
+    
+    func animateLiked() {
+        if self.likeButton.isSelected {
+            let animationView = LOTAnimationView(name: "like")
+            animationView.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+            animationView.center = CGPoint(x: self.likeButton.frame.size.width/2, y: self.likeButton.frame.size.height/2)
+            animationView.contentMode = .scaleAspectFill
+            animationView.loopAnimation = false
+            self.likeButton.addSubview(animationView)
+            
+            animationView.play(completion: { (completed) in
+                animationView.removeFromSuperview()
+            })
+        }
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
@@ -120,7 +158,7 @@ class FeedCell: UITableViewCell {
         let creationTime = timestamp / 1000
         let creationDate = Date(timeIntervalSince1970: creationTime)
         let interval = Date().offsetFrom(date: creationDate)
-        return interval
+        return interval.isEmpty ? "Just Now" : interval
     }
 }
 
@@ -142,4 +180,3 @@ extension Date {
     }
     
 }
-

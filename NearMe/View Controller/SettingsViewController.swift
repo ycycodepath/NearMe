@@ -15,6 +15,8 @@ protocol SettingsViewControllerDelegate {
 class SettingsViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var avatarImageView: UIImageView!
+    @IBOutlet weak var nameTextField: UITextField!
     
     var delegate: SettingsViewControllerDelegate!
     
@@ -26,17 +28,24 @@ class SettingsViewController: UIViewController {
     private func initData() {
         tableData.removeAll()
         
-        let distanceIndex = Settings.globalSettings.distanceIndex
-        let sortByChoicesIndex = Settings.globalSettings.sortByIndex
+        let distanceIndex: Int! = Settings.globalSettings.distanceIndex
+        let sortByChoicesIndex: Int! = Settings.globalSettings.sortByIndex
         
         tableData.append((.Distance, [Settings.distanceChoices[distanceIndex]]))
         tableData.append((.SortBy, [Settings.sortByChoices[sortByChoicesIndex]]))
+
+        avatarImageView.image = Settings.globalSettings.userAvatarImage
+        nameTextField.text = Settings.globalSettings.userScreenname
+        
+        self.navigationItem.title = Settings.globalSettings.userScreenname
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         initData()
+        
+        nameTextField.delegate = self
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -47,6 +56,24 @@ class SettingsViewController: UIViewController {
         //tableView.backgroundColor = UIColor.white
         
         tableView.register(UITableViewHeaderFooterView.self, forHeaderFooterViewReuseIdentifier: HeaderViewIdentifier)
+        
+        self.hideKeyboardWhenTappedAround()
+    }
+    
+    @IBAction func tapOnAvatar(_ sender: UITapGestureRecognizer) {
+        Settings.globalSettings.generateAvatar()
+        self.avatarImageView.image = Settings.globalSettings.userAvatarImage
+    }
+    
+    @IBAction func didNameChange(_ sender: UITextField) {
+        if sender.text?.count ?? 0 > 30
+            || sender.text?.last == " " {
+            sender.deleteBackward()
+            
+            return
+        }
+        
+        self.navigationItem.title = sender.text
     }
     
     override func didReceiveMemoryWarning() {
@@ -144,6 +171,7 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
         switch tableData[indexPath.section].0 {
         case .Distance, .SortBy:
             let cell = tableView.dequeueReusableCell(withIdentifier: "BasicCell", for: indexPath)
+            cell.tintColor = UIColor.gray
             
             cell.textLabel?.text = tableData[indexPath.section].1[indexPath.row]["name"]
             
@@ -171,5 +199,15 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             
             return cell
         }
+    }
+}
+
+extension SettingsViewController: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField.text?.isEmpty ?? true {
+            textField.text = "Ninja"
+        }
+        
+        Settings.globalSettings.userScreenname = textField.text
     }
 }
