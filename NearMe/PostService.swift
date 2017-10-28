@@ -23,7 +23,7 @@ class PostService {
         postDatabaseRef = databaseRef.child("posts")
     }
     
-    func create (post: Post?, image: UIImage?, success: (() -> Void)!, failure: ((Error) -> Void)!) {
+    func create (post: Post?, image: UIImage?, success: ((Post) -> Void)!, failure: ((Error) -> Void)!) {
         
         guard let post = post else {
             failure(ServiceError.postDataError)
@@ -72,18 +72,34 @@ class PostService {
         }
     }
     
-    fileprivate func insertPost(_ values: [String : Any], _ postCLLocation: CLLocation, _ success: (() -> Void)!, _ failure: ((Error) -> Void)!) {
+    fileprivate func insertPost(_ values: [String : Any], _ postCLLocation: CLLocation, _ success: ((Post) -> Void)!, _ failure: ((Error) -> Void)!) {
         let newPostDatabaseRef = postDatabaseRef.childByAutoId()
         newPostDatabaseRef.updateChildValues(values) { (error, databaseRef) in
             guard let error = error else {
                 
-                let postId = newPostDatabaseRef.key
+                let postId = databaseRef.key
                 
-                GeoService.sharedInstance.create(location: postCLLocation, key: postId, success: {
-                    success()
-                }, failure: { (error) in
+                databaseRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                    guard let response = snapshot.value as? NSDictionary else { return }
+                    do {
+                        let json = try JSONSerialization.data(withJSONObject: response, options: .prettyPrinted)
+                        print(json)
+                        var post = try JSONDecoder().decode(Post.self, from: json)
+                        post.id = postId
+                        
+                        GeoService.sharedInstance.create(location: postCLLocation, key: postId, success: {
+                            success(post)
+                        }, failure: { (error) in
+                            failure(error)
+                        })
+                        
+                    } catch let jsonError {
+                        failure(jsonError)
+                    }
+                }) { (error) in
                     failure(error)
-                })
+                }
+                
                 return
             }
             
