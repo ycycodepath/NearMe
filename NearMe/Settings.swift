@@ -5,6 +5,7 @@
 //  Created by Xiang Yu on 10/17/17.
 //  Copyright © 2017 ycyteam. All rights reserved.
 //
+import UIKit
 
 enum SortMode: Int {
     case mostRecent = 0, distance, mostLiked
@@ -31,6 +32,8 @@ struct Settings {
                                 ["name":"Most Liked", "code":"2"]]
     
     static var globalSettings = Settings(sortByIndex: 0, distanceIndex: 0)
+    
+    static var themeColor = UIColor(red: 9.0, green: 66.0, blue: 94.0, alpha: 1.0)
     
     var sortByIndex: Int
     var distanceIndex: Int

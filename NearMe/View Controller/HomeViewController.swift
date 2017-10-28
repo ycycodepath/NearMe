@@ -100,12 +100,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             case ViewType.List:
                 self.view.bringSubview(toFront: mapView)
                 currentViewType = ViewType.Map
-                self.leftBarButton.title = "List"
+                self.leftBarButton.image = UIImage(named: "list")
                 break
             case ViewType.Map:
                 self.view.bringSubview(toFront: tableView)
                 currentViewType = ViewType.List
-                self.leftBarButton.title = "Map"
+                self.leftBarButton.image = UIImage(named: "map")
                 break
         }
     }
@@ -174,6 +174,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 }
                 
                 cell.likeCountLabel.text = "\(cell.post.likes ?? 0)"
+                if cell.post.likes != nil && cell.post.likes! >= 500 {
+                    cell.fireImageView.isHidden = false
+                } else {
+                    cell.fireImageView.isHidden = true
+                }
                 
                 //update firebase db
                 PostService.sharedInstance.updateLikeCount(postId: post.id, liked: liked, success: {
@@ -280,24 +285,43 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         searchController?.searchResultsUpdater = resultsViewController
         
         searchController?.searchBar.sizeToFit()
-        navigationItem.titleView = searchController?.searchBar
         searchController?.searchBar.delegate = self
         searchController?.searchBar.placeholder = CURRENT_LOCATION_PLACEHOLDER
-        
+        searchController?.searchBar.showsCancelButton = false
+        searchController?.searchBar.tintColor = UIColor.white
+
+//        searchController?.searchBar.barStyle = .black
+//        searchController?.searchBar.backgroundColor = UIColor.lightGray
+//        searchController?.searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
+//        searchController?.searchBar.frame.size.width = 40
+//        searchController?.searchBar.sizeToFit()
+//        searchController?.searchBar.frame.size.height = 40
+//        navigationItem.titleView = searchController?.searchBar
+//        let yConstraint = NSLayoutConstraint(item: navigationItem.titleView, attribute: .centerY, relatedBy: .equal, toItem: navigationItem.leftBarButtonItem?.image, attribute: .centerY, multiplier: 1, constant: 0)
+//        NSLayoutConstraint.activate([yConstraint])
+
         definesPresentationContext = true
         
         searchController?.hidesNavigationBarDuringPresentation = false
     }
     
+    @IBAction func onSearchButtonClicked(_ sender: Any) {
+        
+        navigationBarInSearch()
+    }
+    
+    
     func navigationBarInSearch() {
         let currentLocationButton = UIBarButtonItem(image: UIImage(named: "currentLocation"), style: .plain, target: self, action: #selector(chooseCurrentLocation))
         self.navigationItem.setLeftBarButton(currentLocationButton, animated: true)
-
+        self.navigationItem.titleView = searchController?.searchBar
         self.navigationItem.setRightBarButton(nil, animated: true)
     }
     
     func navigationBarInNormal() {
         self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
+        self.navigationItem.titleView = nil
+        self.navigationItem.title = "Home"
         self.navigationItem.setRightBarButton(rightBarButton, animated: true)
     }
     
@@ -428,7 +452,7 @@ extension HomeViewController: CLLocationManagerDelegate {
 extension HomeViewController: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        navigationBarInSearch()
+        self.searchController?.searchBar.showsCancelButton = false
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
@@ -442,6 +466,7 @@ extension HomeViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         navigationBarInSearch()
     }
+    
 }
 
 
@@ -468,4 +493,3 @@ extension HomeViewController: GMSAutocompleteResultsViewControllerDelegate {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
 }
-

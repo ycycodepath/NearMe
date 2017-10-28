@@ -13,12 +13,13 @@ import GooglePlaces
 import GoogleMaps
 import CoreData
 import MagicalRecord
+import ESTabBarController_swift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-
+    var rootTabBarController: ESTabBarController?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -32,8 +33,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         GMSPlacesClient.provideAPIKey("AIzaSyBPZgNeZOx1PSni5OalI1zYo56TTWcLTKE")
         GMSServices.provideAPIKey("AIzaSyDLpnvclx1PpHuluGw8GBZ2eCYd3cAWMII")
-                
+        
+        rootTabBarController = customTabBarController()
+        window?.rootViewController = rootTabBarController
         return true
+    }
+    
+    func customTabBarController() -> ESTabBarController {
+        let tabBarController = ESTabBarController()
+        tabBarController.tabBar.shadowImage = UIImage(named: "transparent")
+        tabBarController.tabBar.backgroundImage = UIImage(named: "background_dark")
+        
+        let homeStortboard = UIStoryboard(name: "Home", bundle: nil)
+        let homeNavController = homeStortboard.instantiateViewController(withIdentifier: "HomeNavigationController") as! UINavigationController
+
+        let composeStortboard = UIStoryboard(name: "Compose", bundle: nil)
+        let composeNavController = composeStortboard.instantiateViewController(withIdentifier: "ComposeNavigationController") as! UINavigationController
+
+        let settingsStortboard = UIStoryboard(name: "Settings", bundle: nil)
+        let settingsNavController = settingsStortboard.instantiateViewController(withIdentifier: "SettingsNavigationController") as! UINavigationController
+
+
+        
+        let v1 = homeNavController
+        let v2 = composeNavController
+        let v3 = settingsNavController
+        
+        v1.tabBarItem = ESTabBarItem.init(ExampleIrregularityBasicContentView(), title: nil, image: UIImage(named: "home"), selectedImage: UIImage(named: "home_1"))
+        v2.tabBarItem = ESTabBarItem.init(ExampleIrregularityContentView(), title: nil, image: UIImage(named: "photo_verybig"), selectedImage: UIImage(named: "photo_verybig"))
+        v3.tabBarItem = ESTabBarItem.init(ExampleIrregularityBasicContentView(), title: nil, image: UIImage(named: "me"), selectedImage: UIImage(named: "me_1"))
+        
+        tabBarController.viewControllers = [v1, v2, v3]
+        
+        return tabBarController
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
