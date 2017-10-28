@@ -39,15 +39,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let navigationBarAppearace = UINavigationBar.appearance()
         
-        navigationBarAppearace.barStyle = .black
+        //navigationBarAppearace.barStyle = .black
         navigationBarAppearace.tintColor = UIColor.white
-        //navigationBarAppearace.barTintColor = Utils.blue
-        //navigationBarAppearace.backgroundColor = UIColor.black
+        navigationBarAppearace.barTintColor = Settings.themeColor
+        navigationBarAppearace.titleTextAttributes = [NSAttributedStringKey.foregroundColor:UIColor.white]
         
-        navigationBarAppearace.isTranslucent = false
+        navigationBarAppearace.isTranslucent = true
         
-        let barButtonItemAppearance = UIBarButtonItem.appearance()
-        barButtonItemAppearance.tintColor = UIColor.white
+        //let barButtonItemAppearance = UIBarButtonItem.appearance()
+        //barButtonItemAppearance.tintColor = UIColor.white
         return true
     }
     
