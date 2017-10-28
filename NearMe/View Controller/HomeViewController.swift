@@ -24,6 +24,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet var leftBarButton: UIBarButtonItem!
     @IBOutlet var rightBarButton: UIBarButtonItem!
     
+    @IBOutlet weak var refreshMapButton: UIButton!
     
     var currentViewType = ViewType.List
     
@@ -43,6 +44,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     let DEFAULT_LONGITUDE = -121.8825989
     let GEO_EPSILON = 0.000001
     var postLocations: [CLLocationCoordinate2D] = []
+    var isDragged = false
     
     var resultsViewController: GMSAutocompleteResultsViewController?
     var searchController: UISearchController?
@@ -87,13 +89,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
 
-    func getPost(location: CLLocation, radius: Double) -> Void {
+    func getPost(location: CLLocation, radius: Double, zoom: Float) -> Void {
         PostService.sharedInstance.search(center: location, radius: radius, success: { (posts: [Post]) in
             self.posts = posts.sorted(by: self.sortFunc)
             self.tableView.reloadData()
-            self.showPostsInMapView()
+            self.showPostsInMapView(zoom: zoom)
             self.getSearchBarPlaceholder()
-            if ( posts.count == 0 ) {
+            if ( posts.count == 0 && self.currentViewType == ViewType.List ) {
                 self.showError(title: self.noPostErrorTitle, message:self.noPostErrorMessage )
             }
         }, failure: { (error: Error) in
@@ -221,14 +223,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         mapContentView.settings.myLocationButton = true
         mapContentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapContentView.isMyLocationEnabled = true
+        mapContentView.setMinZoom(13, maxZoom: 20.0)
         mapView.addSubview(mapContentView)
+        mapView.bringSubview(toFront: refreshMapButton)
     }
     
     
-    func showPostsInMapView() {
+    func showPostsInMapView(zoom: Float) {
         postLocations.removeAll()
         mapContentView.clear()
-        updateMapCamera()
+        updateMapCamera(zoom: zoom)
         for post in posts {
             let state_marker = GMSMarker()
             let post_latitude = post.location?.latitude ?? DEFAULT_LATITUDE
@@ -240,12 +244,19 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             state_marker.title = post.screen_name
             state_marker.snippet = post.message
             state_marker.userData = post
+            if let likeCount = post.likes {
+                if ( likeCount > 50 ) {
+                    state_marker.icon = UIImage(named: "hotMarker")
+                } else {
+                     state_marker.icon = UIImage(named: "Marker")
+                }
+            }
             state_marker.map = mapContentView
         }
     }
     
-    func updateMapCamera() {
-        let camera = GMSCameraPosition.camera(withLatitude:(searchLocation?.coordinate.latitude)!, longitude: (searchLocation?.coordinate.longitude)!, zoom: zoomLevel)
+    func updateMapCamera(zoom: Float) {
+        let camera = GMSCameraPosition.camera(withLatitude:(searchLocation?.coordinate.latitude)!, longitude: (searchLocation?.coordinate.longitude)!, zoom: zoom)
         if mapView.isHidden {
             mapContentView.camera = camera
         } else {
@@ -345,7 +356,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @objc func chooseCurrentLocation() {
         searchController?.isActive = false
         searchLocation = currentLocation
-        getPost(location: searchLocation!, radius: Settings.globalSettings.distance)
+        getPost(location: searchLocation!, radius: Settings.globalSettings.distance, zoom: zoomLevel)
     }
     
     /** MARK: - Pull and Refresh **/
@@ -364,13 +375,22 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         PostService.sharedInstance.search(center: location, radius: radius, success: { (posts: [Post]) in
             self.posts = posts.sorted(by: self.sortFunc)
             self.tableView.reloadData()
-            self.showPostsInMapView()
+            self.showPostsInMapView(zoom: self.zoomLevel)
             self.refreshControl.endRefreshing()
         }, failure: { (error: Error) in
             self.refreshControl.endRefreshing()
             self.showError(title: self.errorTitle, message: error.localizedDescription)
         })
     }
+    
+    @IBAction func onRefreshMapButton(_ sender: Any) {
+        searchLocation = CLLocation( latitude: mapContentView.camera.target.latitude, longitude: mapContentView.camera.target.longitude )
+        print("refresh map zoom: \(mapContentView.camera.zoom)")
+            print("refresh map getRadius: \(mapContentView.getRadius())")
+                 print("refresh map Settings.globalSettings.distance: \(Settings.globalSettings.distance)")
+        getPost(location: searchLocation, radius: mapContentView.getRadius(), zoom: mapContentView.camera.zoom)
+    }
+    
     
     private func sortFunc(left: Post, right: Post) -> Bool {
         switch Settings.globalSettings.sortBy {
@@ -426,7 +446,6 @@ extension HomeViewController: GMSMapViewDelegate {
         infoWindow.contentView.layoutIfNeeded()
         return infoWindow
     }
-    
 }
 
 extension HomeViewController: CLLocationManagerDelegate {
@@ -439,7 +458,7 @@ extension HomeViewController: CLLocationManagerDelegate {
             if searchLocation == nil {
                 searchLocation = currentLocation
             }
-            getPost(location: searchLocation!, radius: Settings.globalSettings.distance)
+            getPost(location: searchLocation!, radius: Settings.globalSettings.distance, zoom: zoomLevel)
         } else {
             currentLocation = defaultLocation
         }
@@ -496,7 +515,7 @@ extension HomeViewController: GMSAutocompleteResultsViewControllerDelegate {
         searchController?.isActive = false
         searchPlace = place
         searchLocation = CLLocation(latitude: searchPlace!.coordinate.latitude, longitude: searchPlace!.coordinate.longitude)
-        getPost(location: searchLocation!, radius: Settings.globalSettings.distance)
+        getPost(location: searchLocation!, radius: Settings.globalSettings.distance, zoom: zoomLevel)
     }
     
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
@@ -532,3 +551,25 @@ extension HomeViewController: ComposeViewControllerDelegate {
     }
 }
 
+extension GMSMapView {
+    func getCenterCoordinate() -> CLLocationCoordinate2D {
+        let centerPoint = self.center
+        let centerCoordinate = self.projection.coordinate(for: centerPoint)
+        return centerCoordinate
+    }
+    
+    func getTopCenterCoordinate() -> CLLocationCoordinate2D {
+        let topCenterCoor = self.convert(CGPoint(x: self.frame.size.width, y: 0), from: self)
+        let point = self.projection.coordinate(for: topCenterCoor)
+        return point
+    }
+    
+    func getRadius() -> CLLocationDistance {
+        let centerCoordinate = getCenterCoordinate()
+        let centerLocation = CLLocation(latitude: centerCoordinate.latitude, longitude: centerCoordinate.longitude)
+        let topCenterCoordinate = self.getTopCenterCoordinate()
+        let topCenterLocation = CLLocation(latitude: topCenterCoordinate.latitude, longitude: topCenterCoordinate.longitude)
+        let radius = CLLocationDistance(centerLocation.distance(from: topCenterLocation))/1000.0
+        return round(radius)
+    }
+}
