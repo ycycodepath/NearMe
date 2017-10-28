@@ -53,7 +53,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         initLocation()
         initTableView()
-        initMapView()
         
         initRefreshControl()
         initSearchBar()
@@ -105,12 +104,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 currentViewType = ViewType.Map
                 self.leftBarButton.image = UIImage(named: "list")
                 self.tableView.reloadData()
+                initMapView()
+                self.showPostsInMapView()
                 break
             case ViewType.Map:
                 self.view.bringSubview(toFront: tableView)
                 currentViewType = ViewType.List
                 self.leftBarButton.image = UIImage(named: "map")
-                self.showPostsInMapView()
+                mapContentView = nil
                 break
         }
     }
@@ -213,7 +214,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let camera = GMSCameraPosition.camera(withLatitude: DEFAULT_LATITUDE,
                                               longitude: DEFAULT_LONGITUDE,
                                               zoom: zoomLevel)
-        mapContentView = GMSMapView.map(withFrame: view.bounds, camera: camera)
+        mapContentView = GMSMapView.map(withFrame: mapView.bounds, camera: camera)
         mapContentView.delegate = self
         mapContentView.settings.myLocationButton = true
         mapContentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
