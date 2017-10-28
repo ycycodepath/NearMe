@@ -52,7 +52,7 @@ class FeedCell: UITableViewCell {
                  timestamp.text = FeedCell.convertEpochTimeStamp(timestamp: createTime)
             }
 
-            if LikeService.sharedInstance.isPostLiked(postId: post.id!) {
+            if LikeService.sharedInstance.isPostLiked(postId: post.id ?? "") {
                 likeButton.isSelected = true
             } else {
                 likeButton.isSelected = false
@@ -60,7 +60,12 @@ class FeedCell: UITableViewCell {
             
             likeCountLabel.text = "\(post.likes ?? 0)"
             
-            avatarView.image = UIImage(named: post.avatarUrl ?? "user1")
+            if let avatarPath = post.avatarUrl {
+                let imagePath = Bundle.main.resourcePath! + avatarPath
+                avatarView.image = UIImage(contentsOfFile: imagePath) ?? UIImage(named: "user1")
+            } else {
+                avatarView.image = UIImage(named: "user1")
+            }
             
             screenNameLabel.text = post.screen_name ?? DEFAULT_SCREEN_NAME
             if let distancestr = post.distance, let distance = Double(distancestr) {
@@ -68,7 +73,7 @@ class FeedCell: UITableViewCell {
                 
                 distanceLabel.text = distance
             } else {
-                distanceLabel.isHidden = true
+                distanceLabel.text = ""
             }
             
             if let place = post.place {

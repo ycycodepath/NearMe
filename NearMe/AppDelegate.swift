@@ -32,6 +32,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         GMSPlacesClient.provideAPIKey("AIzaSyBPZgNeZOx1PSni5OalI1zYo56TTWcLTKE")
         GMSServices.provideAPIKey("AIzaSyDLpnvclx1PpHuluGw8GBZ2eCYd3cAWMII")
+        
+        let navigationBarAppearace = UINavigationBar.appearance()
+        
+        navigationBarAppearace.barStyle = .black
+        navigationBarAppearace.tintColor = UIColor.white
+        //navigationBarAppearace.barTintColor = Utils.blue
+        //navigationBarAppearace.backgroundColor = UIColor.black
+        
+        navigationBarAppearace.isTranslucent = false
+        
+        let barButtonItemAppearance = UIBarButtonItem.appearance()
+        barButtonItemAppearance.tintColor = UIColor.white
                 
         return true
     }

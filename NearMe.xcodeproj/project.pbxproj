@@ -22,6 +22,7 @@
 		6059B98D1F87FDA900280D4E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6059B98B1F87FDA900280D4E /* LaunchScreen.storyboard */; };
 		6059B9981F87FDA900280D4E /* NearMeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6059B9971F87FDA900280D4E /* NearMeTests.swift */; };
 		6059B9A31F87FDA900280D4E /* NearMeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6059B9A21F87FDA900280D4E /* NearMeUITests.swift */; };
+		6080A5AA1FA18D7500140742 /* avatars in Resources */ = {isa = PBXBuildFile; fileRef = 6080A5A91FA18D7500140742 /* avatars */; };
 		60BD4B791F8DF1C2005A1FD8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 60D178E51F8DEDEC007826FD /* Assets.xcassets */; };
 		60DEBC4F1F8DB1D7005E15AF /* Compose.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 60DEBC4E1F8DB1D7005E15AF /* Compose.storyboard */; };
 		8311EBE9815CD36F298F774A /* Pods_NearMeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C9A578DE613D51C2B721844 /* Pods_NearMeUITests.framework */; };
@@ -94,6 +95,7 @@
 		6059B99E1F87FDA900280D4E /* NearMeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NearMeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6059B9A21F87FDA900280D4E /* NearMeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearMeUITests.swift; sourceTree = "<group>"; };
 		6059B9A41F87FDA900280D4E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6080A5A91FA18D7500140742 /* avatars */ = {isa = PBXFileReference; lastKnownFileType = folder; path = avatars; sourceTree = "<group>"; };
 		60D178E51F8DEDEC007826FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		60DEBC4E1F8DB1D7005E15AF /* Compose.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Compose.storyboard; sourceTree = "<group>"; };
 		6396F2D10D223E9498404B37 /* Pods-NearMeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NearMeTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-NearMeTests/Pods-NearMeTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				6059B98B1F87FDA900280D4E /* LaunchScreen.storyboard */,
 				6059B98E1F87FDA900280D4E /* Info.plist */,
 				98399A9B1F8C989800F8E67C /* GoogleService-Info.plist */,
+				6080A5A91FA18D7500140742 /* avatars */,
 			);
 			path = NearMe;
 			sourceTree = "<group>";
@@ -408,6 +411,7 @@
 				6059B98D1F87FDA900280D4E /* LaunchScreen.storyboard in Resources */,
 				9827821E1F8F50A1008EEBD4 /* GoogleService-Info.plist in Resources */,
 				6059B9881F87FDA900280D4E /* Main.storyboard in Resources */,
+				6080A5AA1FA18D7500140742 /* avatars in Resources */,
 				38F15ECD1F9410E70058C5E5 /* Home.storyboard in Resources */,
 				9849D3F51F9D9ADD001CCE86 /* MapInfoWindow.xib in Resources */,
 				60BD4B791F8DF1C2005A1FD8 /* Assets.xcassets in Resources */,

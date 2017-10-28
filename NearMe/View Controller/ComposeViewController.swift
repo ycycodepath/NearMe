@@ -50,14 +50,9 @@ class ComposeViewController: UIViewController {
         getCurrentPlace()
         
         self.hideKeyboardWhenTappedAround()
-//        screennameLabel.text = "@\(currentUser.screenname ?? "null")"
-//        usernameLabel.text = currentUser.name
-//        
-//        if let imageURL = currentUser.profileImgUrl {
-//            profileImgView.setImageWith(imageURL)
-//        } else {
-//            profileImgView.image = nil
-//        }
+        usernameLabel.text = Settings.globalSettings.userScreenname ?? "Ninja"
+        
+        profileImgView.image = Settings.globalSettings.userAvatarImage
 
         postTextView.delegate = self
         postTextView.becomeFirstResponder()
@@ -84,19 +79,6 @@ class ComposeViewController: UIViewController {
     
     @IBAction func onCancelButton(_ sender: Any) {
         dismiss(animated: true, completion: nil)
-    }
-    
-    @IBAction func onTweetButton(_ sender: Any) {
-//        if tweetTextView.text.lengthOfBytes(using: String.Encoding.utf8) == 0 {
-//            Utils.popAlertWith(msg: "Please type something to tweet about", in: self)
-//        }
-//        TwitterService.sharedInstance?.tweet(tweetTextView.text, replyTo: replyToTweet?.id, success: { (tweet: Tweet) in
-//            print("successfully tweeted: \(tweet.text)")
-//            self.delegate?.composeTweetViewController?(self, didTweet: tweet)
-//            self.dismiss(animated: true, completion: nil)
-//        }, failure: { (error: Error) in
-//            Utils.popAlertWith(msg: "Tweet failed: \(error.localizedDescription)", in: self)
-//        })
     }
     
     @IBAction func presentImagePicker(_ sender: Any) {
@@ -146,7 +128,7 @@ class ComposeViewController: UIViewController {
         let uuid = UIDevice.current.identifierForVendor?.uuidString
         let location = Location(latitude: gmsPlace.coordinate.latitude, longitude: gmsPlace.coordinate.longitude)
         
-        let post = Post(uuid: uuid, message: self.postTextView.text, location: location, screen_name: "Demo User", place: gmsPlace.name, address: gmsPlace.formattedAddress, avatarUrl: "user1")
+        let post = Post(uuid: uuid, message: self.postTextView.text, location: location, screen_name: Settings.globalSettings.userScreenname, place: gmsPlace.name, address: gmsPlace.formattedAddress, avatarUrl: Settings.globalSettings.userAvatarPath)
         
         let image = postImageView.image
         
@@ -188,7 +170,12 @@ extension ComposeViewController: UITextViewDelegate {
             postButton.isEnabled = false
             countBarButton.tintColor = UIColor.red
         } else {
-            postButton.isEnabled = true
+            if countDown == postCharLimit {
+                postButton.isEnabled = false
+            } else {
+                postButton.isEnabled = true
+            }
+            
             countBarButton.tintColor = UIColor.gray
         }
     }
