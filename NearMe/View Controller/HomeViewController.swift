@@ -60,7 +60,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         initLocation()
         initTableView()
-        initMapView()
         
         initRefreshControl()
         initSearchBar()
@@ -93,7 +92,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         PostService.sharedInstance.search(center: location, radius: radius, success: { (posts: [Post]) in
             self.posts = posts.sorted(by: self.sortFunc)
             self.tableView.reloadData()
-            self.showPostsInMapView(zoom: zoom)
+            self.showPostsInMapView()
+            if self.currentViewType == .List {
+                self.tableView.reloadData()
+            } else if self.currentViewType == .Map {
+                self.showPostsInMapView()
+            }
             self.getSearchBarPlaceholder()
             if ( posts.count == 0 && self.currentViewType == ViewType.List ) {
                 self.showError(title: self.noPostErrorTitle, message:self.noPostErrorMessage )
@@ -111,11 +115,15 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.view.bringSubview(toFront: mapView)
                 currentViewType = ViewType.Map
                 self.leftBarButton.image = UIImage(named: "list")
+                self.tableView.reloadData()
+                initMapView()
+                self.showPostsInMapView()
                 break
             case ViewType.Map:
                 self.view.bringSubview(toFront: tableView)
                 currentViewType = ViewType.List
                 self.leftBarButton.image = UIImage(named: "map")
+                mapContentView = nil
                 break
         }
     }
@@ -218,7 +226,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let camera = GMSCameraPosition.camera(withLatitude: DEFAULT_LATITUDE,
                                               longitude: DEFAULT_LONGITUDE,
                                               zoom: zoomLevel)
-        mapContentView = GMSMapView.map(withFrame: view.bounds, camera: camera)
+        mapContentView = GMSMapView.map(withFrame: mapView.bounds, camera: camera)
         mapContentView.delegate = self
         mapContentView.settings.myLocationButton = true
         mapContentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -309,16 +317,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         searchController?.searchBar.placeholder = CURRENT_LOCATION_PLACEHOLDER
         searchController?.searchBar.showsCancelButton = false
         searchController?.searchBar.tintColor = UIColor.white
-
-//        searchController?.searchBar.barStyle = .black
-//        searchController?.searchBar.backgroundColor = UIColor.lightGray
-//        searchController?.searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
-//        searchController?.searchBar.frame.size.width = 40
-//        searchController?.searchBar.sizeToFit()
-//        searchController?.searchBar.frame.size.height = 40
-//        navigationItem.titleView = searchController?.searchBar
-//        let yConstraint = NSLayoutConstraint(item: navigationItem.titleView, attribute: .centerY, relatedBy: .equal, toItem: navigationItem.leftBarButtonItem?.image, attribute: .centerY, multiplier: 1, constant: 0)
-//        NSLayoutConstraint.activate([yConstraint])
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.white]
 
         definesPresentationContext = true
         
@@ -334,14 +333,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func navigationBarInSearch() {
         let currentLocationButton = UIBarButtonItem(image: UIImage(named: "currentLocation"), style: .plain, target: self, action: #selector(chooseCurrentLocation))
         self.navigationItem.setLeftBarButton(currentLocationButton, animated: true)
-        self.navigationItem.titleView = searchController?.searchBar
+
+
         self.navigationItem.setRightBarButton(nil, animated: true)
+        self.navigationItem.searchController = searchController
+        searchController?.searchBar.becomeFirstResponder()
     }
     
     func navigationBarInNormal() {
         self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
-        self.navigationItem.titleView = nil
-        self.navigationItem.title = "Home"
+        self.navigationItem.searchController = nil
         self.navigationItem.setRightBarButton(rightBarButton, animated: true)
     }
     
@@ -375,7 +376,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         PostService.sharedInstance.search(center: location, radius: radius, success: { (posts: [Post]) in
             self.posts = posts.sorted(by: self.sortFunc)
             self.tableView.reloadData()
-            self.showPostsInMapView(zoom: self.zoomLevel)
+            self.showPostsInMapView()
+            if self.currentViewType == .List {
+                self.tableView.reloadData()
+            } else if self.currentViewType == .Map {
+                self.showPostsInMapView()
+            }
             self.refreshControl.endRefreshing()
         }, failure: { (error: Error) in
             self.refreshControl.endRefreshing()
@@ -491,7 +497,7 @@ extension HomeViewController: CLLocationManagerDelegate {
 extension HomeViewController: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        self.searchController?.searchBar.showsCancelButton = false
+        navigationBarInSearch()
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {

@@ -64,6 +64,10 @@ class ComposeViewController: UIViewController {
         postImageView.layer.cornerRadius = cornerRadius
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        self.view.endEditing(true)
+    }
+    
     override func viewDidLayoutSubviews() {
         postImgViewWidthConstraint.constant = postImgScrollView.frame.size.width
         postImgScrollViewBottomConstraint.constant = keyboardToolBar.frame.height
@@ -81,8 +85,11 @@ class ComposeViewController: UIViewController {
     
     @IBAction func onCancelButton(_ sender: Any) {
         guard let rootTabBar = self.appDelegate.rootTabBarController else { return }
-        rootTabBar.tabBar.isHidden = false
+        //rootTabBar.tabBar.isHidden = false
         rootTabBar.selectedIndex = 0
+        dismiss(animated: true, completion: nil)
+
+        dismiss(animated: true, completion: nil)
     }
     
     @IBAction func presentImagePicker(_ sender: Any) {
@@ -140,8 +147,11 @@ class ComposeViewController: UIViewController {
             NSLog("Successfully createda a post")
             self.delegate?.composeViewController(self, didPost: post)
             guard let rootTabBar = self.appDelegate.rootTabBarController else { return }
-            rootTabBar.tabBar.isHidden = false
+            //rootTabBar.tabBar.isHidden = false
             rootTabBar.selectedIndex = 0
+            self.dismiss(animated: true, completion: nil)
+
+            self.dismiss(animated: true, completion: nil)
         }, failure: { (error) in
             print(error.localizedDescription)
         })
