@@ -13,7 +13,7 @@ target 'NearMe' do
   pod 'Firebase/Database'
   pod 'Firebase/Storage'  
   pod 'GeoFire', :git => 'https://github.com/firebase/geofire-objc.git'  
-  pod "PromiseKit"
+  pod 'PromiseKit'
   pod 'SwiftyBeaver'
   pod 'ImagePicker'
   pod 'UITextView+Placeholder'
@@ -23,9 +23,9 @@ target 'NearMe' do
   pod 'GooglePlacePicker'
   pod 'GoogleMaps'
   pod 'IDMPhotoBrowser'
-  pod "MagicalRecord" 
-  pod 'RAMAnimatedTabBarController'
+  pod 'MagicalRecord'
   pod 'lottie-ios'
+  pod 'ESTabBarController-swift'
 
   target 'NearMeTests' do
     inherit! :search_paths

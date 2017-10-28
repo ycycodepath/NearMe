@@ -100,12 +100,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             case ViewType.List:
                 self.view.bringSubview(toFront: mapView)
                 currentViewType = ViewType.Map
-                self.leftBarButton.title = "List"
+                self.leftBarButton.image = UIImage(named: "list")
                 break
             case ViewType.Map:
                 self.view.bringSubview(toFront: tableView)
                 currentViewType = ViewType.List
-                self.leftBarButton.title = "Map"
+                self.leftBarButton.image = UIImage(named: "map")
                 break
         }
     }
@@ -286,35 +286,43 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         searchController?.searchBar.sizeToFit()
         searchController?.searchBar.delegate = self
-        searchController?.searchBar.placeholder = "Current Location"
+        searchController?.searchBar.placeholder = CURRENT_LOCATION_PLACEHOLDER
+        searchController?.searchBar.showsCancelButton = false
         
 //        searchController?.searchBar.barStyle = .black
 //        searchController?.searchBar.backgroundColor = UIColor.lightGray
-//        searchController?.searchBar.tintColor = UIColor.white
+        searchController?.searchBar.tintColor = UIColor.white
 //        searchController?.searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
 //        searchController?.searchBar.frame.size.width = 40
 //        searchController?.searchBar.sizeToFit()
 //        searchController?.searchBar.frame.size.height = 40
         
-        navigationItem.titleView = searchController?.searchBar
+//        navigationItem.titleView = searchController?.searchBar
 //        let yConstraint = NSLayoutConstraint(item: navigationItem.titleView, attribute: .centerY, relatedBy: .equal, toItem: navigationItem.leftBarButtonItem?.image, attribute: .centerY, multiplier: 1, constant: 0)
 //        NSLayoutConstraint.activate([yConstraint])
 
-        
         definesPresentationContext = true
         
         searchController?.hidesNavigationBarDuringPresentation = false
     }
     
+    @IBAction func onSearchButtonClicked(_ sender: Any) {
+        
+        navigationBarInSearch()
+    }
+    
+    
     func navigationBarInSearch() {
         let currentLocationButton = UIBarButtonItem(image: UIImage(named: "currentLocation"), style: .plain, target: self, action: #selector(chooseCurrentLocation))
         self.navigationItem.setLeftBarButton(currentLocationButton, animated: true)
-
+        self.navigationItem.titleView = searchController?.searchBar
         self.navigationItem.setRightBarButton(nil, animated: true)
     }
     
     func navigationBarInNormal() {
         self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
+        self.navigationItem.titleView = nil
+        self.navigationItem.title = "Home"
         self.navigationItem.setRightBarButton(rightBarButton, animated: true)
     }
     
@@ -445,16 +453,19 @@ extension HomeViewController: CLLocationManagerDelegate {
 extension HomeViewController: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        navigationBarInSearch()
+////        navigationBarInSearch()
+//        searchBar.sizeToFit()
+//        searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        self.searchController?.searchBar.showsCancelButton = false
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         navigationBarInNormal()
     }
     
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        navigationBarInNormal()
-    }
+//    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+//        navigationBarInNormal()
+//    }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         navigationBarInSearch()
