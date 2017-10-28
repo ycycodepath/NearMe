@@ -289,22 +289,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
         
-        //searchController?.searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        //searchController?.searchBar.sizeToFit()
+        searchController?.searchBar.sizeToFit()
         searchController?.searchBar.delegate = self
         searchController?.searchBar.placeholder = CURRENT_LOCATION_PLACEHOLDER
         searchController?.searchBar.showsCancelButton = false
         searchController?.searchBar.tintColor = UIColor.white
-
-//        searchController?.searchBar.barStyle = .black
-//        searchController?.searchBar.backgroundColor = UIColor.lightGray
-//        searchController?.searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
-//        searchController?.searchBar.frame.size.width = 40
-//        searchController?.searchBar.sizeToFit()
-//        searchController?.searchBar.frame.size.height = 40
-//        navigationItem.titleView = searchController?.searchBar
-//        let yConstraint = NSLayoutConstraint(item: navigationItem.titleView, attribute: .centerY, relatedBy: .equal, toItem: navigationItem.leftBarButtonItem?.image, attribute: .centerY, multiplier: 1, constant: 0)
-//        NSLayoutConstraint.activate([yConstraint])
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.white]
 
         definesPresentationContext = true
         
@@ -320,14 +310,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func navigationBarInSearch() {
         let currentLocationButton = UIBarButtonItem(image: UIImage(named: "currentLocation"), style: .plain, target: self, action: #selector(chooseCurrentLocation))
         self.navigationItem.setLeftBarButton(currentLocationButton, animated: true)
-        self.navigationItem.titleView = searchController?.searchBar
         self.navigationItem.setRightBarButton(nil, animated: true)
+        self.navigationItem.searchController = searchController
+        searchController?.searchBar.becomeFirstResponder()
     }
     
     func navigationBarInNormal() {
         self.navigationItem.setLeftBarButton(leftBarButton, animated: true)
-        self.navigationItem.titleView = nil
-        self.navigationItem.title = "Home"
+        self.navigationItem.searchController = nil
         self.navigationItem.setRightBarButton(rightBarButton, animated: true)
     }
     
@@ -469,7 +459,6 @@ extension HomeViewController: CLLocationManagerDelegate {
 extension HomeViewController: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        self.searchController?.searchBar.showsCancelButton = false
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
