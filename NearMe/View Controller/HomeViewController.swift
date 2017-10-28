@@ -85,8 +85,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func getPost(location: CLLocation, radius: Double) -> Void {
         PostService.sharedInstance.search(center: location, radius: radius, success: { (posts: [Post]) in
             self.posts = posts.sorted(by: self.sortFunc)
-            self.tableView.reloadData()
-            self.showPostsInMapView()
+            if self.currentViewType == .List {
+                self.tableView.reloadData()
+            } else if self.currentViewType == .Map {
+                self.showPostsInMapView()
+            }
             self.getSearchBarPlaceholder()
         }, failure: { (error: Error) in
             self.showError(error: error)
@@ -101,11 +104,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.view.bringSubview(toFront: mapView)
                 currentViewType = ViewType.Map
                 self.leftBarButton.image = UIImage(named: "list")
+                self.tableView.reloadData()
                 break
             case ViewType.Map:
                 self.view.bringSubview(toFront: tableView)
                 currentViewType = ViewType.List
                 self.leftBarButton.image = UIImage(named: "map")
+                self.showPostsInMapView()
                 break
         }
     }
@@ -284,8 +289,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
         
-        searchController?.searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        searchController?.searchBar.sizeToFit()
+        //searchController?.searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        //searchController?.searchBar.sizeToFit()
         searchController?.searchBar.delegate = self
         searchController?.searchBar.placeholder = CURRENT_LOCATION_PLACEHOLDER
         searchController?.searchBar.showsCancelButton = false
@@ -355,8 +360,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func refreshPost(location: CLLocation, radius: Double) -> Void {
         PostService.sharedInstance.search(center: location, radius: radius, success: { (posts: [Post]) in
             self.posts = posts.sorted(by: self.sortFunc)
-            self.tableView.reloadData()
-            self.showPostsInMapView()
+            if self.currentViewType == .List {
+                self.tableView.reloadData()
+            } else if self.currentViewType == .Map {
+                self.showPostsInMapView()
+            }
             self.refreshControl.endRefreshing()
         }, failure: { (error: Error) in
             self.showError(error: error)

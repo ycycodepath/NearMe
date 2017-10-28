@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let navigationBarAppearace = UINavigationBar.appearance()
         
-        //navigationBarAppearace.barStyle = .black
+        navigationBarAppearace.barStyle = .black
         navigationBarAppearace.tintColor = UIColor.white
         navigationBarAppearace.barTintColor = Settings.themeColor
         navigationBarAppearace.titleTextAttributes = [NSAttributedStringKey.foregroundColor:UIColor.white]
@@ -56,9 +56,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabBarController.tabBar.shadowImage = UIImage(named: "transparent")
         tabBarController.tabBar.backgroundImage = UIImage(named: "background_dark")
         
+        tabBarController.shouldHijackHandler = {
+            tabbarController, viewController, index in
+            if index == 1 {
+                return true
+            }
+            return false
+        }
+        tabBarController.didHijackHandler = {
+            tabbarController, viewController, index in
+            
+            let composeStortboard = UIStoryboard(name: "Compose", bundle: nil)
+            let composeNavController = composeStortboard.instantiateViewController(withIdentifier: "ComposeNavigationController") as! UINavigationController
+            tabbarController
+                .present(composeNavController, animated: true, completion: nil)
+
+        }
+        
         let homeStortboard = UIStoryboard(name: "Home", bundle: nil)
         let homeNavController = homeStortboard.instantiateViewController(withIdentifier: "HomeNavigationController") as! UINavigationController
 
+        // present it modally in hijackhandler
         let composeStortboard = UIStoryboard(name: "Compose", bundle: nil)
         let composeNavController = composeStortboard.instantiateViewController(withIdentifier: "ComposeNavigationController") as! UINavigationController
 
