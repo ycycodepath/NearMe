@@ -288,15 +288,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         searchController?.searchBar.delegate = self
         searchController?.searchBar.placeholder = CURRENT_LOCATION_PLACEHOLDER
         searchController?.searchBar.showsCancelButton = false
-        
+        searchController?.searchBar.tintColor = UIColor.white
+
 //        searchController?.searchBar.barStyle = .black
 //        searchController?.searchBar.backgroundColor = UIColor.lightGray
-        searchController?.searchBar.tintColor = UIColor.white
 //        searchController?.searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
 //        searchController?.searchBar.frame.size.width = 40
 //        searchController?.searchBar.sizeToFit()
 //        searchController?.searchBar.frame.size.height = 40
-        
 //        navigationItem.titleView = searchController?.searchBar
 //        let yConstraint = NSLayoutConstraint(item: navigationItem.titleView, attribute: .centerY, relatedBy: .equal, toItem: navigationItem.leftBarButtonItem?.image, attribute: .centerY, multiplier: 1, constant: 0)
 //        NSLayoutConstraint.activate([yConstraint])
@@ -453,9 +452,6 @@ extension HomeViewController: CLLocationManagerDelegate {
 extension HomeViewController: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-////        navigationBarInSearch()
-//        searchBar.sizeToFit()
-//        searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
         self.searchController?.searchBar.showsCancelButton = false
     }
     
@@ -470,6 +466,7 @@ extension HomeViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         navigationBarInSearch()
     }
+    
 }
 
 
