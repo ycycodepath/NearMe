@@ -284,6 +284,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
         
+        searchController?.searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
         searchController?.searchBar.sizeToFit()
         searchController?.searchBar.delegate = self
         searchController?.searchBar.placeholder = CURRENT_LOCATION_PLACEHOLDER
@@ -370,6 +371,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             return (Double(left.distance ?? "") ?? -1) < (Double(right.distance ?? "") ?? -1)
         case .mostLiked:
             return (left.likes ?? -1) > (right.likes ?? -1)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let destinationViewController = segue.destination as? UINavigationController {
+            if let composeViewController = destinationViewController.topViewController as? ComposeViewController {
+                composeViewController.delegate = self
+            }
         }
     }
     
@@ -493,3 +502,10 @@ extension HomeViewController: GMSAutocompleteResultsViewControllerDelegate {
         UIApplication.shared.isNetworkActivityIndicatorVisible = false
     }
 }
+extension HomeViewController: ComposeViewControllerDelegate {
+    func composeViewController(_ composeViewController: ComposeViewController, didPost status: Post) {
+        self.posts.insert(status, at: 0)
+        self.tableView.reloadData()
+    }
+}
+

@@ -36,6 +36,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         rootTabBarController = customTabBarController()
         window?.rootViewController = rootTabBarController
+
+        let navigationBarAppearace = UINavigationBar.appearance()
+        
+        //navigationBarAppearace.barStyle = .black
+        navigationBarAppearace.tintColor = UIColor.white
+        navigationBarAppearace.barTintColor = Settings.themeColor
+        navigationBarAppearace.titleTextAttributes = [NSAttributedStringKey.foregroundColor:UIColor.white]
+        
+        navigationBarAppearace.isTranslucent = true
+        
+        //let barButtonItemAppearance = UIBarButtonItem.appearance()
+        //barButtonItemAppearance.tintColor = UIColor.white
         return true
     }
     
