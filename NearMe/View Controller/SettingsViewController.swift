@@ -164,7 +164,8 @@ extension SettingsViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
         
-        tableView.reloadData()
+        //tableView.reloadData()
+        tableView.reloadSections(IndexSet(integer: indexPath.section), with: UITableViewRowAnimation.automatic)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
