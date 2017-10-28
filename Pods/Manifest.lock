@@ -15,6 +15,7 @@ PODS:
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
   - DACircularProgress (2.3.1)
+  - ESTabBarController-swift (2.5)
   - Firebase/Core (4.4.0):
     - FirebaseAnalytics (= 4.0.4)
     - FirebaseCore (= 4.0.9)
@@ -64,6 +65,7 @@ PODS:
     - SDWebImage (= 4.0.0)
   - ImagePicker (3.0.0)
   - leveldb-library (1.18.3)
+  - lottie-ios (2.1.3)
   - MagicalRecord (2.3.2):
     - MagicalRecord/Core (= 2.3.2)
   - MagicalRecord/Core (2.3.2)
@@ -85,7 +87,6 @@ PODS:
     - PromiseKit/CorePromise
   - PromiseKit/UIKit (4.4.3):
     - PromiseKit/CorePromise
-  - RAMAnimatedTabBarController (2.2.3)
   - SDWebImage (4.0.0):
     - SDWebImage/Core (= 4.0.0)
   - SDWebImage/Core (4.0.0)
@@ -94,6 +95,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking
+  - ESTabBarController-swift
   - Firebase/Core
   - Firebase/Database
   - Firebase/Storage
@@ -104,10 +106,10 @@ DEPENDENCIES:
   - GooglePlaces
   - IDMPhotoBrowser
   - ImagePicker
+  - lottie-ios
   - MagicalRecord
   - NSDateMinimalTimeAgo
   - PromiseKit
-  - RAMAnimatedTabBarController
   - SwiftyBeaver
   - UITextView+Placeholder
 
@@ -123,6 +125,7 @@ CHECKOUT OPTIONS:
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
+  ESTabBarController-swift: 8daa432f2a9be8ebd25101dc46c84472fd760512
   Firebase: 3e92884a63e8f76d107c43a67d2ab9071e1eda10
   FirebaseAnalytics: 722b53c7b32bfc7806b06e0093a2f5180d4f2c5a
   FirebaseCore: ebe73f64302705e693b1de9919a76edbdd17a19d
@@ -139,16 +142,16 @@ SPEC CHECKSUMS:
   IDMPhotoBrowser: b96159fe4adb991a844068eb17dab9c0b7d7e51a
   ImagePicker: 973953c25960fe04729a7082a56194321c6762d2
   leveldb-library: 10fb39c39e243db4af1828441162405bbcec1404
+  lottie-ios: 8c150606598931621e927377f1426d2d3e99282d
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   NSDateMinimalTimeAgo: 71102cc43bb1aa0b5692c953a1abb8c305691475
   pop: 82ca6b068ce9278fd350fd9dd09482a0ce9492e6
   PromiseKit: fbb52a0d154402c57eeb6eccd36dd7724fcf6117
-  RAMAnimatedTabBarController: 71adaa59ea22a8badfa242b8e068f0b9ebbb447d
   SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
   SwiftyBeaver: 91057725648ee4980308f1650af077d04b3654a0
   UITextView+Placeholder: 77680995fcdd07c3f52ec92fe1150874a2ac89ff
 
-PODFILE CHECKSUM: 926ceb3c5e0cab705523bb3aaf18343a74286142
+PODFILE CHECKSUM: 0896cfa44d12f47240ef985aea9763207257b59d
 
 COCOAPODS: 1.3.1

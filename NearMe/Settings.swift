@@ -34,6 +34,8 @@ class Settings {
                                 ["name":"Most Liked", "code":"2"]]
     
     static var globalSettings = loadSettingsFromUserdefault()
+
+    static var themeColor = UIColor(red: 9.0, green: 66.0, blue: 94.0, alpha: 1.0)
     
     static let avatarNames : [String] = {
         let fm = FileManager.default

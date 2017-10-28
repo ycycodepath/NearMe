@@ -38,6 +38,8 @@ class ComposeViewController: UIViewController {
     
     let postCharLimit = 140
     
+    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    
     // height / width
     private var postImgAspect: CGFloat = 0
     
@@ -78,7 +80,9 @@ class ComposeViewController: UIViewController {
     // MARK: - Action
     
     @IBAction func onCancelButton(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        guard let rootTabBar = self.appDelegate.rootTabBarController else { return }
+        rootTabBar.tabBar.isHidden = false
+        rootTabBar.selectedIndex = 0
     }
     
     @IBAction func presentImagePicker(_ sender: Any) {
@@ -135,7 +139,9 @@ class ComposeViewController: UIViewController {
         PostService.sharedInstance.create(post: post, image: image, success: {
             NSLog("Successfully createda a post")
             self.delegate?.composeViewController(self, didPost: post)
-            self.dismiss(animated: true, completion: nil)
+            guard let rootTabBar = self.appDelegate.rootTabBarController else { return }
+            rootTabBar.tabBar.isHidden = false
+            rootTabBar.selectedIndex = 0
         }, failure: { (error) in
             print(error.localizedDescription)
         })
