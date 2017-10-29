@@ -26,7 +26,7 @@ class Settings {
     static let distanceChoices = [["name":"0.1 miles", "code":"\(0.1/milesPerKM)"],
                                   ["name":"0.5 miles", "code":"\(0.5/milesPerKM)"],
                                   ["name":"1 miles", "code":"\(1/milesPerKM)"],
-                                  ["name":"5 miles", "code":"\(5/milesPerKM)"],
+                                  ["name":"3 miles", "code":"\(3/milesPerKM)"],
                                   ["name":"10 miles", "code":"\(10/milesPerKM)"]]
     
     static let sortByChoices = [["name":"Most Recent", "code":"0"],
