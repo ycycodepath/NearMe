@@ -63,7 +63,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         initRefreshControl()
         initSearchBar()
-        
+        refreshMapButton.layer.cornerRadius = 0.5 * refreshMapButton.bounds.size.width
+        refreshMapButton.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.2)
     }
 
     override func didReceiveMemoryWarning() {
@@ -91,12 +92,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func getPost(location: CLLocation, radius: Double, zoom: Float) -> Void {
         PostService.sharedInstance.search(center: location, radius: radius, success: { (posts: [Post]) in
             self.posts = posts.sorted(by: self.sortFunc)
-            self.tableView.reloadData()
-            self.showPostsInMapView()
             if self.currentViewType == .List {
                 self.tableView.reloadData()
             } else if self.currentViewType == .Map {
-                self.showPostsInMapView()
+                self.showPostsInMapView(zoom: zoom)
             }
             self.getSearchBarPlaceholder()
             if ( posts.count == 0 && self.currentViewType == ViewType.List ) {
@@ -115,14 +114,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.view.bringSubview(toFront: mapView)
                 currentViewType = ViewType.Map
                 self.leftBarButton.image = UIImage(named: "list")
-                self.tableView.reloadData()
                 initMapView()
-                self.showPostsInMapView()
+                self.showPostsInMapView(zoom: zoomLevel)
                 break
             case ViewType.Map:
                 self.view.bringSubview(toFront: tableView)
                 currentViewType = ViewType.List
                 self.leftBarButton.image = UIImage(named: "map")
+                self.tableView.reloadData()
                 mapContentView = nil
                 break
         }
@@ -228,7 +227,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                                               zoom: zoomLevel)
         mapContentView = GMSMapView.map(withFrame: mapView.bounds, camera: camera)
         mapContentView.delegate = self
-        mapContentView.settings.myLocationButton = true
+        mapContentView.settings.myLocationButton = false
         mapContentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapContentView.isMyLocationEnabled = true
         mapContentView.setMinZoom(13, maxZoom: 20.0)
@@ -375,12 +374,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func refreshPost(location: CLLocation, radius: Double) -> Void {
         PostService.sharedInstance.search(center: location, radius: radius, success: { (posts: [Post]) in
             self.posts = posts.sorted(by: self.sortFunc)
-            self.tableView.reloadData()
-            self.showPostsInMapView()
             if self.currentViewType == .List {
                 self.tableView.reloadData()
             } else if self.currentViewType == .Map {
-                self.showPostsInMapView()
+                self.showPostsInMapView(zoom: self.zoomLevel)
             }
             self.refreshControl.endRefreshing()
         }, failure: { (error: Error) in
@@ -391,9 +388,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     @IBAction func onRefreshMapButton(_ sender: Any) {
         searchLocation = CLLocation( latitude: mapContentView.camera.target.latitude, longitude: mapContentView.camera.target.longitude )
-        print("refresh map zoom: \(mapContentView.camera.zoom)")
-            print("refresh map getRadius: \(mapContentView.getRadius())")
-                 print("refresh map Settings.globalSettings.distance: \(Settings.globalSettings.distance)")
         getPost(location: searchLocation, radius: mapContentView.getRadius(), zoom: mapContentView.camera.zoom)
     }
     
@@ -428,26 +422,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
 
 extension HomeViewController: GMSMapViewDelegate {
+
     func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
         let infoWindow = MapInfoWindow(frame: CGRect(x:0,y:0,width:view.frame.width*2/3,height:400))
-        infoWindow.screenName = marker.title
-        infoWindow.message = marker.snippet
-        
-        let map_post = marker.userData as! Post
-        infoWindow.likeCount = "\(map_post.likes ?? 0)"
-        
-        if let createTime = map_post.creationTimestamp {
-            infoWindow.timeStamp = FeedCell.convertEpochTimeStamp(timestamp: createTime)
-        }
-        
-        // TODO: let user picks up avatar image
-        infoWindow.avatar = UIImage(named: "user1")
-        
-        if let imageUrlStr = map_post.imageUrl, let imageUrl = URL(string: imageUrlStr), let data = try? Data(contentsOf: imageUrl) {
-            infoWindow.postImage =  UIImage(data: data)
-        } else {
-            infoWindow.postImageHeightConstraint.constant = 0
-        }
+        infoWindow.post = marker.userData as! Post
         infoWindow.frame.size.height =  infoWindow.totalHeightConstraint + infoWindow.postImageHeightConstraint.constant + infoWindow.messageLabel.frame.height
         infoWindow.contentView.layoutIfNeeded()
         return infoWindow

@@ -23,9 +23,11 @@ class MapInfoWindow: UIView {
     @IBOutlet weak var postImageHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var messageLabelTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var messageLabelBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak var likeButton: UIButton!
     
     private var postImgAspect: CGFloat = 0
     var totalHeightConstraint: CGFloat = 0
+    var handleLikeButtonClicked: (Post) -> Void = { (post) -> Void in }
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -53,6 +55,9 @@ class MapInfoWindow: UIView {
         addSubview(contentView)
         
         totalHeightConstraint = avatarTopConstraint.constant + avatarHeightConstraint.constant + postImageTopConstraint.constant + messageLabelTopConstraint.constant + messageLabelBottomConstraint.constant
+        
+        likeButton.setImage(UIImage(named: "homeliked"), for: .selected)
+        likeButton.setImage(UIImage(named: "homelike"), for: .normal)
     }
     
     var screenName: String? {
@@ -90,6 +95,44 @@ class MapInfoWindow: UIView {
             postImgAspect = CGFloat((newValue?.size.height)! / (newValue?.size.width)!)
             postImageHeightConstraint.constant = postImageView.frame.size.width * postImgAspect
         }
+    }
+    
+    var post: Post! {
+        didSet{
+            screenName = post.screen_name
+            message = post.message
+            likeCount = "\(post.likes ?? 0)"
+            if let createTime = post.creationTimestamp {
+                timeStamp = FeedCell.convertEpochTimeStamp(timestamp: createTime)
+            }
+            
+            if let avatarPath = post.avatarUrl {
+                let imagePath = Bundle.main.resourcePath! + avatarPath
+                avatar = UIImage(contentsOfFile: imagePath) ?? UIImage(named: "user1")
+            } else {
+                avatar = UIImage(named: "user1")
+            }
+            
+            
+            if let imageUrlStr = post.imageUrl, let imageUrl = URL(string: imageUrlStr), let data = try? Data(contentsOf: imageUrl) {
+                postImage =  UIImage(data: data)
+            } else {
+                postImageHeightConstraint.constant = 0
+            }
+            
+            if LikeService.sharedInstance.isPostLiked(postId: post.id ?? "") {
+                likeButton.isSelected = true
+            } else {
+                likeButton.isSelected = false
+            }
+            
+        }
+    }
+    
+    @IBAction func onLikeButtonClicked(_ sender: Any) {
+        print("mapinfowindow: onLikeButtonClicked")
+        
+        self.likeButton.isSelected = !self.likeButton.isSelected
     }
     /*
     // Only override draw() if you perform custom drawing.
