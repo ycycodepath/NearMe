@@ -42,7 +42,6 @@ class FeedCell: UITableViewCell {
                 self.contentView.layoutIfNeeded()
                 
             } else {
-                print("no feedImageView")
                 feedImageView.isHidden = true
                 imageHeightConstraint.constant = 0
                 feedImageView.image = nil

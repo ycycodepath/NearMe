@@ -24,12 +24,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     @IBOutlet var leftBarButton: UIBarButtonItem!
     @IBOutlet var rightBarButton: UIBarButtonItem!
     
+    @IBOutlet weak var refreshMapButton: UIButton!
     
     var currentViewType = ViewType.List
     
     var posts = [Post]()
     var locationManager = CLLocationManager()
-    var currentLocation: CLLocation?
+    var currentLocation: CLLocation!
     var searchLocation: CLLocation!
     var searchPlace: GMSPlace?
 
@@ -41,11 +42,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     var zoomLevel: Float = 15.0
     let DEFAULT_LATITUDE = 37.3743507
     let DEFAULT_LONGITUDE = -121.8825989
+    let GEO_EPSILON = 0.000001
     var postLocations: [CLLocationCoordinate2D] = []
+    var isDragged = false
     
     var resultsViewController: GMSAutocompleteResultsViewController?
     var searchController: UISearchController?
     let refreshControl = UIRefreshControl()
+    
+    let errorTitle = "Error"
+    let noPostErrorTitle = "No Post"
+    let noPostErrorMessage =  "No post returned from this location. Be the first one to post here!"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +63,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         initRefreshControl()
         initSearchBar()
-        
+        refreshMapButton.layer.cornerRadius = 0.5 * refreshMapButton.bounds.size.width
+        refreshMapButton.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.2)
     }
 
     override func didReceiveMemoryWarning() {
@@ -81,17 +89,20 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
 
-    func getPost(location: CLLocation, radius: Double) -> Void {
+    func getPost(location: CLLocation, radius: Double, zoom: Float) -> Void {
         PostService.sharedInstance.search(center: location, radius: radius, success: { (posts: [Post]) in
             self.posts = posts.sorted(by: self.sortFunc)
             if self.currentViewType == .List {
                 self.tableView.reloadData()
             } else if self.currentViewType == .Map {
-                self.showPostsInMapView()
+                self.showPostsInMapView(zoom: zoom)
             }
             self.getSearchBarPlaceholder()
+            if ( posts.count == 0 && self.currentViewType == ViewType.List ) {
+                self.showError(title: self.noPostErrorTitle, message:self.noPostErrorMessage )
+            }
         }, failure: { (error: Error) in
-            self.showError(error: error)
+            self.showError(title: self.errorTitle, message: error.localizedDescription)
         })
     }
 
@@ -103,14 +114,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.view.bringSubview(toFront: mapView)
                 currentViewType = ViewType.Map
                 self.leftBarButton.image = UIImage(named: "list")
-                self.tableView.reloadData()
                 initMapView()
-                self.showPostsInMapView()
+                self.showPostsInMapView(zoom: zoomLevel)
                 break
             case ViewType.Map:
                 self.view.bringSubview(toFront: tableView)
                 currentViewType = ViewType.List
                 self.leftBarButton.image = UIImage(named: "map")
+                self.tableView.reloadData()
                 mapContentView = nil
                 break
         }
@@ -216,17 +227,19 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                                               zoom: zoomLevel)
         mapContentView = GMSMapView.map(withFrame: mapView.bounds, camera: camera)
         mapContentView.delegate = self
-        mapContentView.settings.myLocationButton = true
+        mapContentView.settings.myLocationButton = false
         mapContentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapContentView.isMyLocationEnabled = true
+        mapContentView.setMinZoom(13, maxZoom: 20.0)
         mapView.addSubview(mapContentView)
+        mapView.bringSubview(toFront: refreshMapButton)
     }
     
     
-    func showPostsInMapView() {
+    func showPostsInMapView(zoom: Float) {
         postLocations.removeAll()
         mapContentView.clear()
-        updateMapCamera()
+        updateMapCamera(zoom: zoom)
         for post in posts {
             let state_marker = GMSMarker()
             let post_latitude = post.location?.latitude ?? DEFAULT_LATITUDE
@@ -238,12 +251,19 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             state_marker.title = post.screen_name
             state_marker.snippet = post.message
             state_marker.userData = post
+            if let likeCount = post.likes {
+                if ( likeCount > 50 ) {
+                    state_marker.icon = UIImage(named: "hotMarker")
+                } else {
+                     state_marker.icon = UIImage(named: "Marker")
+                }
+            }
             state_marker.map = mapContentView
         }
     }
     
-    func updateMapCamera() {
-        let camera = GMSCameraPosition.camera(withLatitude:searchLocation.coordinate.latitude, longitude: searchLocation.coordinate.longitude, zoom: zoomLevel)
+    func updateMapCamera(zoom: Float) {
+        let camera = GMSCameraPosition.camera(withLatitude:(searchLocation?.coordinate.latitude)!, longitude: (searchLocation?.coordinate.longitude)!, zoom: zoom)
         if mapView.isHidden {
             mapContentView.camera = camera
         } else {
@@ -290,6 +310,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
         
+        searchController?.searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
         searchController?.searchBar.sizeToFit()
         searchController?.searchBar.delegate = self
         searchController?.searchBar.placeholder = CURRENT_LOCATION_PLACEHOLDER
@@ -311,6 +332,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func navigationBarInSearch() {
         let currentLocationButton = UIBarButtonItem(image: UIImage(named: "currentLocation"), style: .plain, target: self, action: #selector(chooseCurrentLocation))
         self.navigationItem.setLeftBarButton(currentLocationButton, animated: true)
+
         self.navigationItem.setRightBarButton(nil, animated: true)
         self.navigationItem.searchController = searchController
         searchController?.searchBar.becomeFirstResponder()
@@ -323,17 +345,17 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func getSearchBarPlaceholder() {
-        if ( currentLocation == searchLocation ) {
+        if ( fabs( currentLocation.coordinate.latitude - searchLocation.coordinate.latitude ) <= GEO_EPSILON && fabs( currentLocation.coordinate.longitude - searchLocation.coordinate.longitude ) <= GEO_EPSILON ) {
             searchController?.searchBar.placeholder = CURRENT_LOCATION_PLACEHOLDER
-        } else {
-            searchController?.searchBar.placeholder = searchPlace?.name
+        } else if let searchPlaceName = searchPlace?.name {
+            searchController?.searchBar.placeholder = searchPlaceName
         }
     }
     
     @objc func chooseCurrentLocation() {
         searchController?.isActive = false
         searchLocation = currentLocation
-        getPost(location: searchLocation!, radius: Settings.globalSettings.distance)
+        getPost(location: searchLocation!, radius: Settings.globalSettings.distance, zoom: zoomLevel)
     }
     
     /** MARK: - Pull and Refresh **/
@@ -354,13 +376,20 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             if self.currentViewType == .List {
                 self.tableView.reloadData()
             } else if self.currentViewType == .Map {
-                self.showPostsInMapView()
+                self.showPostsInMapView(zoom: self.zoomLevel)
             }
             self.refreshControl.endRefreshing()
         }, failure: { (error: Error) in
-            self.showError(error: error)
+            self.refreshControl.endRefreshing()
+            self.showError(title: self.errorTitle, message: error.localizedDescription)
         })
     }
+    
+    @IBAction func onRefreshMapButton(_ sender: Any) {
+        searchLocation = CLLocation( latitude: mapContentView.camera.target.latitude, longitude: mapContentView.camera.target.longitude )
+        getPost(location: searchLocation, radius: mapContentView.getRadius(), zoom: mapContentView.camera.zoom)
+    }
+    
     
     private func sortFunc(left: Post, right: Post) -> Bool {
         switch Settings.globalSettings.sortBy {
@@ -382,8 +411,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     /** MARK: - Error window **/
-    func showError(error: Error) {
-        let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+    func showError(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
         alert.addAction(okAction)
         self.present(alert, animated: true, completion: nil)
@@ -392,31 +421,14 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
 
 extension HomeViewController: GMSMapViewDelegate {
+
     func mapView(_ mapView: GMSMapView, markerInfoWindow marker: GMSMarker) -> UIView? {
         let infoWindow = MapInfoWindow(frame: CGRect(x:0,y:0,width:view.frame.width*2/3,height:400))
-        infoWindow.screenName = marker.title
-        infoWindow.message = marker.snippet
-        
-        let map_post = marker.userData as! Post
-        infoWindow.likeCount = "\(map_post.likes ?? 0)"
-        
-        if let createTime = map_post.creationTimestamp {
-            infoWindow.timeStamp = FeedCell.convertEpochTimeStamp(timestamp: createTime)
-        }
-        
-        // TODO: let user picks up avatar image
-        infoWindow.avatar = UIImage(named: "user1")
-        
-        if let imageUrlStr = map_post.imageUrl, let imageUrl = URL(string: imageUrlStr), let data = try? Data(contentsOf: imageUrl) {
-            infoWindow.postImage =  UIImage(data: data)
-        } else {
-            infoWindow.postImageHeightConstraint.constant = 0
-        }
+        infoWindow.post = marker.userData as! Post
         infoWindow.frame.size.height =  infoWindow.totalHeightConstraint + infoWindow.postImageHeightConstraint.constant + infoWindow.messageLabel.frame.height
         infoWindow.contentView.layoutIfNeeded()
         return infoWindow
     }
-    
 }
 
 extension HomeViewController: CLLocationManagerDelegate {
@@ -429,7 +441,9 @@ extension HomeViewController: CLLocationManagerDelegate {
             if searchLocation == nil {
                 searchLocation = currentLocation
             }
-            getPost(location: searchLocation!, radius: Settings.globalSettings.distance)
+            getPost(location: searchLocation!, radius: Settings.globalSettings.distance, zoom: zoomLevel)
+        } else {
+            currentLocation = defaultLocation
         }
         
     }
@@ -483,7 +497,7 @@ extension HomeViewController: GMSAutocompleteResultsViewControllerDelegate {
         searchController?.isActive = false
         searchPlace = place
         searchLocation = CLLocation(latitude: searchPlace!.coordinate.latitude, longitude: searchPlace!.coordinate.longitude)
-        getPost(location: searchLocation!, radius: Settings.globalSettings.distance)
+        getPost(location: searchLocation!, radius: Settings.globalSettings.distance, zoom: zoomLevel)
     }
     
     func resultsController(_ resultsController: GMSAutocompleteResultsViewController,
@@ -519,3 +533,25 @@ extension HomeViewController: ComposeViewControllerDelegate {
     }
 }
 
+extension GMSMapView {
+    func getCenterCoordinate() -> CLLocationCoordinate2D {
+        let centerPoint = self.center
+        let centerCoordinate = self.projection.coordinate(for: centerPoint)
+        return centerCoordinate
+    }
+    
+    func getTopCenterCoordinate() -> CLLocationCoordinate2D {
+        let topCenterCoor = self.convert(CGPoint(x: self.frame.size.width, y: 0), from: self)
+        let point = self.projection.coordinate(for: topCenterCoor)
+        return point
+    }
+    
+    func getRadius() -> CLLocationDistance {
+        let centerCoordinate = getCenterCoordinate()
+        let centerLocation = CLLocation(latitude: centerCoordinate.latitude, longitude: centerCoordinate.longitude)
+        let topCenterCoordinate = self.getTopCenterCoordinate()
+        let topCenterLocation = CLLocation(latitude: topCenterCoordinate.latitude, longitude: topCenterCoordinate.longitude)
+        let radius = CLLocationDistance(centerLocation.distance(from: topCenterLocation))/1000.0
+        return round(radius)
+    }
+}

@@ -124,19 +124,19 @@ class PostService {
         GeoService.sharedInstance.search(center: center, radius: radius, success: { (results) in
             
             var promises = [Promise<Post>]()
-            
             if results.count > 0 {
                 
                 for postGeo in results {
                     promises.append(self.getPostPromise(postGeo: postGeo))
                 }
                 
-                when(fulfilled: promises).then(execute: { (results) in
-                    success(results)
-                }).catch(execute: { (error) in
-                    failure(error)
-                })
             }
+            
+            when(fulfilled: promises).then(execute: { (results) in
+                success(results)
+            }).catch(execute: { (error) in
+                failure(error)
+            })
             
         }, failure: { (error) in
             failure(error)

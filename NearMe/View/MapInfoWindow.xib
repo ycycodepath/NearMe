@@ -4,7 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,6 +15,7 @@
                 <outlet property="avatarImageView" destination="ddz-YJ-Ewn" id="Xeh-iR-Plm"/>
                 <outlet property="avatarTopConstraint" destination="qzB-G6-a6c" id="aTE-CU-JxP"/>
                 <outlet property="contentView" destination="iN0-l3-epB" id="x06-zf-G94"/>
+                <outlet property="likeButton" destination="37q-Gu-7CI" id="Kns-I2-2zd"/>
                 <outlet property="likeCountLabel" destination="gX8-nQ-Qr2" id="1TF-Pp-TU5"/>
                 <outlet property="messageLabel" destination="YwS-OC-FWJ" id="cmu-SO-e65"/>
                 <outlet property="messageLabelBottomConstraint" destination="7Uj-Am-bgg" id="u0Q-qw-sqz"/>
@@ -37,9 +38,6 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" image="like" translatesAutoresizingMaskIntoConstraints="NO" id="Tou-JT-s3A">
-                    <rect key="frame" x="188" y="3" width="29" height="29"/>
-                </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="121" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gX8-nQ-Qr2">
                     <rect key="frame" x="217" y="8" width="25" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -71,16 +69,28 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="37q-Gu-7CI">
+                    <rect key="frame" x="191" y="6" width="25" height="25"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="25" id="GWr-Kx-fdC"/>
+                        <constraint firstAttribute="height" constant="25" id="cCP-8d-jG2"/>
+                    </constraints>
+                    <state key="normal" image="homelike"/>
+                    <connections>
+                        <action selector="onLikeButtonClicked:" destination="-1" eventType="touchUpInside" id="KoC-Gk-ugO"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="YwS-OC-FWJ" secondAttribute="trailing" constant="16" id="2hE-Mp-4dm"/>
                 <constraint firstItem="YwS-OC-FWJ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="4f1-v8-BSd"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="YwS-OC-FWJ" secondAttribute="bottom" constant="5" id="7Uj-Am-bgg"/>
-                <constraint firstItem="Tou-JT-s3A" firstAttribute="centerY" secondItem="hKY-h3-5gB" secondAttribute="centerY" id="Hn7-Ck-L8F"/>
                 <constraint firstItem="hKY-h3-5gB" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="8" id="Ilj-DV-7MX"/>
+                <constraint firstItem="gX8-nQ-Qr2" firstAttribute="leading" secondItem="37q-Gu-7CI" secondAttribute="trailing" constant="1" id="Klb-fc-tv3"/>
                 <constraint firstItem="ddz-YJ-Ewn" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="8" id="R4v-rb-sa6"/>
                 <constraint firstItem="Iwa-JS-Myh" firstAttribute="leading" secondItem="ddz-YJ-Ewn" secondAttribute="trailing" constant="8" id="Yp2-3w-liq"/>
+                <constraint firstItem="gX8-nQ-Qr2" firstAttribute="centerY" secondItem="37q-Gu-7CI" secondAttribute="centerY" id="bN0-hO-9d8"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="gX8-nQ-Qr2" secondAttribute="trailing" constant="8" id="cF2-TZ-Wvc"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="0Mq-HB-KCW" secondAttribute="trailing" constant="8" id="cpr-Cz-6FK"/>
                 <constraint firstItem="Iwa-JS-Myh" firstAttribute="top" secondItem="hKY-h3-5gB" secondAttribute="bottom" constant="2" id="feW-RD-pwp"/>
@@ -88,7 +98,6 @@
                 <constraint firstItem="hKY-h3-5gB" firstAttribute="leading" secondItem="ddz-YJ-Ewn" secondAttribute="trailing" constant="8" id="iil-vf-Nnb"/>
                 <constraint firstItem="0Mq-HB-KCW" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="8" id="l0L-Zw-5ZC"/>
                 <constraint firstItem="YwS-OC-FWJ" firstAttribute="top" secondItem="0Mq-HB-KCW" secondAttribute="bottom" constant="4" id="lIq-ag-125"/>
-                <constraint firstItem="gX8-nQ-Qr2" firstAttribute="leading" secondItem="Tou-JT-s3A" secondAttribute="trailing" id="mJC-UZ-YcF"/>
                 <constraint firstItem="ddz-YJ-Ewn" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="8" id="qzB-G6-a6c"/>
                 <constraint firstItem="gX8-nQ-Qr2" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="8" id="zvO-11-mvY"/>
             </constraints>
@@ -98,6 +107,6 @@
         </view>
     </objects>
     <resources>
-        <image name="like" width="29" height="29"/>
+        <image name="homelike" width="25" height="25"/>
     </resources>
 </document>

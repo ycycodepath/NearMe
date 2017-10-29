@@ -87,6 +87,7 @@ class ComposeViewController: UIViewController {
         guard let rootTabBar = self.appDelegate.rootTabBarController else { return }
         //rootTabBar.tabBar.isHidden = false
         rootTabBar.selectedIndex = 0
+        dismiss(animated: true, completion: nil)
 
         dismiss(animated: true, completion: nil)
     }
@@ -148,6 +149,7 @@ class ComposeViewController: UIViewController {
             guard let rootTabBar = self.appDelegate.rootTabBarController else { return }
             //rootTabBar.tabBar.isHidden = false
             rootTabBar.selectedIndex = 0
+            self.dismiss(animated: true, completion: nil)
 
             self.dismiss(animated: true, completion: nil)
         }, failure: { (error) in
