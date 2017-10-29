@@ -438,6 +438,13 @@ extension HomeViewController: CLLocationManagerDelegate {
 
         if let location = locations.last {
             currentLocation = location
+            let neBoundsCorner = CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude + 3,
+                                                        longitude: currentLocation.coordinate.longitude + 3)
+            let swBoundsCorner = CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude - 3,
+                                                        longitude: currentLocation.coordinate.longitude - 3)
+            let bounds = GMSCoordinateBounds(coordinate: neBoundsCorner, coordinate: swBoundsCorner)
+            resultsViewController?.autocompleteBounds = bounds
+            
             if searchLocation == nil {
                 searchLocation = currentLocation
             }
@@ -474,15 +481,6 @@ extension HomeViewController: CLLocationManagerDelegate {
 extension HomeViewController: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        
-        if let currentLocation = currentLocation {
-            let neBoundsCorner = CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude + 3,
-                                                        longitude: currentLocation.coordinate.longitude + 3)
-            let swBoundsCorner = CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude - 3,
-                                                        longitude: currentLocation.coordinate.longitude - 3)
-            let bounds = GMSCoordinateBounds(coordinate: neBoundsCorner, coordinate: swBoundsCorner)
-            resultsViewController?.autocompleteBounds = bounds
-        }
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
