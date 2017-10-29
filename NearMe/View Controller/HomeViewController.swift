@@ -333,7 +333,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let currentLocationButton = UIBarButtonItem(image: UIImage(named: "currentLocation"), style: .plain, target: self, action: #selector(chooseCurrentLocation))
         self.navigationItem.setLeftBarButton(currentLocationButton, animated: true)
 
-
         self.navigationItem.setRightBarButton(nil, animated: true)
         self.navigationItem.searchController = searchController
         searchController?.searchBar.becomeFirstResponder()
@@ -475,7 +474,6 @@ extension HomeViewController: CLLocationManagerDelegate {
 extension HomeViewController: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
-        navigationBarInSearch()
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
