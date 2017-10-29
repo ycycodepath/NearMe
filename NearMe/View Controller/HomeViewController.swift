@@ -52,7 +52,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     let errorTitle = "Error"
     let noPostErrorTitle = "No Post"
-    let noPostErrorMessage =  "No post returned from this location. Be the first one to post here!"
+    let noPostErrorMessage =  "Be the first one to post here!"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -306,7 +306,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         resultsViewController = GMSAutocompleteResultsViewController()
         resultsViewController?.delegate = self
         resultsViewController?.autocompleteFilter = filter
-
+    
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
         
@@ -474,6 +474,15 @@ extension HomeViewController: CLLocationManagerDelegate {
 extension HomeViewController: UISearchBarDelegate {
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        
+        if let currentLocation = currentLocation {
+            let neBoundsCorner = CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude + 3,
+                                                        longitude: currentLocation.coordinate.longitude + 3)
+            let swBoundsCorner = CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude - 3,
+                                                        longitude: currentLocation.coordinate.longitude - 3)
+            let bounds = GMSCoordinateBounds(coordinate: neBoundsCorner, coordinate: swBoundsCorner)
+            resultsViewController?.autocompleteBounds = bounds
+        }
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
@@ -487,7 +496,6 @@ extension HomeViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         navigationBarInSearch()
     }
-    
 }
 
 
