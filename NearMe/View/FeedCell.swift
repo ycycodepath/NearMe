@@ -34,7 +34,7 @@ class FeedCell: UITableViewCell {
     var post: Post! {
         didSet{
             if let imageUrlStr = post.imageUrl, let imageUrl = URL(string: imageUrlStr) {
-                
+                feedImageView.image = nil
                 feedImageView.setImageWith(imageUrl)
                 feedImageView.isHidden = false
                 

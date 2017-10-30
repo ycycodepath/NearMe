@@ -10,6 +10,7 @@ import UIKit
 import GoogleMaps
 import GooglePlaces
 import IDMPhotoBrowser
+import MBProgressHUD
 
 enum ViewType {
     case List
@@ -52,7 +53,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     let errorTitle = "Error"
     let noPostErrorTitle = "No Post"
-    let noPostErrorMessage =  "No post returned from this location. Be the first one to post here!"
+    let noPostErrorMessage =  "Be the first one to post here!"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,6 +91,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     func getPost(location: CLLocation, radius: Double, zoom: Float) -> Void {
+        MBProgressHUD.showAdded(to: self.view, animated: true)
         PostService.sharedInstance.search(center: location, radius: radius, success: { (posts: [Post]) in
             self.posts = posts.sorted(by: self.sortFunc)
             if self.currentViewType == .List {
@@ -97,11 +99,13 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             } else if self.currentViewType == .Map {
                 self.showPostsInMapView(zoom: zoom)
             }
+            MBProgressHUD.hide(for: self.view, animated: true)
             self.getSearchBarPlaceholder()
             if ( posts.count == 0 && self.currentViewType == ViewType.List ) {
                 self.showError(title: self.noPostErrorTitle, message:self.noPostErrorMessage )
             }
         }, failure: { (error: Error) in
+            MBProgressHUD.hide(for: self.view, animated: true)
             self.showError(title: self.errorTitle, message: error.localizedDescription)
         })
     }
@@ -306,12 +310,12 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         resultsViewController = GMSAutocompleteResultsViewController()
         resultsViewController?.delegate = self
         resultsViewController?.autocompleteFilter = filter
-
+    
         searchController = UISearchController(searchResultsController: resultsViewController)
         searchController?.searchResultsUpdater = resultsViewController
         
-        searchController?.searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
-        searchController?.searchBar.sizeToFit()
+        //searchController?.searchBar.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        //searchController?.searchBar.sizeToFit()
         searchController?.searchBar.delegate = self
         searchController?.searchBar.placeholder = CURRENT_LOCATION_PLACEHOLDER
         searchController?.searchBar.showsCancelButton = false
@@ -438,6 +442,13 @@ extension HomeViewController: CLLocationManagerDelegate {
 
         if let location = locations.last {
             currentLocation = location
+            let neBoundsCorner = CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude + 3,
+                                                        longitude: currentLocation.coordinate.longitude + 3)
+            let swBoundsCorner = CLLocationCoordinate2D(latitude: currentLocation.coordinate.latitude - 3,
+                                                        longitude: currentLocation.coordinate.longitude - 3)
+            let bounds = GMSCoordinateBounds(coordinate: neBoundsCorner, coordinate: swBoundsCorner)
+            resultsViewController?.autocompleteBounds = bounds
+            
             if searchLocation == nil {
                 searchLocation = currentLocation
             }
@@ -487,7 +498,6 @@ extension HomeViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         navigationBarInSearch()
     }
-    
 }
 
 

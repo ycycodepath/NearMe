@@ -17,6 +17,7 @@ target 'NearMe' do
   pod 'SwiftyBeaver'
   pod 'ImagePicker'
   pod 'UITextView+Placeholder'
+  pod 'MBProgressHUD'
   
   source 'https://github.com/CocoaPods/Specs.git'
   pod 'GooglePlaces'

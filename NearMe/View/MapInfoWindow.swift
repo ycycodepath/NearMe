@@ -25,7 +25,6 @@ class MapInfoWindow: UIView {
     @IBOutlet weak var messageLabelBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak var likeButton: UIButton!
     
-    private var postImgAspect: CGFloat = 0
     var totalHeightConstraint: CGFloat = 0
     var handleLikeButtonClicked: (Post) -> Void = { (post) -> Void in }
     
@@ -47,6 +46,7 @@ class MapInfoWindow: UIView {
         avatarImageView.layer.borderWidth = 0.5
     
         postImageView.clipsToBounds = true
+        postImageView.contentMode = .scaleAspectFill
         postImageView.layer.cornerRadius = 8
         
         contentView.clipsToBounds = true
@@ -88,15 +88,6 @@ class MapInfoWindow: UIView {
         set { avatarImageView.image = newValue }
     }
     
-    var postImage: UIImage? {
-        get { return postImageView?.image }
-        set {
-            postImageView.image = newValue
-            postImgAspect = CGFloat((newValue?.size.height)! / (newValue?.size.width)!)
-            postImageHeightConstraint.constant = postImageView.frame.size.width * postImgAspect
-        }
-    }
-    
     var post: Post! {
         didSet{
             screenName = post.screen_name
@@ -114,8 +105,16 @@ class MapInfoWindow: UIView {
             }
             
             
-            if let imageUrlStr = post.imageUrl, let imageUrl = URL(string: imageUrlStr), let data = try? Data(contentsOf: imageUrl) {
-                postImage =  UIImage(data: data)
+            if let imageUrlStr = post.imageUrl, let imageUrl = URL(string: imageUrlStr) {
+                postImageView.setImageWith(URLRequest(url: imageUrl), placeholderImage: nil, success: { (request, response, image) in
+                    //let postImgAspect = CGFloat(image.size.height / image.size.width)
+                    //self.postImageHeightConstraint.constant = self.postImageView.frame.size.width * postImgAspect
+                    self.postImageHeightConstraint.constant = self.postImageView.frame.size.width
+                    
+                    self.postImageView.image = image
+                }, failure: { (request, response, error) in
+                    print("error in loading post image in map view: \(error.localizedDescription)")
+                })
             } else {
                 postImageHeightConstraint.constant = 0
             }
