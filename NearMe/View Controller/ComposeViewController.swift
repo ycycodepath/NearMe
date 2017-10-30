@@ -59,6 +59,8 @@ class ComposeViewController: UIViewController {
         postTextView.delegate = self
         postTextView.becomeFirstResponder()
         
+        postButton.isEnabled = false
+        
         let cornerRadius = CGFloat(10)
         postImgScrollView.layer.cornerRadius = cornerRadius
         postImageView.layer.cornerRadius = cornerRadius
