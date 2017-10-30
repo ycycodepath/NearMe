@@ -1,6 +1,6 @@
 # Group Project - *NearMe*
 
-Time spent: **120** hours spent in total
+Time spent: **200** hours spent in total
 
 ## User Stories
 
@@ -21,11 +21,11 @@ Login screen: none
 
 Home screen:
 - [x] User can view a list of nearby posts/messages/…
-- [ ] User can view post details by tapping on a cell. (go to detail view)
-- [ ] Search results page (not from server, search in ui only)
+- [x ] User can view post details by tapping on a cell. (go to detail view)
+- [x] Filter results page (not from server, search in ui only)
 - [x] Table rows should be dynamic height according to the content height.
 - [x] Custom cells should have the proper Auto Layout constraints.
-- [ ] Search bar should be only be shown when needed
+- [x ] Search bar should be only be shown when needed
 - [x] browse and zoom in post image
 - [x] Map view of posts
 - [x] search bar: allow user to search posts by location
@@ -33,9 +33,6 @@ Home screen:
 
 Navigation:
 - [x] tab bar controller to navigate
-
-optional:
-- [ ] reply function
 
 
 Compose screen:
@@ -48,6 +45,8 @@ Filter screen:
 - [x] The filters table should be organized into sections.
 - [x] You can use the default UISwitch for on/off states.
 
+optional:
+- [ ] reply function
 
 The following **additional** features are implemented:
 
@@ -64,7 +63,7 @@ Compose screen:
 
 Here's a walkthrough of implemented user stories:
 
-<img src='week6.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='week7.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 

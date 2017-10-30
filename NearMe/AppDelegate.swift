@@ -50,6 +50,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         //let barButtonItemAppearance = UIBarButtonItem.appearance()
         //barButtonItemAppearance.tintColor = UIColor.white
+        sleep(1)
         return true
     }
     
