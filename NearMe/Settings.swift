@@ -35,7 +35,7 @@ class Settings {
     
     static var globalSettings = loadSettingsFromUserdefault()
 
-    static let themeColor = UIColor(red: 9/255, green: 66/255, blue: 94/255, alpha: 1.0)
+    static let themeColor = UIColor(red: 10/255.0, green: 66/255.0, blue: 91/255.0, alpha: 1.0)
     
     static let avatarNames : [String] = {
         let fm = FileManager.default

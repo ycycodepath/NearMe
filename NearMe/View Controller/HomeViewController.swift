@@ -91,21 +91,27 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
 
     func getPost(location: CLLocation, radius: Double, zoom: Float) -> Void {
-        MBProgressHUD.showAdded(to: self.view, animated: true)
+//        MBProgressHUD.showAdded(to: self.view, animated: true)
         PostService.sharedInstance.search(center: location, radius: radius, success: { (posts: [Post]) in
+//            MBProgressHUD.hide(for: self.view, animated: true)
             self.posts = posts.sorted(by: self.sortFunc)
             if self.currentViewType == .List {
                 self.tableView.reloadData()
+                
+                if posts.count > 0 {
+                    let indexPath = IndexPath(row: 0, section: 0)
+                    self.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
+                }
             } else if self.currentViewType == .Map {
                 self.showPostsInMapView(zoom: zoom)
             }
-            MBProgressHUD.hide(for: self.view, animated: true)
+
             self.getSearchBarPlaceholder()
             if ( posts.count == 0 && self.currentViewType == ViewType.List ) {
                 self.showError(title: self.noPostErrorTitle, message:self.noPostErrorMessage )
             }
         }, failure: { (error: Error) in
-            MBProgressHUD.hide(for: self.view, animated: true)
+//            MBProgressHUD.hide(for: self.view, animated: true)
             self.showError(title: self.errorTitle, message: error.localizedDescription)
         })
     }
@@ -320,7 +326,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         searchController?.searchBar.placeholder = CURRENT_LOCATION_PLACEHOLDER
         searchController?.searchBar.showsCancelButton = false
         searchController?.searchBar.tintColor = UIColor.white
-        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.white]
 
         definesPresentationContext = true
         

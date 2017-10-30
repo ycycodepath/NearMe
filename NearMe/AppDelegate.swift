@@ -46,6 +46,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         navigationBarAppearace.isTranslucent = true
         
+        UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.white]
+
         //let barButtonItemAppearance = UIBarButtonItem.appearance()
         //barButtonItemAppearance.tintColor = UIColor.white
         return true
