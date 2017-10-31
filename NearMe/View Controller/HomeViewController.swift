@@ -356,8 +356,10 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func getSearchBarPlaceholder() {
         if ( fabs( currentLocation.coordinate.latitude - searchLocation.coordinate.latitude ) <= GEO_EPSILON && fabs( currentLocation.coordinate.longitude - searchLocation.coordinate.longitude ) <= GEO_EPSILON ) {
             searchController?.searchBar.placeholder = CURRENT_LOCATION_PLACEHOLDER
+            self.navigationItem.title = CURRENT_LOCATION_PLACEHOLDER
         } else if let searchPlaceName = searchPlace?.name {
             searchController?.searchBar.placeholder = searchPlaceName
+            self.navigationItem.title = searchPlaceName
         }
     }
     
