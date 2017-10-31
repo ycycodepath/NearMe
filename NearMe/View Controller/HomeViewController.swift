@@ -375,7 +375,11 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     
     @objc func refreshControlAction(_ refreshControl: UIRefreshControl) {
-         refreshPost(location: self.searchLocation!, radius: Settings.globalSettings.distance)
+        if let location = self.searchLocation {
+            refreshPost(location: location, radius: Settings.globalSettings.distance)
+        } else {
+            self.refreshControl.endRefreshing()
+        }
     }
     
     
@@ -437,6 +441,17 @@ extension HomeViewController: GMSMapViewDelegate {
         infoWindow.frame.size.height =  infoWindow.totalHeightConstraint + infoWindow.postImageHeightConstraint.constant + infoWindow.messageLabel.frame.height
         infoWindow.contentView.layoutIfNeeded()
         return infoWindow
+    }
+    
+    func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+        mapView.selectedMarker = marker;
+        let position = marker.position
+        
+        let camera = GMSCameraPosition.camera(withLatitude:position.latitude+0.006, longitude: position.longitude, zoom: zoomLevel)
+        
+        mapContentView.animate(to: camera)
+
+        return true;
     }
 }
 

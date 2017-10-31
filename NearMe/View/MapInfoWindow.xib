@@ -4,7 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -88,6 +88,7 @@
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="YwS-OC-FWJ" secondAttribute="bottom" constant="5" id="7Uj-Am-bgg"/>
                 <constraint firstItem="hKY-h3-5gB" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="8" id="Ilj-DV-7MX"/>
                 <constraint firstItem="gX8-nQ-Qr2" firstAttribute="leading" secondItem="37q-Gu-7CI" secondAttribute="trailing" constant="1" id="Klb-fc-tv3"/>
+                <constraint firstItem="37q-Gu-7CI" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="hKY-h3-5gB" secondAttribute="trailing" constant="4" id="M5W-rZ-6a0"/>
                 <constraint firstItem="ddz-YJ-Ewn" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="8" id="R4v-rb-sa6"/>
                 <constraint firstItem="Iwa-JS-Myh" firstAttribute="leading" secondItem="ddz-YJ-Ewn" secondAttribute="trailing" constant="8" id="Yp2-3w-liq"/>
                 <constraint firstItem="gX8-nQ-Qr2" firstAttribute="centerY" secondItem="37q-Gu-7CI" secondAttribute="centerY" id="bN0-hO-9d8"/>
