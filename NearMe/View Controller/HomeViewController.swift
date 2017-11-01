@@ -262,7 +262,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             state_marker.snippet = post.message
             state_marker.userData = post
             if let likeCount = post.likes {
-                if ( likeCount > 50 ) {
+                if ( likeCount >= 500 ) {
                     state_marker.icon = UIImage(named: "hotMarker")
                 } else {
                      state_marker.icon = UIImage(named: "Marker")
