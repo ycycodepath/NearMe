@@ -105,16 +105,20 @@ class MapInfoWindow: UIView {
             }
             
             
-            if let imageUrlStr = post.imageUrl, let imageUrl = URL(string: imageUrlStr) {
-                postImageView.setImageWith(URLRequest(url: imageUrl), placeholderImage: nil, success: { (request, response, image) in
-                    //let postImgAspect = CGFloat(image.size.height / image.size.width)
-                    //self.postImageHeightConstraint.constant = self.postImageView.frame.size.width * postImgAspect
-                    self.postImageHeightConstraint.constant = self.postImageView.frame.size.width
-                    
-                    self.postImageView.image = image
-                }, failure: { (request, response, error) in
-                    print("error in loading post image in map view: \(error.localizedDescription)")
-                })
+            if let imageUrlStr = post.imageUrl, let imageUrl = URL(string: imageUrlStr), let data = try? Data(contentsOf: imageUrl) {
+                
+                self.postImageView.image =  UIImage(data: data)
+                self.postImageHeightConstraint.constant = self.postImageView.frame.size.width
+                
+//                postImageView.setImageWith(URLRequest(url: imageUrl), placeholderImage: nil, success: { (request, response, image) in
+//                    //let postImgAspect = CGFloat(image.size.height / image.size.width)
+//                    //self.postImageHeightConstraint.constant = self.postImageView.frame.size.width * postImgAspect
+//                    self.postImageHeightConstraint.constant = self.postImageView.frame.size.width
+//
+//                    self.postImageView.image = image
+//                }, failure: { (request, response, error) in
+//                    print("error in loading post image in map view: \(error.localizedDescription)")
+//                })
             } else {
                 postImageHeightConstraint.constant = 0
             }
